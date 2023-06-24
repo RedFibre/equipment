@@ -1,0 +1,28 @@
+{% extends "equ/baseuser.html" %}
+{% block content %}    
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="id_name">Project Name:</label>
+      <input type="text" id="id_name" name="name" required>
+    </div>
+    <div>
+      <label for="id_description">Description:</label>
+      <textarea id="id_description" name="description" required></textarea>
+    </div>
+    <div>
+      <label for="id_lab">Lab:</label>
+      <select id="id_lab" name="lab" required>
+        {% for lab in labs %}
+          <option value="{{ lab.id }}">{{ lab.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit">Create Project</button>
+  </form>
+  
+
+{% endblock content %}   
+
+

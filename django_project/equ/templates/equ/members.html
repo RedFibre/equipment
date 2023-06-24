@@ -1,0 +1,13 @@
+{% extends "equ/base.html" %}
+{% block content %}    
+
+<h1>User List</h1>
+<ul>
+  {% for user in users %}
+    <li>{{ user.username }}</li>
+  {% endfor %}
+
+
+  
+
+{% endblock content %}   

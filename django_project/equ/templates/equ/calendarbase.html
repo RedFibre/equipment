@@ -1,0 +1,29 @@
+<!-- This File contains all the common code that I want to be inherited by all my webpages--> 
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <style>
+  .booked {
+    background-color: blue;
+    color: white;
+  }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <a class="nav-link" href="#">Today</a>
+    <a class="nav-link" href="#">This Week</a>
+    <a class="nav-link" href="#">This Month</a>
+    <a class="nav-link" href="{% url 'user_redirect'%}">Exit Calendar</a>
+  </div>
+      
+  
+          {% block content %}
+          {% endblock %}
+  </div>
+
+  </body>
+</html>

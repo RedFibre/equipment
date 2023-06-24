@@ -1,0 +1,34 @@
+<!-- This File contains all the common code that I want to be inherited by all my webpages--> 
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="container">
+        <div class="sidebar">
+          <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'superoverview' %}">Overview</a></li>
+            <li><a href="{% url 'superlabs' %}">Labs</a></li>
+            <li><a href="{% url 'superadmins' %}">Admins</a></li>
+            <li><a href="{% url 'superprojects' %}">Projects</a></li>
+            <li><a href="{% url 'superequipments' %}">Equipments</a></li>
+            <li><a href="{% url 'superinventory' %}">Inventory</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            {% else %}
+            <a href="{% url 'login' %}">Log In</a>
+            {% endif %}
+          </ul>
+        </div>
+      
+        <div class="content">
+          {% block content %}
+          {% endblock %}
+        </div>
+  </div>
+
+  </body>
+</html>

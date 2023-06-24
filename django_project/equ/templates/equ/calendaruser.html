@@ -1,0 +1,15 @@
+{% extends "equ/baseuser.html" %}
+{% block content %}    
+
+
+<h1>Calendar</h1>
+
+<h2> Click on the Lab Name to check its calendar</h2>
+
+<ul>
+    {% for lab in labs %}
+    <li><a href="{% url 'labcalendar' lab.pk %}">{{ lab.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock content %} 

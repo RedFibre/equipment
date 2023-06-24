@@ -1,0 +1,22 @@
+{% extends "equ/base.html" %}
+{% block login_active %}active{% endblock %}
+{% block content %}
+    <div class="content-section" style="margin-left: 220px;"> 
+        <form method="POST" class="form-signin">
+            {% csrf_token %}
+            <br>
+            <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
+            <br>
+            {{form.as_p}}
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Log In</button>
+        
+        </form>
+        
+        <div class="border-top pt-3" style="margin-top: 20px">
+            <small class="text-muted">
+                Don't have an account? <a class="ml-2" href="{% url 'register' %}">Register</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,62 @@
+{% extends "equ/base.html" %}
+
+{% block content %}
+    <div class="content-section" style="margin-left: 220px;"> 
+        <form method="POST" class="form-signin">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 font-weight-normal">Create Your Account</h1>
+            <br>
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <small class="form-text text-danger">{{ form.email.errors|join:", " }}</small>
+                {% endif %}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <small class="form-text text-danger">{{ form.username.errors|join:", " }}</small>
+                {% endif %}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                
+                <br>
+                {% if form.password1.errors %}
+                    <small class="form-text text-danger">{{ form.password1.errors|join:", " }}</small>
+                {% else %}
+                    <br>
+                    <small class="form-text text-muted">
+                        Your password can’t be too similar to your other personal information.<br>
+                        Your password must contain at least 8 characters.<br>
+                        Your password can’t be a commonly used password.<br>
+                        Your password can’t be entirely numeric.
+                    </small>
+                {% endif %}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <small class="form-text text-danger">{{ form.password2.errors|join:", " }}</small>
+                {% endif %}
+            </div>
+            
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Sign Up</button>
+        
+        </form>
+        
+        <div class="border-top pt-3" style="margin-top: 20px">
+            <small class="text-muted">
+                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

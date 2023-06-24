@@ -1,0 +1,36 @@
+{% extends "equ/baseuser.html" %}
+{% block content %}    
+
+<h1>Project Details</h1>
+
+<p><strong>Name:</strong> {{ project.name }}</p>
+<p><strong>Description:</strong> {{ project.description }}</p>
+<p><strong>Lab:</strong> {{ project.lab }}</p>
+<p><strong>User:</strong> {{ project.user }}</p>
+
+<h2>Equipment In Use For This Project</h2>
+<ul>
+  {% for equipment in equipment_in_use %}
+    <li>{{ equipment.name }}</li>
+  {% empty %}
+    <li>No equipment in use.</li>
+  {% endfor %}
+</ul>
+
+<h2>Bookings For This Project</h2>
+<ul>
+  {% for slot in booked_slots %}
+    <li>{{ slot.equipment.name }} ({{ slot.start_time }} - {{ slot.end_time }})</li>
+  {% empty %}
+    <li>No equipment booked.</li>
+  {% endfor %}
+</ul>
+
+<h2>Assign Equipment For This Project</h2>
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Assign</button>
+</form>
+
+{% endblock content %}
