@@ -2,13 +2,13 @@
 {% block content %}    
 
 
-<h1>Calendar</h1>
+<h1> Lab:{{ my_lab.name }}</h1>
 
-<h2> Click on the Lab Name to check its calendar</h2>
+<h2> Click on the Equipment Name to check its calendar</h2>
 
 <ul>
-    {% for lab in labs %}
-    <li><a href="{% url 'labcalendar' lab.pk %}">{{ lab.name }}</a></li>
+    {% for equipment in equipments %}
+    <li><a href="{% url 'calendar' equipment.pk %}">{{ equipment.name }}</a></li>
     {% endfor %}
 </ul>
 

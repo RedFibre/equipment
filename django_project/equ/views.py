@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,TimeSlot
+from .models import Project, Lab,Equipment,TimeSlot,UserLab
 from .forms import ProjectForm,EquipmentAssignmentForm
 from datetime import datetime,timedelta,timezone
 from django.views import View
@@ -11,7 +11,7 @@ def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
         return redirect('home')
     elif request.user.groups.filter(name='labuser').exists():
-        return redirect('calendaruser')
+        return redirect('projects')
     elif request.user.groups.filter(name='superadmin').exists():
         return redirect('superoverview')
     else:
@@ -102,8 +102,10 @@ def labuser_required(function):
 @login_required
 @labuser_required
 def calendaruser(request):
-    labs = Lab.objects.all()
-    context = {'labs': labs}
+    lab = request.user.userlab.lab
+    print(lab)
+    equipment_of_lab = Equipment.objects.filter(lab=lab)
+    context = {'my_lab': lab, 'equipments':equipment_of_lab}
     return render(request, 'equ/calendaruser.html', context)
 
 
@@ -133,13 +135,14 @@ def create_project(request):
         if form.is_valid():
             Project = form.save(commit=False)
             Project.user = request.user
+            Project.lab = request.user.userlab.lab
             form.save()
-            return redirect('create')
+            return redirect('projects')
     else:
         form = ProjectForm()
     
     labs = Lab.objects.all()
-    context = {'form': form, 'labs': labs}
+    context = {'form': form, }
     return render(request, 'equ/create_project.html', context)
 
 #EDIT PROJECT

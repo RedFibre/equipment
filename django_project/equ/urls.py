@@ -4,7 +4,6 @@ from . import views
 urlpatterns = [
     path('', views.user_redirect, name='user_redirect'),
     path('home/',views.home,name="home"),
-    path('calendar/',views.calendar,name="calendar"),
     path('members/',views.members,name="members"),
     path('equipment/',views.equipment,name="equipment"),
     path('activity/',views.activity,name="activity"),
@@ -21,6 +20,6 @@ urlpatterns = [
     path('superinventory/', views.superinventory, name='superinventory'),
     path('create_project/', views.create_project, name='create_project'),
     path('project/<int:pk>/', views.project_detail, name='project_detail'),
-    path('lab/<int:pk>/calendar/', views.labcalendar, name='labcalendar'),
+    path('equipment/<int:pk>/calendar/', views.calendar, name='calendar'),
     
 ]

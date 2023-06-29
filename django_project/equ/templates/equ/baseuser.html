@@ -11,8 +11,7 @@
         <div class="sidebar">
           <ul>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'calendaruser' %}">Calendar</a></li>
-            <li><a href="{% url 'projects' %}">Projects</a></li>
+            <li><a href="{% url 'projects' %}">Projects</a></li>            
             <li><a href="{% url 'help' %}">Help Blogs</a></li>
             <li><a href="{% url 'settings' %}">Settings</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>

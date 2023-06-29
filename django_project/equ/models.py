@@ -6,9 +6,11 @@ class Project(models.Model):
     description = models.TextField(max_length=400)
     lab = models.ForeignKey('Lab', on_delete=models.CASCADE, related_name='projects')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    equipments = models.ManyToManyField('Equipment', related_name='projects', blank=True)
 
     def __str__(self):
         return self.name
+
 
 
 class Equipment(models.Model):
@@ -18,6 +20,15 @@ class Equipment(models.Model):
     
     def __str__(self):
         return self.name
+
+class Request(models.Model):
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.start_time} - {self.end_time} for {self.equipment}' 
+
     
 class TimeSlot(models.Model):
     start_time = models.DateTimeField()
@@ -39,3 +50,10 @@ class Lab(models.Model):
 
     def __str__(self):
         return self.name
+    
+class UserLab(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user} - {self.lab}'
