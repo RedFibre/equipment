@@ -11,12 +11,9 @@
         <div class="sidebar">
           <ul>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'superoverview' %}">Overview</a></li>
-            <li><a href="{% url 'superlabs' %}">Labs</a></li>
-            <li><a href="{% url 'superadmins' %}">Admins</a></li>
-            <li><a href="{% url 'superprojects' %}">Projects</a></li>
-            <li><a href="{% url 'superequipments' %}">Equipments</a></li>
-            <li><a href="{% url 'superinventory' %}">Inventory</a></li>
+            <li><a href="{% url 'u_projects' %}">Projects</a></li>            
+            <li><a href="{% url 'u_help' %}">Help Blogs</a></li>
+            <li><a href="{% url 'u_settings' %}">Settings</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             {% else %}
             <a href="{% url 'login' %}">Log In</a>

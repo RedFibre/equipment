@@ -12,12 +12,10 @@
         <div class="sidebar">
           <ul>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'home' %}">Overview</a></li>
-            <li><a href="{% url 'calendar' %}">Calendar</a></li>
-            <li><a href="{% url 'members' %}">Members</a></li>
-            <li><a href="{% url 'equipment' %}">Equipment</a></li>
-            <li><a href="{% url 'activity' %}">Activity Log</a></li>
-            <li><a href="{% url 'inventory' %}">Inventory</a></li>
+            <li><a href="{% url 'a_overview' %}">Overview</a></li>
+            <li><a href="{% url 'a_members' %}">Members</a></li>
+            <li><a href="{% url 'a_equipment' %}">Equipment</a></li>
+            <li><a href="{% url 'a_activity' %}">Activity Log</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             {% else %}
             <a href="{% url 'login' %}">Log In</a>

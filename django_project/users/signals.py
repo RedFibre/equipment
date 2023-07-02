@@ -11,6 +11,7 @@ def assign_to_labuser_group(sender, instance, created, **kwargs):
     if created:
         labuser_group = Group.objects.get(name='labuser')
         instance.groups.add(labuser_group)
+        
 
 @receiver(post_save, sender=User)
 def create_user_lab(sender, instance, created, **kwargs):

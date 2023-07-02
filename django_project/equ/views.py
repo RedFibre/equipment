@@ -9,11 +9,11 @@ from django.views import View
 
 def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
-        return redirect('home')
+        return redirect('a_overview')
     elif request.user.groups.filter(name='labuser').exists():
-        return redirect('projects')
+        return redirect('u_projects')
     elif request.user.groups.filter(name='superadmin').exists():
-        return redirect('superoverview')
+        return redirect('s_overview')
     else:
         return redirect('login')
     
@@ -30,68 +30,52 @@ def admin_required(function):
 
 @login_required
 @superadmin_required
-def superoverview(request):
-    return render(request, 'equ/superoverview.html')
+def s_overview(request):
+    return render(request, 'equ/s_overview.html')
 
 @login_required
 @superadmin_required
-def superlabs(request):
-    return render(request, 'equ/superlabs.html')
+def s_labs(request):
+    return render(request, 'equ/s_labs.html')
 
 @login_required
 @superadmin_required
-def superadmins(request):
-    return render(request, 'equ/superadmins.html')
+def s_admins(request):
+    return render(request, 'equ/s_admins.html')
 
 @login_required
 @superadmin_required
-def superprojects(request):
-    return render(request, 'equ/superprojects.html')
+def s_projects(request):
+    return render(request, 'equ/s_projects.html')
 
 @login_required
 @superadmin_required
-def superequipments(request):
-    return render(request, 'equ/superequipments.html')
-
-@login_required
-@superadmin_required
-def superinventory(request):
-    return render(request, 'equ/superinventory.html')
+def s_equipment(request):
+    return render(request, 'equ/s_equipment.html')
 
 #ADMIN VIEWS
 
 @login_required
 @admin_required
-def home(request):
-    return render(request, 'equ/home.html')
+def a_overview(request):
+    return render(request, 'equ/a_overview.html')
 
 @login_required
 @admin_required
-def calendar(request):
-    return render(request, 'equ/calendar.html')
-
-@login_required
-@admin_required
-def members(request):  
+def a_members(request):  
     users = User.objects.all()
     context = {'users': users}
-    return render(request, 'equ/members.html',context)
+    return render(request, 'equ/a_members.html',context)
 
 @login_required
 @admin_required
-def equipment(request):
-    return render(request, 'equ/equipment.html')
+def a_equipment(request):
+    return render(request, 'equ/a_equipment.html')
 
 @login_required
 @admin_required
-def activity(request):
-    return render(request, 'equ/activity.html')
-
-@login_required
-@admin_required
-def inventory(request):
-    return render(request, 'equ/inventory.html')
-
+def a_activity(request):
+    return render(request, 'equ/a_activity.html')
 
 #USER VIEWS
 
@@ -99,37 +83,28 @@ def labuser_required(function):
     decorator = user_passes_test(lambda user: user.groups.filter(name='labuser').exists())
     return decorator(function)
 
-@login_required
-@labuser_required
-def calendaruser(request):
-    lab = request.user.userlab.lab
-    print(lab)
-    equipment_of_lab = Equipment.objects.filter(lab=lab)
-    context = {'my_lab': lab, 'equipments':equipment_of_lab}
-    return render(request, 'equ/calendaruser.html', context)
-
 
 @login_required
 @labuser_required
-def projects(request):
+def u_projects(request):
     user_projects = Project.objects.filter(user=request.user)
     context = {'user_projects': user_projects}
-    return render(request, 'equ/projects.html', context)
+    return render(request, 'equ/u_projects.html', context)
 
 
 @login_required
 @labuser_required
-def help(request):
-    return render(request, 'equ/help.html')
+def u_help(request):
+    return render(request, 'equ/u_help.html')
 
 @login_required
 @labuser_required
-def settings(request):
-    return render(request, 'equ/settings.html')
+def u_settings(request):
+    return render(request, 'equ/u_settings.html')
 
 
 #PROJECT CREATION
-def create_project(request):
+def u_create_project(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
@@ -137,19 +112,19 @@ def create_project(request):
             Project.user = request.user
             Project.lab = request.user.userlab.lab
             form.save()
-            return redirect('projects')
+            return redirect('u_projects')
     else:
         form = ProjectForm()
     
     labs = Lab.objects.all()
     context = {'form': form, }
-    return render(request, 'equ/create_project.html', context)
+    return render(request, 'equ/u_create_project.html', context)
 
 #EDIT PROJECT
 from datetime import datetime
 from django.shortcuts import redirect
 
-def project_detail(request, pk):
+def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
     current_lab = project.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
@@ -173,7 +148,7 @@ def project_detail(request, pk):
             equipment.usage = True
             equipment.save()
 
-            return redirect('project_detail', pk=pk)
+            return redirect('u_project_detail', pk=pk)
     else:
         form = EquipmentAssignmentForm(available_equipment)
 
@@ -184,41 +159,24 @@ def project_detail(request, pk):
         'booked_slots': booked_slots,
         'form': form
     }
-    return render(request, 'equ/project_detail.html', context)
+    return render(request, 'equ/u_project_detail.html', context)
 
-from django.utils import timezone
+#CALENDAR VIEWS
 
-from django.utils import timezone
+@login_required
+def c_list(request):
+    lab = request.user.userlab.lab
+    print(lab)
+    equipment_of_lab = Equipment.objects.filter(lab=lab)
+    context = {'my_lab': lab, 'equipments':equipment_of_lab}
+    return render(request, 'equ/c_list.html', context)
 
-from django.utils import timezone
-
-def format_timezone_offset(dt):
-    offset = dt.utcoffset()
-    offset_hours = offset.total_seconds() // 3600
-    offset_minutes = (offset.total_seconds() % 3600) // 60
-    offset_string = f"{int(offset_hours):+03d}:{int(offset_minutes):02d}"
-    return offset_string
-
-def labcalendar(request, pk):
-    lab = Lab.objects.get(id=pk)
-    equipments = lab.equipments.all()
-    time_slots = TimeSlot.objects.filter(equipment__lab=lab)
-
-    current_time = datetime.now()
-    start_time = current_time.replace(minute=0, second=0, microsecond=0)
-    end_time = start_time + timedelta(hours=24)
-    time_range = [start_time + timedelta(hours=i) for i in range(24)]
-
-    context = {
-        'lab': lab,
-        'equipments': equipments,
-        'time_range': time_range,
-        'time_slots': time_slots,
-    }
-
-    return render(request, 'equ/labcalendar.html', context)
-
-
+@login_required
+def c_calendar(request, pk):
+    lab = request.user.userlab.lab
+    equipment = get_object_or_404(Equipment, pk=pk)
+    context = {'equipment':equipment}
+    return render(request, 'equ/c_calendar.html', context)
 
 
 

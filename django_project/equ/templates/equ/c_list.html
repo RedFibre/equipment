@@ -1,4 +1,4 @@
-{% extends "equ/baseuser.html" %}
+{% extends "equ/c_base.html" %}
 {% block content %}    
 
 
@@ -8,7 +8,7 @@
 
 <ul>
     {% for equipment in equipments %}
-    <li><a href="{% url 'calendar' equipment.pk %}">{{ equipment.name }}</a></li>
+    <li><a href="{% url 'c_calendar' equipment.pk %}">{{ equipment.name }}</a></li>
     {% endfor %}
 </ul>
 

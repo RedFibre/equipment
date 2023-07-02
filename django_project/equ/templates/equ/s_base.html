@@ -11,9 +11,11 @@
         <div class="sidebar">
           <ul>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'projects' %}">Projects</a></li>            
-            <li><a href="{% url 'help' %}">Help Blogs</a></li>
-            <li><a href="{% url 'settings' %}">Settings</a></li>
+            <li><a href="{% url 's_overview' %}">Overview</a></li>
+            <li><a href="{% url 's_labs' %}">Labs</a></li>
+            <li><a href="{% url 's_admins' %}">Admins</a></li>
+            <li><a href="{% url 's_projects' %}">Projects</a></li>
+            <li><a href="{% url 's_equipment' %}">Equipments</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             {% else %}
             <a href="{% url 'login' %}">Log In</a>
