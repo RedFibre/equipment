@@ -5,16 +5,17 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/u_projects.css' %}">
 </head>
 <body>
   <div class="container">
         <div class="sidebar">
           <ul>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'u_projects' %}">Projects</a></li>            
-            <li><a href="{% url 'u_help' %}">Help Blogs</a></li>
-            <li><a href="{% url 'u_settings' %}">Settings</a></li>
-            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <a href="{% url 'u_projects' %}"><li>Projects</li></a>            
+            <a href="{% url 'u_help' %}"><li>Help Blogs</li></a>
+            <a href="{% url 'u_settings' %}"><li>Settings</li></a>
+            <a href="{% url 'logout' %}"><li>Log Out</li></a>
             {% else %}
             <a href="{% url 'login' %}">Log In</a>
             {% endif %}
