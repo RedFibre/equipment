@@ -185,9 +185,9 @@
      .calender{
       position: fixed;
       right: 10%;
-      /* top: 0; */
+      top: 0;
       /* border: 1px solid black; */
-      padding: 30px 0;
+      padding: 10px 0;
   
   }
   
