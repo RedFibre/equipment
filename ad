@@ -1,0 +1,44 @@
+[33mcommit 9a5e6450a22af6b0d41587b2498a4f90ddec73b5[m[33m ([m[1;36mHEAD -> [m[1;32momkar[m[33m)[m
+Author: DevanshUpadhyay26 <Devanshupadhyay26@gmail.com>
+Date:   Wed Jul 5 20:17:46 2023 +0530
+
+    added UserInterface @Omkar
+
+[33mcommit 3ef38f2b2fa72280a4da7f8d43f3ebcbfcdcf62f[m[33m ([m[1;31morigin/omkar[m[33m)[m
+Author: DevanshUpadhyay26 <Devanshupadhyay26@gmail.com>
+Date:   Tue Jul 4 23:47:03 2023 +0530
+
+    Omkar UI v0.1.1
+
+[33mcommit 0735566c68dd5a31d03e19127ae58f0038f08b7b[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: cbceff7 552a2a1
+Author: Devansh Upadhyay <devanshupadhyay26@gmail.com>
+Date:   Tue Jul 4 22:15:56 2023 +0530
+
+    Merge pull request #2 from DevanshUpadhyay26/main
+    
+    Create README.md
+
+[33mcommit 552a2a12e357ab2c51b03e1378f69171f1c86989[m
+Author: Devansh Upadhyay <devanshupadhyay26@gmail.com>
+Date:   Tue Jul 4 22:13:14 2023 +0530
+
+    Create README.md
+
+[33mcommit cbceff781d6a22ddc60f7053e64cee8f952cef0a[m
+Author: Anshal <anshalkapilmail@gmail.com>
+Date:   Sun Jul 2 10:25:21 2023 +0530
+
+    Cleaned up the code. Organised it
+
+[33mcommit bdc0d08f9caffc2c4507ce7fdc56b293b1e21f4d[m
+Author: Anshal <anshalkapilmail@gmail.com>
+Date:   Thu Jun 29 11:16:47 2023 +0530
+
+    Not sure
+
+[33mcommit e54d1a9dc5df5784ea3a829e3342c41e621aeccf[m
+Author: Anshal <anshalkapilmail@gmail.com>
+Date:   Sat Jun 24 18:44:10 2023 +0530
+
+    Initial commit
