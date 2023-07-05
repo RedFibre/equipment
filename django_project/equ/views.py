@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,TimeSlot,UserLab
-from .forms import ProjectForm,EquipmentAssignmentForm
+from .models import Project, Lab,Equipment,Booking,UserLab
+from .forms import ProjectForm,BookingFormSet
 from datetime import datetime,timedelta,timezone
 from django.views import View
 
@@ -105,20 +105,33 @@ def u_settings(request):
 
 #PROJECT CREATION
 def u_create_project(request):
+    current_lab = request.user.userlab.lab
+    available_equipment = Equipment.objects.filter(lab=current_lab)
     if request.method == 'POST':
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            Project = form.save(commit=False)
-            Project.user = request.user
-            Project.lab = request.user.userlab.lab
-            form.save()
+        project_form = ProjectForm(request.POST)
+        booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment})
+        if project_form.is_valid() and booking_formset.is_valid():
+            project = project_form.save(commit=False)
+            project.user = request.user
+            project.lab = current_lab
+            project.save()
+            for form, data in zip(booking_formset.forms, booking_formset.cleaned_data):
+                print(form)
+                booking = form.save(commit=False)
+                booking.project = project
+                booking.equipment = data.get('equipment')
+                booking.start_time = data.get('start_time')
+                booking.end_time = data.get('end_time')
+                booking.materials = data.get('materials')
+                print(booking)
+                booking.save()
             return redirect('u_projects')
     else:
-        form = ProjectForm()
-    
-    labs = Lab.objects.all()
-    context = {'form': form, }
-    return render(request, 'equ/u_create_project.html', context)
+        project_form = ProjectForm()
+        booking_formset = BookingFormSet(form_kwargs={'available_equipment': available_equipment})
+
+    return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
+
 
 #EDIT PROJECT
 from datetime import datetime
@@ -126,38 +139,11 @@ from django.shortcuts import redirect
 
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
-    current_lab = project.lab
-    available_equipment = Equipment.objects.filter(lab=current_lab)
-
-    current_time = datetime.now()
- 
-    equipment_in_use = Equipment.objects.filter(timeslot__start_time__lt=current_time, timeslot__end_time__gt=current_time, lab=current_lab,project=project)
-
-    booked_slots = TimeSlot.objects.filter(equipment__lab=current_lab, equipment__project=project).exclude(end_time__lt=current_time)
-
-    if request.method == 'POST':
-        form = EquipmentAssignmentForm(available_equipment, request.POST)
-        if form.is_valid():
-            equipment = form.cleaned_data['equipment']
-            start_time = form.cleaned_data['start_time']
-            end_time = form.cleaned_data['end_time']
-
-            # Create a new time slot and assign the equipment
-            time_slot = TimeSlot.objects.create(start_time=start_time, end_time=end_time, equipment=equipment)
-            equipment.project = project
-            equipment.usage = True
-            equipment.save()
-
-            return redirect('u_project_detail', pk=pk)
-    else:
-        form = EquipmentAssignmentForm(available_equipment)
+    bookings = Booking.objects.filter(project=project)
 
     context = {
         'project': project,
-        'available_equipment': available_equipment,
-        'equipment_in_use': equipment_in_use,
-        'booked_slots': booked_slots,
-        'form': form
+        'bookings':bookings
     }
     return render(request, 'equ/u_project_detail.html', context)
 

@@ -4,7 +4,7 @@
 
 <a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a>
 
-<h2>My Projects</h2>
+<h2>My Project Requests</h2>
 
 <ul>
   {% for project in user_projects %}
@@ -14,7 +14,7 @@
   {% endfor %}
 </ul>
 
-<a href="{% url 'u_create_project' %}" class="btn btn-primary">Create Project</a>
+<a href="{% url 'u_create_project' %}" class="btn btn-primary">Create Project Request</a>
  
 
 
