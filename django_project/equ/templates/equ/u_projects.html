@@ -4,9 +4,9 @@
 
 <a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a>
 
-<h2>My Project Requests</h2>
+<h2 class="my_proj">My Project Requests</h2>
 
-<ul>
+<ul class="project_list">
   {% for project in user_projects %}
     <li><a href="{% url 'u_project_detail' project.pk %}">{{ project.name }}</a></li>
   {% empty %}

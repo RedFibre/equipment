@@ -182,7 +182,7 @@
 
 
      /* u_project css */
-     .calender{
+     .c_calender{
       position: fixed;
       right: 10%;
       /* top: 0; */
@@ -202,7 +202,7 @@
     height: 75%;
   }
 
-  .create_project{
+  .u_create_project{
     color: white;
     text-decoration: none;
     background: #3d3d90;
@@ -211,7 +211,7 @@
     background-color: var(--primary);
   }
 
-  .create_project:hover{
+  .u_create_project:hover{
     cursor: pointer;
     background-color: var(--secondary)  ;
   }
