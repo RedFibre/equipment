@@ -25,4 +25,4 @@ class BookingForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['equipment'].widget.choices = [(equipment.id, equipment.name) for equipment in available_equipment]
 
-BookingFormSet = formset_factory(BookingForm)
+BookingFormSet = formset_factory(BookingForm, extra=1) 
