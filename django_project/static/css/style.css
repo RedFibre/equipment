@@ -190,6 +190,19 @@
       padding: 30px 0;
   
   }
+  /*Projects Button css*/
+  .btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: rgb(65, 65, 100);
+    color: #fff;
+    text-decoration:none;
+    border-radius: 5px;
+  }
+  
+  .btn:hover {
+    background-color: #444;
+  }
   
   .my_proj{
       padding: 30px 0;
@@ -214,4 +227,20 @@
   .u_create_project:hover{
     cursor: pointer;
     background-color: var(--secondary)  ;
+  }
+  /*Help blog css*/
+  .card {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .question {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .answer {
+    margin-bottom: 0;
   }
