@@ -32,8 +32,10 @@
       // Update the label and heading with the new form index
       clonedForm.find('label').each(function() {
         var oldFor = $(this).attr('for');
-        var newFor = oldFor.replace(/-0-/, '-' + formIndex + '-');
-        $(this).attr('for', newFor);
+        if (oldFor !== undefined) {
+          var newFor = oldFor.replace(/-0-/, '-' + formIndex + '-');
+          $(this).attr('for', newFor);
+        }
       });
       clonedForm.find('h3').text('Booking ' + (formIndex + 1));
 
@@ -50,6 +52,7 @@
     });
   });
 </script>
+
 
 </head>
 <body>

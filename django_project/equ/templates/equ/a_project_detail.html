@@ -1,0 +1,30 @@
+{% extends "equ/a_base.html" %}
+{% block content %}    
+
+<h1>Project Details</h1>
+<br>
+<p><strong>Name:</strong> {{ project.name }}</p>
+<p><strong>Description:</strong> {{ project.description }}</p>
+<p><strong>Lab:</strong> {{ project.lab }}</p>
+<p><strong>User:</strong> {{ project.user }}</p>
+<p><strong>Duration:</strong> {{ project.start_date }} to {{ project.end_date }}</p>
+<br>
+<h2>Equipments:</h2>
+{% for booking in bookings %}
+<b>{{ booking.equipment }}</b>
+<p>Booking from {{ booking.start_time }} to {{ booking.end_time }} using the following materials:</p>
+<ul>
+  {% for material in booking.materials.all %}
+  <li>{{ material.name }}</li>
+  {% endfor %}
+</ul>
+<br>
+{% endfor %}
+
+<form method="POST">
+  {% csrf_token %}
+  <button type="submit" name="action" value="accept">Accept</button>
+  <button type="submit" name="action" value="reject">Reject</button>
+</form>
+
+{% endblock content %}

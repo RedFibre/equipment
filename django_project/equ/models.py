@@ -2,6 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+class Lab(models.Model):
+    name = models.CharField(max_length=100)
+    lab_admin = models.ForeignKey(
+        User,
+        limit_choices_to={'groups__name': 'admin'},
+        null=True,  # Set the default value to None
+        on_delete=models.CASCADE,
+        related_name='lab_admin_of'
+    )
+
+    def __str__(self):
+        return self.name
+    
+class UserLab(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user} - {self.lab}'
 
 
 class Project(models.Model):
@@ -25,33 +44,41 @@ class Equipment(models.Model):
     def __str__(self):
         return self.name
     
-class Booking(models.Model):
-    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
-    start_time = models.DateTimeField(default=timezone.now)
-    end_time = models.DateTimeField(default=timezone.now)
-    materials = models.TextField()
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True,default=None)
-
-    def __str__(self):
-        return f'{self.start_time} - {self.end_time} for {self.equipment}'
-
-
-class Lab(models.Model):
+class Material(models.Model):
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    lab_admin = models.ForeignKey(
-        User,
-        limit_choices_to={'groups__name': 'admin'},
-        null=True,  # Set the default value to None
-        on_delete=models.CASCADE,
-        related_name='lab_admin_of'
-    )
 
     def __str__(self):
         return self.name
     
-class UserLab(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
+class Booking(models.Model):
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default=timezone.now)
+    end_time = models.DateTimeField(default=timezone.now)
+    materials = models.ManyToManyField(Material)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True,default=None)
 
     def __str__(self):
-        return f'{self.user} - {self.lab}'
+        return f'{self.start_time} - {self.end_time} for {self.equipment}'
+    
+
+class Confirmed_Project(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=400)
+    lab = models.ForeignKey('Lab', on_delete=models.CASCADE, related_name='confirmed_projects')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now) 
+
+    def __str__(self): 
+        return self.name
+    
+class Confirmed_Booking(models.Model):
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default=timezone.now)
+    end_time = models.DateTimeField(default=timezone.now)
+    materials = models.ManyToManyField(Material)
+    project = models.ForeignKey(Confirmed_Project, on_delete=models.CASCADE, null=True, blank=True,default=None)
+
+    def __str__(self):
+        return f'{self.start_time} - {self.end_time} for {self.equipment}'

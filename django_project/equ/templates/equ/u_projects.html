@@ -3,6 +3,19 @@
 
 
 <a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a>
+<br>
+
+<h2 class="my_proj">My Projects</h2>
+
+<ul class="project_list">
+  {% for project in user_confirmed_projects %}
+    <li><a href="{% url 'u_confirmed_project_detail' project.pk %}">{{ project.name }}</a></li>
+  {% empty %}
+    <li>No projects found.</li>
+  {% endfor %}
+</ul>
+
+
 
 <h2 class="my_proj">My Project Requests</h2>
 
@@ -17,8 +30,5 @@
 <a href="{% url 'u_create_project' %}" class="btn btn-primary">Create Project Request</a>
  
 
-
-
-  
 
 {% endblock content %}   
