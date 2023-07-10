@@ -1,13 +1,18 @@
 {% extends "equ/a_base.html" %}
-{% block content %}    
-
-<h1>User List</h1>
-<ul>
-  {% for user in users %}
-    <li>{{ user.username }}</li>
-  {% endfor %}
-
-
-  
-
-{% endblock content %}   
+{% block content %}
+  <h1>User List</h1>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.username }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock content %}

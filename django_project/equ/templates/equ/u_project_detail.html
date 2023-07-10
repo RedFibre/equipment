@@ -1,23 +1,31 @@
 {% extends "equ/u_base.html" %}
-{% block content %}    
-
-<h1>Project Details</h1>
-<br>
-<p><strong>Name:</strong> {{ project.name }}</p>
-<p><strong>Description:</strong> {{ project.description }}</p>
-<p><strong>Lab:</strong> {{ project.lab }}</p>
-<p><strong>User:</strong> {{ project.user }}</p>
-<p><strong>Duration:</strong> {{ project.start_date }} to {{ project.end_date }}</p>
-<br>
-<h2> Equipments:</h2>
-{% for booking in bookings%}
-<b>{{booking.equipment}}</b> 
-<p>Booking from {{booking.start_time}} to {{booking.end_time}} using the following materials : {% for material in booking.materials.all %}
- {{material.name}}.
- {% endfor %}    
-</p>
-<br>
-{% endfor %}
-
-
+{% block content %}
+  <div class="content-section" style="margin-left: 220px;">
+    <h1>Project Details</h1>
+    <br>
+    <div class="project-info">
+      <p><strong>Name:</strong> {{ project.name }}</p>
+      <p><strong>Description:</strong> {{ project.description }}</p>
+      <p><strong>Lab:</strong> {{ project.lab }}</p>
+      <p><strong>User:</strong> {{ project.user }}</p>
+      <p><strong>Duration:</strong> {{ project.start_date }} to {{ project.end_date }}</p>
+    </div>
+    <br>
+    <h2>Equipments:</h2>
+    <div class="equipment-list">
+      {% for booking in bookings%}
+      <div class="booking">
+        <p class="equipment-name">{{booking.equipment}}</p>
+        <p class="booking-details">
+          Booking from {{booking.start_time}} to {{booking.end_time}} using the following materials:
+          <ul class="material-list">
+            {% for material in booking.materials.all %}
+            <li>{{material.name}}</li>
+            {% endfor %}
+          </ul>
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock content %}
