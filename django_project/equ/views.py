@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,Booking,UserLab
+from .models import Project, Lab,Equipment,Booking,UserLab,Material,Confirmed_Project,Confirmed_Booking
 from .forms import ProjectForm,BookingFormSet
 from datetime import datetime,timedelta,timezone
 from django.views import View
@@ -75,8 +75,54 @@ def a_equipment(request):
 @login_required
 @admin_required
 def a_activity(request):
-    return render(request, 'equ/a_activity.html')
+    user = request.user
+    lab = Lab.objects.get(lab_admin=user)
+    print(lab)
+    all_projects = Project.objects.filter(lab=lab)
+    print(all_projects)
+    context = {'all_projects': all_projects}
+    return render(request, 'equ/a_activity.html', context)
 
+@login_required
+@admin_required
+def a_project_detail(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    bookings = Booking.objects.filter(project=project)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'accept':
+            confirmed = Confirmed_Project.objects.create(
+            name=project.name,
+            description=project.description,
+            lab=project.lab,
+            user=project.user,
+            start_date=project.start_date,
+            end_date=project.end_date
+        )
+            for booking in bookings:
+                confirmed_booking = Confirmed_Booking.objects.create(
+                    project = confirmed,
+                    equipment=booking.equipment,
+                    start_time=booking.start_time,
+                    end_time=booking.end_time)
+                confirmed_booking.materials.set(booking.materials.all())
+
+            project.delete()
+            return redirect('a_activity')
+
+        elif action == 'reject':
+            # Delete the project
+            project.delete()
+
+            # Redirect to a success page or perform any other action
+            return redirect('a_activity')
+
+    context = {
+        'project': project,
+        'bookings': bookings
+    }
+    return render(request, 'equ/a_project_detail.html', context)
 #USER VIEWS
 
 def labuser_required(function):
@@ -88,7 +134,8 @@ def labuser_required(function):
 @labuser_required
 def u_projects(request):
     user_projects = Project.objects.filter(user=request.user)
-    context = {'user_projects': user_projects}
+    user_confirmed_projects = Confirmed_Project.objects.filter(user=request.user)
+    context = {'user_projects': user_projects, 'user_confirmed_projects':user_confirmed_projects}
     return render(request, 'equ/u_projects.html', context)
 
 
@@ -107,28 +154,28 @@ def u_settings(request):
 def u_create_project(request):
     current_lab = request.user.userlab.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
+    available_materials = Material.objects.filter(lab=current_lab)
     if request.method == 'POST':
         project_form = ProjectForm(request.POST)
-        booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment})
+        booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
         if project_form.is_valid() and booking_formset.is_valid():
             project = project_form.save(commit=False)
             project.user = request.user
             project.lab = current_lab
             project.save()
             for form, data in zip(booking_formset.forms, booking_formset.cleaned_data):
-                print(form)
                 booking = form.save(commit=False)
                 booking.project = project
                 booking.equipment = data.get('equipment')
                 booking.start_time = data.get('start_time')
                 booking.end_time = data.get('end_time')
-                booking.materials = data.get('materials')
-                print(booking)
                 booking.save()
+                materials = data.get('materials')
+                booking.materials.set(materials)              
             return redirect('u_projects')
     else:
         project_form = ProjectForm()
-        booking_formset = BookingFormSet(form_kwargs={'available_equipment': available_equipment})
+        booking_formset = BookingFormSet(form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
 
@@ -146,6 +193,16 @@ def u_project_detail(request, pk):
         'bookings':bookings
     }
     return render(request, 'equ/u_project_detail.html', context)
+
+def u_confirmed_project_detail(request, pk):
+    project = get_object_or_404(Confirmed_Project, pk=pk)
+    bookings = Confirmed_Booking.objects.filter(project=project)
+
+    context = {
+        'project': project,
+        'bookings':bookings
+    }
+    return render(request, 'equ/u_confirmed_project_detail.html', context)
 
 #CALENDAR VIEWS
 

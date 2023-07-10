@@ -7,6 +7,7 @@ urlpatterns = [
     path('a_members/',views.a_members,name="a_members"),
     path('a_equipment/',views.a_equipment,name="a_equipment"),
     path('a_activity/',views.a_activity,name="a_activity"),
+    path('a_project_detail/<int:pk>/', views.a_project_detail, name='a_project_detail'),
     path('c_list/',views.c_list,name="c_list"),
     path('u_projects/',views.u_projects,name="u_projects"),
     path('u_help/',views.u_help,name="u_help"),
@@ -19,5 +20,5 @@ urlpatterns = [
     path('u_create_project/', views.u_create_project, name='u_create_project'),
     path('u_project_detail/<int:pk>/', views.u_project_detail, name='u_project_detail'),
     path('c_calendar/<int:pk>/calendar/', views.c_calendar, name='c_calendar'),
-    
+    path('u_confirmed_project_detail/<int:pk>/', views.u_confirmed_project_detail, name='u_confirmed_project_detail'),
 ]

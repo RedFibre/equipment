@@ -1,7 +1,7 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
 
-<form method="post" action="{% url 'u_create_project' %}">
+<form method="post" action="{% url 'u_create_project' %}" class="project-form">
 
   {% csrf_token %}
   {{ project_form.as_p }}
@@ -17,7 +17,7 @@
   </div>
 
   <button type="button" id="add-booking-btn">Add Equipment</button>
-  <button type="submit">Submit</button>
+  <button type="submit" class="submit-btn">Submit</button>
 </form>
 
 

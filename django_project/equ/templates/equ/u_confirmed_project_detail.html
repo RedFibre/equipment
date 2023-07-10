@@ -1,6 +1,6 @@
 {% extends "equ/u_base.html" %}
 {% block content %}
-  <div class="content-section" style="margin-left: 220px;">
+  <div class="project-details">
     <h1>Project Details</h1>
     <br>
     <div class="project-info">
@@ -17,7 +17,7 @@
       <div class="booking">
         <p class="equipment-name">{{booking.equipment}}</p>
         <p class="booking-details">
-          Booking from {{booking.start_time}} to {{booking.end_time}} using the following materials:
+          Booking from {{booking.start_time}} to {{booking.end_time}} using the following materials
           <ul class="material-list">
             {% for material in booking.materials.all %}
             <li>{{material.name}}</li>

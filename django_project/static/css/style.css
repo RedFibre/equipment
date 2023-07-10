@@ -124,11 +124,13 @@
       list-style: none;
      }
 
-     .container{
+     .container {
       display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       /* border: 1px solid black; */
       background-color: #ececec;
-     }
+    }
 
      .sidebar{
       width: 15%;
@@ -153,6 +155,7 @@
       border-radius: 50px;
       align-items: center;
       justify-content: center;
+      padding: 10px 15px;
      }
 
      .sidebar li{
@@ -168,19 +171,21 @@
       background-color: var(--secondary);
      }
 
-     .content{
+     .content {
+      flex-grow: 1;
       /* border: 1px solid black; */
       border: none;
-      width: 70%;
-    height: 80vh;
-    margin: auto;
-    border-radius: 30px;
-    padding: 20px;
-    box-shadow: 1px 1px 25px 1px #b4b4b4;
-    background-color: white;
-     }
+      width: 100%;
+      max-width: 900px; 
+      margin: 20px auto;
+      border-radius: 30px;
+      padding: 20px;
+      box-shadow: 1px 1px 25px 1px #b4b4b4;
+      background-color: white;
 
+    }
 
+/*USER UI CSS STARTS HERE */
      /* u_project css */
      .c_calender{
       position: fixed;
@@ -244,3 +249,289 @@
   .answer {
     margin-bottom: 0;
   }
+
+  
+  /*Create Project CSS*/
+  .project-form {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .project-form input[type="text"],
+  .project-form input[type="date"],
+  .project-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 10px;
+  }
+  .btn-uproject {
+    background-color: #3d3d90;
+    color: #fff;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-uproject:hover {
+    background-color: #444;
+  }
+  .project-form select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .booking-form {
+    margin-bottom: 20px;
+  }
+  
+  .booking-form h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .booking-form input[type="datetime-local"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  #add-booking-btn {
+    background-color: #3d3d90;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #add-booking-btn:hover {
+    background-color: #444;
+  }
+  
+  .submit-btn {
+    background-color: #3d3d90;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    background-color: #444;
+  }
+/*Confirmed Project Detail*/
+
+.project-details h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.project-info {
+  margin-bottom: 20px;
+}
+.project-info p {
+  margin-bottom: 10px;
+}
+.equipment-list {
+  margin-bottom: 20px;
+}
+.booking {
+  margin-bottom: 10px;
+  margin-right: 40px;
+}
+.equipment-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #333;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+  
+}
+.booking-details {
+  padding-bottom: 10px;
+  margin-right: 40px;
+  
+}
+.material-list {
+  margin-top: 5px;
+  list-style: disc;
+}
+.material-list li {
+  margin-bottom: 5px;
+}
+
+
+/*USER UI CSS ENDS HERE */
+
+
+  /*register and login css*/
+  .content-section {
+    margin-left: 220px;
+}
+
+.form-signin {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #dc3545;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.border-top {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.text-muted {
+    color: #999;
+}
+
+
+
+
+/*Admin UI css starts here */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.user-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.user-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.user-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+.project-details {
+  margin-left: 220px;
+}
+
+.project-details h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.project-info {
+  margin-bottom: 20px;
+}
+
+.project-info p {
+  margin-bottom: 10px;
+}
+
+.equipment-list {
+  margin-bottom: 20px;
+}
+
+.booking {
+  margin-bottom: 10px;
+}
+
+.equipment-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #333;
+  text-transform: uppercase;
+  border-bottom: 2px solid #333;
+  padding-bottom: 5px;
+}
+
+.booking-details {
+  margin-left: 20px;
+}
+
+.material-list {
+  margin-top: 5px;
+  margin-left: 20px;
+  list-style: disc;
+}
+
+.material-list li {
+  margin-bottom: 5px;
+}
+
+.action-form {
+  margin-top: 20px;
+}
+
+.a-actionbutton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.a-actionbutton:hover {
+  background-color: #444;
+}
+
