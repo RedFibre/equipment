@@ -154,7 +154,7 @@ def u_settings(request):
 def u_create_project(request):
     current_lab = request.user.userlab.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
-    available_materials = Material.objects.filter(lab=current_lab)
+    available_materials = Material.objects.filter(equipment__lab=current_lab)
     if request.method == 'POST':
         project_form = ProjectForm(request.POST)
         booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
@@ -178,6 +178,7 @@ def u_create_project(request):
         booking_formset = BookingFormSet(form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
+
 
 
 #EDIT PROJECT

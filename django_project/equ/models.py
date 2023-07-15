@@ -39,13 +39,12 @@ class Project(models.Model):
 class Equipment(models.Model):
     name = models.CharField(max_length=100)
     lab = models.ForeignKey('Lab', on_delete=models.CASCADE, related_name='equipments')
-    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True,default=None)
     
     def __str__(self):
         return self.name
     
 class Material(models.Model):
-    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE,null=True,blank=True,default=None)
     name = models.CharField(max_length=100)
 
     def __str__(self):
