@@ -219,7 +219,19 @@ def c_list(request):
 def c_calendar(request, pk):
     lab = request.user.userlab.lab
     equipment = get_object_or_404(Equipment, pk=pk)
-    context = {'equipment':equipment}
+    bookings = Confirmed_Booking.objects.filter(equipment=equipment)
+
+    # Calculate date range starting from the current date
+    today = datetime.now().date()
+    date_range = [today + timedelta(days=i) for i in range(7)]  # Adjust the range as needed
+
+    # Prepare time slots from 10 AM to 6 PM
+    start_time = datetime(today.year, today.month, today.day, 10)
+    time_slots = [start_time + timedelta(hours=i) for i in range(10)]
+    time_slot_ranges = [(time_slots[i], time_slots[i + 1]) for i in range(len(time_slots) - 1)]
+
+    context = {'equipment':equipment,'bookings':bookings,'date_range': date_range,
+        'time_slots': time_slots, 'time_slot_ranges': time_slot_ranges}
     return render(request, 'equ/c_calendar.html', context)
 
 

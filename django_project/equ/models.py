@@ -72,7 +72,7 @@ class Confirmed_Project(models.Model):
     def __str__(self): 
         return self.name
     
-class Confirmed_Booking(models.Model):
+class Confirmed_Booking(models.Model): 
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(default=timezone.now)
