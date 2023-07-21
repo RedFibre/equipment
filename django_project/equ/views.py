@@ -5,6 +5,8 @@ from .models import Project, Lab,Equipment,Booking,UserLab,Material,Confirmed_Pr
 from .forms import ProjectForm,BookingFormSet
 from datetime import datetime,timedelta,timezone
 from django.views import View
+from django.utils.timezone import localdate
+import calendar
 
 
 def user_redirect(request):
@@ -210,30 +212,104 @@ def u_confirmed_project_detail(request, pk):
 @login_required
 def c_list(request):
     lab = request.user.userlab.lab
-    print(lab)
     equipment_of_lab = Equipment.objects.filter(lab=lab)
-    context = {'my_lab': lab, 'equipments':equipment_of_lab}
+
+    current_date = datetime.today()
+    months_names = []
+    current_month_name = current_date.strftime("%B")
+    months_names.append(current_month_name)
+    for i in range(1, 3):
+        next_month = current_date.replace(month=current_date.month + i)
+        next_month_name = next_month.strftime("%B")
+        months_names.append(next_month_name)
+
+
+    context = {'my_lab': lab, 'equipments':equipment_of_lab,'months':months_names}
     return render(request, 'equ/c_list.html', context)
 
 @login_required
-def c_calendar(request, pk):
+def c_m1(request, pk):
     lab = request.user.userlab.lab
     equipment = get_object_or_404(Equipment, pk=pk)
     bookings = Confirmed_Booking.objects.filter(equipment=equipment)
 
-    # Calculate date range starting from the current date
-    today = datetime.now().date()
-    date_range = [today + timedelta(days=i) for i in range(7)]  # Adjust the range as needed
+    # Calculate date range for the current month
+    today = localdate()  # Use localdate() to get the current date without time
+    _, last_day_of_month = calendar.monthrange(today.year, today.month)
+    date_range = [today + timedelta(days=i) for i in range(last_day_of_month - today.day + 1)]
 
     # Prepare time slots from 10 AM to 6 PM
     start_time = datetime(today.year, today.month, today.day, 10)
     time_slots = [start_time + timedelta(hours=i) for i in range(10)]
     time_slot_ranges = [(time_slots[i], time_slots[i + 1]) for i in range(len(time_slots) - 1)]
 
-    context = {'equipment':equipment,'bookings':bookings,'date_range': date_range,
-        'time_slots': time_slots, 'time_slot_ranges': time_slot_ranges}
-    return render(request, 'equ/c_calendar.html', context)
+    context = {
+        'equipment': equipment,
+        'bookings': bookings,
+        'date_range': date_range,
+        'time_slots': time_slots,
+        'time_slot_ranges': time_slot_ranges
+    }
 
+    return render(request, 'equ/c_m1.html', context)
+
+@login_required
+def c_m2(request, pk):
+    lab = request.user.userlab.lab
+    equipment = get_object_or_404(Equipment, pk=pk)
+    bookings = Confirmed_Booking.objects.filter(equipment=equipment)
+
+    # Calculate date range for the next month
+    today = localdate()  # Use localdate() to get the current date without time
+    _, last_day_of_month = calendar.monthrange(today.year, today.month)
+    first_day_next_month = today.replace(day=1) + timedelta(days=last_day_of_month)
+    _, last_day_next_month = calendar.monthrange(first_day_next_month.year, first_day_next_month.month)
+    date_range = [first_day_next_month + timedelta(days=i) for i in range(last_day_next_month)]
+
+    # Prepare time slots from 10 AM to 6 PM
+    start_time = datetime(first_day_next_month.year, first_day_next_month.month, first_day_next_month.day, 10)
+    time_slots = [start_time + timedelta(hours=i) for i in range(10)]
+    time_slot_ranges = [(time_slots[i], time_slots[i + 1]) for i in range(len(time_slots) - 1)]
+
+    context = {
+        'equipment': equipment,
+        'bookings': bookings,
+        'date_range': date_range,
+        'time_slots': time_slots,
+        'time_slot_ranges': time_slot_ranges
+    }
+
+    return render(request, 'equ/c_m2.html', context)
+
+@login_required
+def c_m3(request, pk):
+    lab = request.user.userlab.lab
+    equipment = get_object_or_404(Equipment, pk=pk)
+    bookings = Confirmed_Booking.objects.filter(equipment=equipment)
+
+    # Calculate date range for the month after next
+    today = localdate()  # Use localdate() to get the current date without time
+    _, last_day_of_month = calendar.monthrange(today.year, today.month)
+    first_day_next_month = today.replace(day=1) + timedelta(days=last_day_of_month)
+    _, last_day_next_month = calendar.monthrange(first_day_next_month.year, first_day_next_month.month)
+    first_day_month_after_next = first_day_next_month.replace(day=1) + timedelta(days=last_day_next_month)
+    _, last_day_month_after_next = calendar.monthrange(first_day_month_after_next.year, first_day_month_after_next.month)
+    date_range = [first_day_month_after_next + timedelta(days=i) for i in range(last_day_month_after_next)]
+
+    # Prepare time slots from 10 AM to 6 PM
+    start_time = datetime(first_day_month_after_next.year, first_day_month_after_next.month, first_day_month_after_next.day, 10)
+    time_slots = [start_time + timedelta(hours=i) for i in range(10)]
+    time_slot_ranges = [(time_slots[i], time_slots[i + 1]) for i in range(len(time_slots) - 1)]
+
+    context = {
+        'equipment': equipment,
+        'bookings': bookings,
+        'date_range': date_range,
+        'time_slots': time_slots,
+        'time_slot_ranges': time_slot_ranges
+    }
+
+    return render(request, 'equ/c_m3.html', context)
 
 
 
