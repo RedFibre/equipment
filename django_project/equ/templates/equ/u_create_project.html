@@ -1,26 +1,77 @@
 {% extends "equ/u_base.html" %}
-{% block content %}    
+{% block content %}
 
 <form method="post" action="{% url 'u_create_project' %}" class="project-form">
-
   {% csrf_token %}
-  {{ project_form.as_p }}
 
-  <div id="bookings-container">
+  <!-- Project Details -->
+  <label for="id_name">Name:</label>
+  {{ project_form.name }}
+  <br>
+  <label for="id_description">Description:</label>
+  {{ project_form.description }}
+  <br>
+  <label for="id_start_date">Start Date:</label>
+  {{ project_form.start_date }}
+  <br>
+  <label for="id_end_date">End Date:</label>
+  {{ project_form.end_date }}
+  <br>
+
+  <!-- Bookings Container - Initially Hidden -->
+  <div id="bookings-container" style="display: none;">
     <div class="booking-form">
       <h3>Booking 1</h3>
       {{ booking_formset.management_form }}
       {% for form in booking_formset %}
-        {{ form.as_table }}
+      <div id="booking-{{ forloop.counter }}">
+        <!-- Equipment Dropdown for Booking Slot -->
+        <label for="{{ form.equipment.id_for_label }}">Equipment:</label>
+        {{ form.equipment }}
+        <br>
+        <!-- Start Time for Booking Slot -->
+        <label for="{{ form.start_time.id_for_label }}">Start Time:</label>
+        {{ form.start_time }}
+        <br>
+        <!-- End Time for Booking Slot -->
+        <label for="{{ form.end_time.id_for_label }}">End Time:</label>
+        {{ form.end_time }}
+        <br>
+        <!-- Materials Checkbox for Booking Slot -->
+        <label for="{{ form.materials.id_for_label }}">Materials:</label>
+        {{ form.materials }}
+        <br>
+      </div>
       {% endfor %}
     </div>
   </div>
 
+  <!-- Add Slot Button -->
   <button type="button" id="add-booking-btn">Add Slot</button>
+
+  <!-- Submit Button to Save the Form -->
   <button type="submit" class="submit-btn">Submit</button>
 </form>
 
+<!-- JavaScript to Handle Show/Hide of Bookings Container and Enable/Disable Add Slot Button -->
+<script>
+  const addBookingBtn = document.getElementById('add-booking-btn');
+  const bookingsContainer = document.getElementById('bookings-container');
+  const equipmentDropdown = document.getElementById("id_booking_set-0-equipment");
 
-{% endblock content %}   
+  // Show Bookings Container When Add Slot Button is Clicked
+  addBookingBtn.addEventListener('click', () => {
+    bookingsContainer.style.display = 'block';
+  });
 
-
+  // Enable/Disable Add Slot Button Based on Equipment Dropdown Selection
+  equipmentDropdown.addEventListener("change", () => {
+    if (equipmentDropdown.value) {
+      addBookingBtn.disabled = false; // Enable Add Slot Button
+    } else {
+      addBookingBtn.disabled = true; // Disable Add Slot Button
+      bookingsContainer.style.display = "none"; // Hide Bookings Container
+    }
+  });
+</script>
+{% endblock content %}
