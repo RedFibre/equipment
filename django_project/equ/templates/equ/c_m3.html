@@ -19,13 +19,9 @@
             <tr>
                 <th>{{ time_slot_start|time:"h A" }} to {{ time_slot_end|time:"h A" }}</th>
                 {% for date in date_range %}
-                    <td>
-                        {% for booking in bookings %}
-                            {% if booking.start_time.date == date and booking.start_time.time <= time_slot_start.time and booking.end_time.time > time_slot_start.time %}
-                                Booked
-                            {% endif %}
-                        {% endfor %}
-                    </td>
+                <td class="{% for booking in bookings %}{% if booking.start_time.date == date and booking.start_time.time <= time_slot_start.time and booking.end_time.time > time_slot_start.time %}Booked{% endif %}{% endfor %}">
+                    &nbsp;
+                </td>
                 {% endfor %}
             </tr>
             {% endwith %}

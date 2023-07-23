@@ -1,112 +1,4 @@
-/* 
-    .container {
-      display: flex;
-    }
-    .sidebar {
-      width: 200px;
-      height: 100vh;
-      background-color: #f1f1f1;
-    }
 
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    li {
-      padding: 10px;
-    }
-
-    a {
-      display: block;
-      color: #333;
-      text-decoration: none;
-    }
-
-    a:hover {
-      background-color: #ddd;
-    }
-    .content{
-      flex-grow: 1;
-      padding: 20px;
-
-    }
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    .table-container {
-      overflow-x: scroll;
-      width: 100%;
-    }
-
-    table {
-      border-collapse: collapse;
-      min-width: 800px;
-    }
-
-    th, td {
-      padding: 8px;
-      border: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f2f2f2;
-      text-align: center;
-    }
-
-    td {
-      background-color: #fff;
-    }
-
-    .time-column {
-      width: 100px;
-      text-align: center;
-    }
-
-    .equipment-row {
-      height: 50px;
-      text-align: center;
-    }
-
-    .equipment-name {
-      font-weight: bold;
-    }
-
-    .equipment-usage {
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .equipment-usage-short {
-      background-color: #00cc44;
-    }
-
-    .equipment-usage-medium {
-      background-color: #ffcc00;
-    }
-
-    .equipment-usage-long {
-      background-color: #ff3300;
-    }
-    .nav-bar {
-      background-color: #f2f2f2;
-      padding: 10px;
-    }
-
-    .nav-link {
-      display: inline-block;
-      padding: 8px 16px;
-      text-decoration: none;
-      color: #000;
-    }
-
-    .nav-link:hover {
-      background-color: #ddd;
-    }
-
-     */
     :root{
       --primary:rgb(65 65 100);
       --secondary:rgb(97, 97, 131);
@@ -609,17 +501,19 @@
 
 /* Calender  */
 .cal, .cal th, .cal tr, .cal td{
-  border: 1px solid black;
+  border: 1px solid #d6e2e3;
   border-collapse: collapse;
   padding: 10px;
+  font-weight: normal;
+  font-size: small;
 }
 
 .cal td{
-  background-color: #ececec;
+  background-color: #e2f1ee;
 }
 
-td:contains("Booked"){
-  background-color: pink;
+td.Booked {
+  background-color: #edc2e6; 
 }
 
 .cal .t_d{
@@ -627,7 +521,7 @@ td:contains("Booked"){
 }
 
 .cal th{
-  background-color: #bddee9;
+  background-color: #dce7f5;
 }
 
 .calendar{
