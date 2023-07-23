@@ -245,6 +245,10 @@
     /* height: 75%; */
   }
 
+  .project_list li{
+    margin: 30px 0;
+  }
+
   .project_list li a{
     text-decoration: none;
     color: white;
@@ -601,4 +605,98 @@
 
 .reject:hover{
   background-color: red;
+}
+
+/* Calender  */
+.cal, .cal th, .cal tr, .cal td{
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+.cal td{
+  background-color: #ececec;
+}
+
+td:contains("Booked"){
+  background-color: pink;
+}
+
+.cal .t_d{
+  padding: 10px 35px;
+}
+
+.cal th{
+  background-color: #bddee9;
+}
+
+.calendar{
+  width: 90%;
+  /* margin: 30px auto; */
+  border: 1px solid gray;
+  border-radius: 30px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 1px 1px 25px 1px #b4b4b4;
+}
+
+.calendar h1{
+  padding: 0 10px 20px 10px;
+}
+
+.table_con{
+  width: 100%;
+  /* overflow: hidden; */
+  overflow-x: scroll;
+  height: max-content;
+  border: 1px solid gray;
+  /* border-radius: 30px; */
+}
+
+/* Lists */
+.al{
+  width: 100%;
+  background-color: #ececec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+    max-height: max-content;
+}
+
+.all_lists{
+  border: 1px solid gray;
+  border-radius: 30px;
+  width: 90%;
+  /* margin: 30px auto; */
+  padding: 30px;
+  min-height: 90vh;
+  background-color: white;
+  box-shadow: 1px 1px 25px 1px #b4b4b4;
+}
+
+.all_lists h1{
+  margin-bottom: 20px;
+}
+
+.all_lists h2{
+  margin-bottom: 10px;
+}
+
+.all_lists li{
+  margin: 30px 0;
+}
+
+.all_lists a{
+  text-decoration: none;
+  color: white;
+  background: #0000ff82;
+  padding: 10px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.all_lists a:hover{
+  background-color:#0000ffbb ;
 }

@@ -2,30 +2,36 @@
 {% block content %}    
 
 
-<h1> Equipment Calendar for {{equipment.name}}</h1> 
-
-<table>
-    <tr>
-        <th></th>
-        {% for date in date_range %}
-            <th>{{ date|date:"jS F" }}</th>
-        {% endfor %}
-    </tr>
-    {% for time_slot_range in time_slot_ranges %}
-        {% with time_slot_start=time_slot_range.0 time_slot_end=time_slot_range.1 %}
+<div class="al">
+    <div class="calendar">
+        <h1> Equipment Calendar for {{equipment.name}}</h1> 
+    
+    <div class="table_con">
+        <table class="cal">
         <tr>
-            <th>{{ time_slot_start|time:"h A" }} to {{ time_slot_end|time:"h A" }}</th>
+            <th class="t_d"> Time/Date</th>
             {% for date in date_range %}
-                <td>
-                    {% for booking in bookings %}
-                        {% if booking.start_time.date == date and booking.start_time.time <= time_slot_start.time and booking.end_time.time > time_slot_start.time %}
-                            Booked
-                        {% endif %}
-                    {% endfor %}
-                </td>
+                <th>{{ date|date:"jS F" }}</th>
             {% endfor %}
         </tr>
-        {% endwith %}
-    {% endfor %}
-</table>
+        {% for time_slot_range in time_slot_ranges %}
+            {% with time_slot_start=time_slot_range.0 time_slot_end=time_slot_range.1 %}
+            <tr>
+                <th>{{ time_slot_start|time:"h A" }} to {{ time_slot_end|time:"h A" }}</th>
+                {% for date in date_range %}
+                    <td>
+                        {% for booking in bookings %}
+                            {% if booking.start_time.date == date and booking.start_time.time <= time_slot_start.time and booking.end_time.time > time_slot_start.time %}
+                                Booked
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endwith %}
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+</div>
 {% endblock content %} 
