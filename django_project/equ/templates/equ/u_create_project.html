@@ -46,10 +46,11 @@
     </div>
   </div>
 
-  <!-- Add Slot Button -->
-  <button type="button" id="add-booking-btn">Add Slot</button>
+  <button type="button" id="create-slot-btn">Create Slots</button>
 
-  <!-- Submit Button to Save the Form -->
+  <button type="button" id="add-booking-btn" style="display: none;">Add Slot</button>
+
+
   <button type="submit" class="submit-btn">Submit</button>
 </form>
 
@@ -58,9 +59,12 @@
   const addBookingBtn = document.getElementById('add-booking-btn');
   const bookingsContainer = document.getElementById('bookings-container');
   const equipmentDropdown = document.getElementById("id_booking_set-0-equipment");
+  const createslotbtn = document.getElementById('create-slot-btn');
 
   // Show Bookings Container When Add Slot Button is Clicked
-  addBookingBtn.addEventListener('click', () => {
+  createslotbtn.addEventListener('click', () => {
+    createslotbtn.style.display = 'none'; // Hide Create Slot Button
+    addBookingBtn.style.display = 'block'; // Show Add Booking Button
     bookingsContainer.style.display = 'block';
   });
 

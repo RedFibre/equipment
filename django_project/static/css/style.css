@@ -257,6 +257,20 @@
   #add-booking-btn:hover {
     background-color: #444;
   }
+
+  #create-slot-btn {
+    background-color: #3d3d90;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #create-slot-btn:hover {
+    background-color: #444;
+  }
+  
   
   .submit-btn {
     background-color: #3d3d90;
