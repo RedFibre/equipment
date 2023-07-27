@@ -20,6 +20,7 @@
 
   {% if error_message %}
   <div class="error-message">>{{ error_message }}</div>
+  <a href="{% url 'c_list' %}" class="btn-uproject">View Calendar</a>
   {% endif %}
 
   <!-- Bookings Container - Initially Hidden -->

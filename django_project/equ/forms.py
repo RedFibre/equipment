@@ -1,11 +1,16 @@
 from django import forms
 from .models import Project, Booking,Material
 from django.forms import formset_factory,DateTimeInput, DateInput
+from datetime import datetime
 
 class CustomDateTimeInput(DateTimeInput):
     def format_value(self, value):
-        value = value.replace(minute=0, second=0)
-        return super().format_value(value)
+        y = value.year
+        m = value.month
+        d = value.day
+        h = value.hour
+        new_value = datetime(year=y, month=m, day=d, hour=h, minute=0, second=0)
+        return super().format_value(new_value)
 
 class ProjectForm(forms.ModelForm):
     class Meta:
