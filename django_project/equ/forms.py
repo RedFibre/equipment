@@ -5,11 +5,14 @@ from datetime import datetime
 
 class CustomDateTimeInput(DateTimeInput):
     def format_value(self, value):
-        y = value.year
-        m = value.month
-        d = value.day
-        h = value.hour
-        new_value = datetime(year=y, month=m, day=d, hour=h, minute=0, second=0)
+        if isinstance(value, datetime):
+            y = value.year
+            m = value.month
+            d = value.day
+            h = value.hour
+            new_value = datetime(year=y, month=m, day=d, hour=h, minute=0, second=0)
+        else:
+            new_value = value
         return super().format_value(new_value)
 
 class ProjectForm(forms.ModelForm):
