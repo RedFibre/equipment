@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking
+from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project
 from .forms import ProjectForm,BookingFormSet
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
@@ -211,13 +211,35 @@ def u_project_detail(request, pk):
     return render(request, 'equ/u_project_detail.html', context)
 
 def u_confirmed_project_detail(request, pk):
-    project = get_object_or_404(Confirmed_Project, pk=pk)
-    bookings = Confirmed_Booking.objects.filter(project=project)
+    confirmed_project = get_object_or_404(Confirmed_Project, pk=pk)
+    confirmed_bookings = Confirmed_Booking.objects.filter(project=confirmed_project)
 
     context = {
-        'project': project,
-        'bookings':bookings
+        'project': confirmed_project,
+        'bookings':confirmed_bookings
     }
+    if request.method == 'POST':
+        archived_project = Archived_Project.objects.create(
+            name=confirmed_project.name,
+            description=confirmed_project.description,
+            lab=confirmed_project.lab,
+            user=confirmed_project.user,
+            start_date=confirmed_project.start_date,
+            end_date=confirmed_project.end_date
+        )
+        for booking in confirmed_bookings:
+            archived_booking = Archived_Booking.objects.create(
+                project=archived_project,
+                equipment=booking.equipment,
+                start_time=booking.start_time,
+                end_time=booking.end_time
+            )
+            archived_booking.materials.set(booking.materials.all())
+
+        confirmed_project.delete()
+        return redirect('u_projects')
+
+
     return render(request, 'equ/u_confirmed_project_detail.html', context)
 
 #CALENDAR VIEWS

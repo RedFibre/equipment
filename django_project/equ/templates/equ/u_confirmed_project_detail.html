@@ -27,5 +27,10 @@
       </div>
       {% endfor %}
     </div>
+
+    <form method="POST" class="action-form">
+      {% csrf_token %}
+      <button type="submit" name="action" class="a-actionbutton reject">Delete</button>
+    </form>
   </div>
 {% endblock content %}

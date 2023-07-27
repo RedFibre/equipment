@@ -81,3 +81,25 @@ class Confirmed_Booking(models.Model):
 
     def __str__(self):
         return f'{self.start_time} - {self.end_time} for {self.equipment}'
+    
+class Archived_Project(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=400)
+    lab = models.ForeignKey('Lab', on_delete=models.CASCADE, related_name='archived_projects')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now) 
+
+    def __str__(self): 
+        return self.name
+    
+
+class Archived_Booking(models.Model): 
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default=timezone.now)
+    end_time = models.DateTimeField(default=timezone.now)
+    materials = models.ManyToManyField(Material)
+    project = models.ForeignKey(Archived_Project, on_delete=models.CASCADE, null=True, blank=True,default=None)
+
+    def __str__(self):
+        return f'{self.start_time} - {self.end_time} for {self.equipment}'
