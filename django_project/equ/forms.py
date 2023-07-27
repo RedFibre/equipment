@@ -1,10 +1,11 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from .models import Project, Equipment, Booking,Material
-from django.forms import inlineformset_factory,formset_factory,DateTimeInput, DateInput
+from .models import Project, Booking,Material
+from django.forms import formset_factory,DateTimeInput, DateInput
 
-
-
+class CustomDateTimeInput(DateTimeInput):
+    def format_value(self, value):
+        value = value.replace(minute=0, second=0)
+        return super().format_value(value)
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -22,8 +23,8 @@ class BookingForm(forms.ModelForm):
         fields = ['equipment','start_time', 'end_time', 'materials']
         widgets = {
             'equipment': forms.Select(choices=()),
-            'start_time': DateTimeInput(format='%d/%m/%Y %I:%M %p'),
-            'end_time': DateTimeInput(format='%d/%m/%Y %I:%M %p')
+            'start_time': CustomDateTimeInput(format='%d/%m/%Y %I:%M %p'),
+            'end_time': CustomDateTimeInput(format='%d/%m/%Y %I:%M %p')
         }
 
     def __init__(self, *args, **kwargs):
@@ -31,8 +32,25 @@ class BookingForm(forms.ModelForm):
         available_materials = kwargs.pop('available_materials')
         super().__init__(*args, **kwargs)
         self.fields['equipment'].widget.choices = [(equipment.id, equipment.name) for equipment in available_equipment]
-        self.fields['start_time'].widget = DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
-        self.fields['end_time'].widget = DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
+        self.fields['start_time'].widget = CustomDateTimeInput(attrs={'type': 'datetime-local','step': '3600'},format='%Y-%m-%d %H:%M')
+        self.fields['end_time'].widget = CustomDateTimeInput(attrs={'type': 'datetime-local', 'step': '3600'},format='%Y-%m-%d %H:%M')
         self.fields['materials'].queryset = available_materials
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+
+        # Custom validation for the format of start_time and end_time
+        if start_time and start_time.minute != 0:
+            self.add_error("start_time", "Booking should be in HH:00 Format")
+
+        if end_time and end_time.minute != 0:
+            self.add_error("end_time", "Booking should be in HH:00 Format")
         
+        # Custom validation to check if start_time < end_time
+        if start_time and end_time and start_time >= end_time:
+             self.add_error("end_time", "End Time should be greater than Start Time")
+        
+        return cleaned_data
 BookingFormSet = formset_factory(BookingForm, extra=1) 

@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,Booking,UserLab,Material,Confirmed_Project,Confirmed_Booking
+from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking
 from .forms import ProjectForm,BookingFormSet
-from datetime import datetime,timedelta,timezone
-from django.views import View
+from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
+from django.core.exceptions import ValidationError
 
 
 def user_redirect(request):
@@ -153,11 +153,13 @@ def u_settings(request):
 
 
 #PROJECT CREATION
+
 def u_create_project(request):
     current_lab = request.user.userlab.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
     available_materials = Material.objects.filter(equipment__lab=current_lab)
     if request.method == 'POST':
+        print(request.POST)
         project_form = ProjectForm(request.POST)
         booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
         if project_form.is_valid() and booking_formset.is_valid():
@@ -171,10 +173,21 @@ def u_create_project(request):
                 booking.equipment = data.get('equipment')
                 booking.start_time = data.get('start_time')
                 booking.end_time = data.get('end_time')
+                  # Check for overlapping bookings
+                overlapping_bookings = Confirmed_Booking.objects.filter(
+                    equipment=booking.equipment,
+                    start_time__lt=booking.end_time,
+                    end_time__gt=booking.start_time,
+                )
+                if overlapping_bookings.exists():
+                    error_message = "You Booked a slot that was already booked. Please check the calendar."
+                    project.delete()
+                    return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset, 'error_message': error_message})
                 booking.save()
                 materials = data.get('materials')
                 booking.materials.set(materials)              
             return redirect('u_projects')
+    
     else:
         project_form = ProjectForm()
         booking_formset = BookingFormSet(form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})

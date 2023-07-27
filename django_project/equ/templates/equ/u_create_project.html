@@ -18,8 +18,12 @@
   {{ project_form.end_date }}
   <br>
 
+  {% if error_message %}
+  <div class="error-message">>{{ error_message }}</div>
+  {% endif %}
+
   <!-- Bookings Container - Initially Hidden -->
-  <div id="bookings-container" style="display: none;">
+  <div id="bookings-container" >
     <div class="booking-form">
       <h3>Booking 1</h3>
       {{ booking_formset.management_form }}
@@ -27,28 +31,40 @@
       <div id="booking-{{ forloop.counter }}">
         <!-- Equipment Dropdown for Booking Slot -->
         <label for="{{ form.equipment.id_for_label }}">Equipment:</label>
-        {{ form.equipment }}
-        <br>
-        <!-- Start Time for Booking Slot -->
-        <label for="{{ form.start_time.id_for_label }}">Start Time:</label>
-        {{ form.start_time }}
-        <br>
-        <!-- End Time for Booking Slot -->
-        <label for="{{ form.end_time.id_for_label }}">End Time:</label>
-        {{ form.end_time }}
-        <br>
-        <!-- Materials Checkbox for Booking Slot -->
-        <label for="{{ form.materials.id_for_label }}">Materials:</label>
-        {{ form.materials }}
-        <br>
+      {{ form.equipment }}
+      {% if form.equipment.errors %}
+        <div class="error-message">{{ form.equipment.errors }}</div>
+      {% endif %}
+      <br>
+      <!-- Start Time for Booking Slot -->
+      <label for="{{ form.start_time.id_for_label }}">Start Time:</label>
+      {{ form.start_time }}
+      {% if form.start_time.errors %}
+        <div class="error-message">{{ form.start_time.errors }}</div>
+      {% endif %}
+      <br>
+      <!-- End Time for Booking Slot -->
+      <label for="{{ form.end_time.id_for_label }}">End Time:</label>
+      {{ form.end_time }}
+      {% if form.end_time.errors %}
+        <div class="error-message">{{ form.end_time.errors }}</div>
+      {% endif %}
+      <br>
+      <!-- Materials Checkbox for Booking Slot -->
+      <label for="{{ form.materials.id_for_label }}">Materials:</label>
+      {{ form.materials }}
+      {% if form.materials.errors %}
+        <div class="error-message">{{ form.materials.errors }}</div>
+      {% endif %}
+      <br>
       </div>
       {% endfor %}
     </div>
   </div>
 
-  <button type="button" id="create-slot-btn">Create Slots</button>
 
-  <button type="button" id="add-booking-btn" style="display: none;">Add Slot</button>
+
+  <button type="button" id="add-booking-btn">Add Slot</button>
 
 
   <button type="submit" class="submit-btn">Submit</button>
@@ -61,12 +77,6 @@
   const equipmentDropdown = document.getElementById("id_booking_set-0-equipment");
   const createslotbtn = document.getElementById('create-slot-btn');
 
-  // Show Bookings Container When Add Slot Button is Clicked
-  createslotbtn.addEventListener('click', () => {
-    createslotbtn.style.display = 'none'; // Hide Create Slot Button
-    addBookingBtn.style.display = 'block'; // Show Add Booking Button
-    bookingsContainer.style.display = 'block';
-  });
 
   // Enable/Disable Add Slot Button Based on Equipment Dropdown Selection
   equipmentDropdown.addEventListener("change", () => {
@@ -78,4 +88,6 @@
     }
   });
 </script>
+
+ 
 {% endblock content %}
