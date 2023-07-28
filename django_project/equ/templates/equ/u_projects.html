@@ -2,7 +2,8 @@
 {% block content %}    
 
 <div class="my_projects">
-  
+
+
 <div class="mp1">
   <a href="{% url 'c_list' %}" class="btn-uproject">View Calendar</a>
 <br>
@@ -35,6 +36,9 @@
 </div>
 </div>
  
-
+<h2 class="my_proj">Notifications</h2>
+{% for notification in user_notifications %}
+  {{notification.message}} 
+{% endfor %}
 
 {% endblock content %}   

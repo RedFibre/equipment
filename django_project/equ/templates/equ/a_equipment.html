@@ -4,7 +4,13 @@
 
 <h1>Equipment Page</h1>
 
-
+{% for equipment in equipments %}
+  {{ equipment.name }}
+  Materials:
+  {% for material in equipment.material_set.all %}
+    {{ material.name }}
+  {% endfor %}
+{% endfor %}
   
 
 {% endblock content %}   

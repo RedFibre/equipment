@@ -1,0 +1,26 @@
+{% extends "equ/s_base.html" %}
+{% block content %}    
+
+
+<h1>Lab: {{lab.name}}</h1>
+
+<h2>Projects</h2>
+<ul class="project_list">
+    {% for project in lab_confirmed_projects %}
+      <li>{{ project.name }}</a></li>
+    {% empty %}
+      <li>No projects found.</li>
+    {% endfor %}
+  </ul>
+
+<h2>Equipments</h2>
+  <ul class="equipment_list">
+  {% for equipment in equipments %}
+    {{ equipment.name }}
+    Materials:
+    {% for material in equipment.material_set.all %}
+      {{ material.name }}
+    {% endfor %}
+  {% endfor %}
+{% endblock content %}   
+</ul>

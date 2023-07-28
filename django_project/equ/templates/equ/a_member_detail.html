@@ -1,0 +1,14 @@
+{% extends "equ/a_base.html" %}
+{% block content %}
+  
+
+    
+<h2>{{user.username}}</h2>
+<br>
+<h2>Projects</h2>
+{% for project in projects %}
+<br>
+{{project.name}}
+{% endfor %}
+
+{% endblock content %}

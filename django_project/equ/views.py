@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project
+from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification
 from .forms import ProjectForm,BookingFormSet
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
@@ -38,7 +38,9 @@ def s_overview(request):
 @login_required
 @superadmin_required
 def s_labs(request):
-    return render(request, 'equ/s_labs.html')
+    labs = Lab.objects.all()
+    context = {'labs' : labs}
+    return render(request, 'equ/s_labs.html',context)
 
 @login_required
 @superadmin_required
@@ -64,15 +66,30 @@ def a_overview(request):
 
 @login_required
 @admin_required
-def a_members(request):  
-    users = User.objects.all()
+def a_members(request):
+    user = request.user  
+    lab = Lab.objects.get(lab_admin=user)
+    users = User.objects.filter(userlab__lab=lab)
     context = {'users': users}
     return render(request, 'equ/a_members.html',context)
 
 @login_required
 @admin_required
+def a_member_detail(request,pk):
+    user = get_object_or_404(User,pk=pk)
+    projects = Confirmed_Project.objects.filter(user=user)
+    context = {'user': user, 'projects':projects}
+    return render(request, 'equ/a_member_detail.html',context)
+
+@login_required
+@admin_required
 def a_equipment(request):
-    return render(request, 'equ/a_equipment.html')
+    user = request.user  
+    lab = Lab.objects.get(lab_admin=user)
+    equipment = Equipment.objects.filter(lab=lab)
+    equipment = equipment.prefetch_related('material_set')
+    context = {'equipments':equipment}
+    return render(request, 'equ/a_equipment.html',context)
 
 @login_required
 @admin_required
@@ -109,11 +126,12 @@ def a_project_detail(request, pk):
                     start_time=booking.start_time,
                     end_time=booking.end_time)
                 confirmed_booking.materials.set(booking.materials.all())
-
+            Notification.objects.create(user=project.user,message=f"Your Request for Project {project.name} has been Accepted",timestamp=datetime.now())
             project.delete()
             return redirect('a_activity')
 
         elif action == 'reject':
+            Notification.objects.create(user=project.user,message=f"Your Request for Project {project.name} has been Rejected",timestamp=datetime.now())
             # Delete the project
             project.delete()
 
@@ -137,7 +155,8 @@ def labuser_required(function):
 def u_projects(request):
     user_projects = Project.objects.filter(user=request.user)
     user_confirmed_projects = Confirmed_Project.objects.filter(user=request.user)
-    context = {'user_projects': user_projects, 'user_confirmed_projects':user_confirmed_projects}
+    user_notifications = Notification.objects.filter(user=request.user)
+    context = {'user_projects': user_projects, 'user_confirmed_projects':user_confirmed_projects, 'user_notifications': user_notifications}
     return render(request, 'equ/u_projects.html', context)
 
 
@@ -345,6 +364,5 @@ def c_m3(request, pk):
     }
 
     return render(request, 'equ/c_m3.html', context)
-
 
 

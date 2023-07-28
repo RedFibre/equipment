@@ -103,3 +103,11 @@ class Archived_Booking(models.Model):
 
     def __str__(self):
         return f'{self.start_time} - {self.end_time} for {self.equipment}'
+    
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message

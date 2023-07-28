@@ -5,6 +5,10 @@
 <h1>Labs</h1>
 
 
-  
+{% for lab in labs%}
+{{ lab.name }} - {{lab.lab_admin}}
+{% endfor %}
+
+
 
 {% endblock content %}   
