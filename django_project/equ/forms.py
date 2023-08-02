@@ -1,7 +1,11 @@
 from django import forms
-from .models import Project, Booking,Material
+from .models import Project, Booking,Material,Profile
 from django.forms import formset_factory,DateTimeInput, DateInput
 from datetime import datetime
+from django.contrib.auth.forms import AuthenticationForm
+
+class CustomLoginForm(AuthenticationForm):
+    login_reason = forms.CharField(max_length=255)
 
 class CustomDateTimeInput(DateTimeInput):
     def format_value(self, value):
@@ -62,3 +66,32 @@ class BookingForm(forms.ModelForm):
         
         return cleaned_data
 BookingFormSet = formset_factory(BookingForm, extra=1) 
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            'user_type',
+            'first_name',
+            'last_name',
+            'contact_number',
+            'email',
+            'branch',
+            'year_of_graduation',
+            'institute_name',
+            'training_record',
+            'machines_trained_in',
+            'how_heard_about',
+        ]
+        widgets = {
+            'user_type': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'branch': forms.TextInput(attrs={'class': 'form-control'}),
+            'year_of_graduation': forms.NumberInput(attrs={'class': 'form-control'}),
+            'institute_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'training_record': forms.Select(attrs={'class': 'form-control'}),
+            'machines_trained_in': forms.TextInput(attrs={'class': 'form-control'}),
+            'how_heard_about': forms.Select(attrs={'class': 'form-control'}),
+        }

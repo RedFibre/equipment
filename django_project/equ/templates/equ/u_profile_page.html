@@ -1,0 +1,23 @@
+{% extends "equ/u_base.html" %}
+{% block content %}    
+
+
+<h1>Profile</h1>
+<div class="my_projects">
+  <div class="mp1">
+
+        <p>Name: {{ profile.first_name }} {{ profile.last_name }}</p>
+        <p>Username: {{ user.username }}</p>
+        <p>User Type: {{ profile.user_type }}</p>
+        <p>Contact Number: {{ profile.contact_number }}</p>
+        <p>Email: {{ profile.email }}</p>
+        <p>Branch: {{ profile.branch }}</p>
+        <p>Year of Graduation: {{ profile.year_of_graduation }}</p>
+        <p>Institute Name: {{ profile.institute_name }}</p>
+        <p>Training Record: {{ profile.training_record }}</p>
+        <p>Machines Trained In: {{ profile.machines_trained_in }}</p>
+        
+  </div>
+  </div>
+
+{% endblock content %}   

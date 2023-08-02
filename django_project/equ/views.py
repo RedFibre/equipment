@@ -1,13 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification
-from .forms import ProjectForm,BookingFormSet
+from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile
+from .forms import ProjectForm,BookingFormSet,ProfileForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
 from django.core.exceptions import ValidationError
-
 
 def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
@@ -153,10 +152,11 @@ def labuser_required(function):
 @login_required
 @labuser_required
 def u_projects(request):
+    profile = get_object_or_404(Profile, user=request.user)
     user_projects = Project.objects.filter(user=request.user)
     user_confirmed_projects = Confirmed_Project.objects.filter(user=request.user)
     user_notifications = Notification.objects.filter(user=request.user)
-    context = {'user_projects': user_projects, 'user_confirmed_projects':user_confirmed_projects, 'user_notifications': user_notifications}
+    context = {'user_projects': user_projects, 'user_confirmed_projects':user_confirmed_projects, 'user_notifications': user_notifications, 'profile':profile}
     return render(request, 'equ/u_projects.html', context)
 
 
@@ -215,9 +215,7 @@ def u_create_project(request):
 
 
 
-#EDIT PROJECT
-from datetime import datetime
-from django.shortcuts import redirect
+
 
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
@@ -260,6 +258,13 @@ def u_confirmed_project_detail(request, pk):
 
 
     return render(request, 'equ/u_confirmed_project_detail.html', context)
+
+def u_profile_page(request):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    context = {'user':user,'profile':profile}
+    return render(request, 'equ/u_profile_page.html', context)
+
 
 #CALENDAR VIEWS
 
@@ -366,3 +371,14 @@ def c_m3(request, pk):
     return render(request, 'equ/c_m3.html', context)
 
 
+def u_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('user_redirect') 
+    else:
+        form = ProfileForm()
+    return render(request, 'equ/u_profile.html', {'form': form})

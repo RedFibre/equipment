@@ -4,7 +4,10 @@
 <div class="my_projects">
 
 
+
 <div class="mp1">
+  <a href="{% url 'u_profile_page' %}"> {{profile.first_name}}  {{profile.last_name}}</small>
+
   <a href="{% url 'c_list' %}" class="btn-uproject">View Calendar</a>
 <br>
 
@@ -34,11 +37,11 @@
 <div class="mp2">
   <a href="{% url 'u_create_project' %}" class="btn-uproject">Create Project Request</a>
 </div>
-</div>
- 
 <h2 class="my_proj">Notifications</h2>
 {% for notification in user_notifications %}
   {{notification.message}} 
 {% endfor %}
+
+</div>
 
 {% endblock content %}   

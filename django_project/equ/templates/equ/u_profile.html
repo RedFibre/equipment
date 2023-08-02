@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/u_projects.css' %}">
+</head>
+<body>
+      <h1>Profile Page</h1>
+        <form method="post" action="{% url 'u_profile' %}" class="project-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    
+</body>
+</html>
