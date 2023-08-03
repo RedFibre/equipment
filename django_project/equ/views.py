@@ -318,10 +318,31 @@ def u_profile_page(request):
 
 @login_required
 def c_list(request):
-    try:
-        lab = request.user.profile.lab
-    except:
+    if request.user.groups.filter(name='admin').exists():
         lab = Lab.objects.get(lab_admin=request.user)
+    elif request.user.groups.filter(name='labuser').exists():
+        lab = request.user.profile.lab
+        
+    equipment_of_lab = Equipment.objects.filter(lab=lab)
+
+    current_date = datetime.today()
+    months_names = []
+    current_month_name = current_date.strftime("%B")
+    months_names.append(current_month_name)
+    for i in range(1, 3):
+        next_month = current_date.replace(month=current_date.month + i)
+        next_month_name = next_month.strftime("%B")
+        months_names.append(next_month_name)
+
+
+    context = {'my_lab': lab, 'equipments':equipment_of_lab,'months':months_names}
+    return render(request, 'equ/c_list.html', context)
+
+@login_required
+def c_list_superadmin(request,pk):
+    if request.user.groups.filter(name='superadmin').exists():
+        lab = get_object_or_404(Lab,pk=pk)
+        
     equipment_of_lab = Equipment.objects.filter(lab=lab)
 
     current_date = datetime.today()

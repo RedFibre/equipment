@@ -11,6 +11,7 @@ urlpatterns = [
     path('a_activity/',views.a_activity,name="a_activity"),
     path('a_project_detail/<int:pk>/', views.a_project_detail, name='a_project_detail'),
     path('a_confirmed_project_detail/<int:pk>/', views.a_confirmed_project_detail, name='a_confirmed_project_detail'),
+    path('c_list_superadmin/<int:pk>/',views.c_list_superadmin,name="c_list_superadmin"),
     path('c_list/',views.c_list,name="c_list"),
     path('u_projects/',views.u_projects,name="u_projects"),
     path('u_help/',views.u_help,name="u_help"),
