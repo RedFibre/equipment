@@ -5,8 +5,11 @@
 <h1>Labs</h1>
 
 
+<div class="my_projects">
+    <div class="mp1">  
+
 {% for lab in labs%}
-{{ lab.name }} - {{lab.lab_admin}}
+<h2> <a href="{% url 's_lab_detail' lab.pk %}" >{{ lab.name }} : {{lab.lab_admin}}</a></h2>
 {% endfor %}
 
 

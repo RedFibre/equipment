@@ -1,4 +1,4 @@
-{% extends "equ/a_base.html" %}
+{% extends "equ/s_base.html" %}
 {% block content %}
   
 
@@ -19,7 +19,7 @@
 <h1>Projects</h1>
 {% for project in projects %}
 <br>
-<h2><a href="{% url 'a_confirmed_project_detail' project.pk %}">{{ project.name }}</a></h2>
+<h2><a href="{% url 's_confirmed_project_detail' project.pk %}">{{ project.name }}</a></h2>
 {%endfor%}
 
 <h1>Logs</h1>

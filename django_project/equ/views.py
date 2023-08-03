@@ -44,13 +44,38 @@ def s_labs(request):
 
 @login_required
 @superadmin_required
-def s_admins(request):
-    return render(request, 'equ/s_admins.html')
+def s_lab_detail(request,pk):
+    lab = get_object_or_404(Lab,pk=pk)
+    users = User.objects.filter(profile__lab=lab)
+    equipment = Equipment.objects.filter(lab=lab)
+    equipment = equipment.prefetch_related('material_set')
+    context = {'users': users, 'equipments':equipment,'lab':lab}
+    return render(request, 'equ/s_lab_detail.html',context)
+@login_required
+@superadmin_required
+def s_member_detail(request,pk):
+    user = get_object_or_404(User,pk=pk)
+    projects = Confirmed_Project.objects.filter(user=user)
+    profile = Profile.objects.get(user=user)
+    logs = UserActivityLog.objects.filter(user=user)
+    context = {'user': user, 'projects':projects, 'profile':profile,'logs':logs}
+    return render(request, 'equ/s_member_detail.html',context)
+@login_required
+@superadmin_required
+def s_confirmed_project_detail(request, pk):
+    project = get_object_or_404(Confirmed_Project, pk=pk)
+    bookings = Confirmed_Booking.objects.filter(project=project)
+    context = {
+        'project': project,
+        'bookings': bookings
+    }
+    return render(request, 'equ/s_confirmed_project_detail.html', context)
 
 @login_required
 @superadmin_required
-def s_projects(request):
-    return render(request, 'equ/s_projects.html')
+def s_admins(request):
+    return render(request, 'equ/s_admins.html')
+
 
 @login_required
 @superadmin_required
@@ -87,7 +112,9 @@ def a_members(request):
 def a_member_detail(request,pk):
     user = get_object_or_404(User,pk=pk)
     projects = Confirmed_Project.objects.filter(user=user)
-    context = {'user': user, 'projects':projects}
+    profile = Profile.objects.get(user=user)
+    logs = UserActivityLog.objects.filter(user=user)
+    context = {'user': user, 'projects':projects, 'profile':profile,'logs':logs}
     return render(request, 'equ/a_member_detail.html',context)
 
 @login_required
@@ -113,6 +140,17 @@ def a_activity(request):
 
 @login_required
 @admin_required
+def a_confirmed_project_detail(request, pk):
+    project = get_object_or_404(Confirmed_Project, pk=pk)
+    bookings = Confirmed_Booking.objects.filter(project=project)
+    context = {
+        'project': project,
+        'bookings': bookings
+    }
+    return render(request, 'equ/a_confirmed_project_detail.html', context)
+
+@login_required
+@admin_required
 def a_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
     bookings = Booking.objects.filter(project=project)
@@ -135,12 +173,12 @@ def a_project_detail(request, pk):
                     start_time=booking.start_time,
                     end_time=booking.end_time)
                 confirmed_booking.materials.set(booking.materials.all())
-            Notification.objects.create(user=project.user,message=f"Your Request for Project {project.name} has been Accepted",timestamp=datetime.now())
+            Notification.objects.create(user=project.user,message=f"Your Request for {project.name} has been Accepted",timestamp=datetime.now())
             project.delete()
             return redirect('a_activity')
 
         elif action == 'reject':
-            Notification.objects.create(user=project.user,message=f"Your Request for Project {project.name} has been Rejected",timestamp=datetime.now())
+            Notification.objects.create(user=project.user,message=f"Your Request for {project.name} has been Rejected",timestamp=datetime.now())
             # Delete the project
             project.delete()
 
@@ -280,7 +318,10 @@ def u_profile_page(request):
 
 @login_required
 def c_list(request):
-    lab = request.user.profile.lab
+    try:
+        lab = request.user.profile.lab
+    except:
+        lab = Lab.objects.get(lab_admin=request.user)
     equipment_of_lab = Equipment.objects.filter(lab=lab)
 
     current_date = datetime.today()

@@ -2,17 +2,18 @@
 {% block content %}    
 
 <div class="my_projects">
-  <div class="mp1">
 <h1>Equipment Page</h1>
 
 {% for equipment in equipments %}
-  {{ equipment.name }}
-  Materials:
+<br><br>
+  <h2>{{ equipment.name }}</h2>
+  <br>Materials:
+  <ul>
   {% for material in equipment.material_set.all %}
-    {{ material.name }}
+    <li>{{ material.name }}</li>
   {% endfor %}
+  </ul>
 {% endfor %}
-  </div>
 </div>
 
 {% endblock content %}   

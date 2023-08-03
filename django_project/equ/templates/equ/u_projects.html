@@ -38,7 +38,7 @@
 </div>
 <h2 class="my_proj">Notifications</h2>
 {% for notification in user_notifications %}
-  {{notification.message}} 
+  {{notification.message}} <small>{{notification.time_stamp}}</small><br>
 {% endfor %}
 
 </div>

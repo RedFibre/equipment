@@ -3,24 +3,36 @@
 
 
 <h1>Lab: {{lab.name}}</h1>
-
-<h2>Projects</h2>
-<ul class="project_list">
-    {% for project in lab_confirmed_projects %}
-      <li>{{ project.name }}</a></li>
-    {% empty %}
-      <li>No projects found.</li>
+<br>
+<div class="members">
+  <h2>User List</h2>
+<table class="user-table">
+  <thead>
+    <tr>
+      <th>Username</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+      <tr>
+        <td><a href="{% url 's_member_detail' user.pk %}">{{ user.username }}</a></td>
+      </tr>
     {% endfor %}
-  </ul>
+  </tbody>
+</table>
+
 
 <h2>Equipments</h2>
   <ul class="equipment_list">
-  {% for equipment in equipments %}
-    {{ equipment.name }}
-    Materials:
-    {% for material in equipment.material_set.all %}
-      {{ material.name }}
+    {% for equipment in equipments %}
+    <br><br>
+      <h2>{{ equipment.name }}</h2>
+      <br>Materials:
+      <ul>
+      {% for material in equipment.material_set.all %}
+        <li>{{ material.name }}</li>
+      {% endfor %}
+      </ul>
     {% endfor %}
-  {% endfor %}
+</div>
 {% endblock content %}   
-</ul>

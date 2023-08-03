@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib import admin
 from . import views
 
 urlpatterns = [
@@ -9,6 +10,7 @@ urlpatterns = [
     path('a_equipment/',views.a_equipment,name="a_equipment"),
     path('a_activity/',views.a_activity,name="a_activity"),
     path('a_project_detail/<int:pk>/', views.a_project_detail, name='a_project_detail'),
+    path('a_confirmed_project_detail/<int:pk>/', views.a_confirmed_project_detail, name='a_confirmed_project_detail'),
     path('c_list/',views.c_list,name="c_list"),
     path('u_projects/',views.u_projects,name="u_projects"),
     path('u_help/',views.u_help,name="u_help"),
@@ -17,8 +19,10 @@ urlpatterns = [
     path('u_profilepage/', views.u_profile_page, name='u_profile_page'),
     path('s_overview/', views.s_overview, name='s_overview'),
     path('s_labs/', views.s_labs, name='s_labs'),
+    path('s_lab_detail/<int:pk>/', views.s_lab_detail, name='s_lab_detail'),
+    path('s_member_detail/<int:pk>/', views.s_member_detail, name='s_member_detail'),
+    path('s_confirmed_project_detail/<int:pk>/', views.s_confirmed_project_detail, name='s_confirmed_project_detail'),
     path('s_admins/', views.s_admins, name='s_admins'),
-    path('s_projects/', views.s_projects, name='s_projects'),
     path('s_equipment/', views.s_equipment, name='s_equipment'),
     path('u_create_project/', views.u_create_project, name='u_create_project'),
     path('u_project_detail/<int:pk>/', views.u_project_detail, name='u_project_detail'),
