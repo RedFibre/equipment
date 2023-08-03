@@ -2,7 +2,8 @@
 {% block content %}    
 
 
-<h1>Labs</h1>
+<div class="labs">
+    <h1>Labs</h1>
 
 
 <div class="my_projects">
@@ -11,6 +12,7 @@
 {% for lab in labs%}
 <h2> <a href="{% url 's_lab_detail' lab.pk %}" >{{ lab.name }} : {{lab.lab_admin}}</a></h2>
 {% endfor %}
+</div>
 
 
 
