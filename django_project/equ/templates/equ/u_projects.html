@@ -6,9 +6,8 @@
 
 
 <div class="mp1">
-  <a href="{% url 'u_profile_page' %}"> {{profile.first_name}}  {{profile.last_name}}</small>
-
   <a href="{% url 'c_list' %}" class="btn-uproject">View Calendar</a>
+  <small><a href="{% url 'u_profile_page' %}" class="btn-uproject"> {{profile.first_name}}  {{profile.last_name}}</a></small>
 <br>
 
 <h2 class="my_proj">My Projects</h2>

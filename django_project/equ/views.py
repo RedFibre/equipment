@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile
+from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
 from .forms import ProjectForm,BookingFormSet,ProfileForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
@@ -61,7 +61,15 @@ def s_equipment(request):
 @login_required
 @admin_required
 def a_overview(request):
-    return render(request, 'equ/a_overview.html')
+    lab = request.user.userlab.lab
+    users = list(UserActivityLog.objects.filter(user__lab = lab))
+    active_users =[]
+    for user in users:
+        if user.logout_time is None:
+            active_users.append(user)
+    active_user_count = active_users.count()
+    context = {'active_user_count' :active_user_count}
+    return render(request, 'equ/a_overview.html',context)
 
 @login_required
 @admin_required
