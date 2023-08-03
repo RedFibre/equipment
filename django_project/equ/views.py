@@ -6,7 +6,8 @@ from .forms import ProjectForm,BookingFormSet,ProfileForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
-from django.core.exceptions import ValidationError
+from django.contrib.auth.models import Group
+
 
 def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
@@ -61,13 +62,14 @@ def s_equipment(request):
 @login_required
 @admin_required
 def a_overview(request):
-    lab = request.user.userlab.lab
-    users = list(UserActivityLog.objects.filter(user__lab = lab))
+    lab = Lab.objects.get(lab_admin=request.user)
+    users = list(UserActivityLog.objects.filter(user__profile__lab = lab))
     active_users =[]
+    active_user_count = 0
     for user in users:
         if user.logout_time is None:
-            active_users.append(user)
-    active_user_count = active_users.count()
+            active_users.append(user.user)
+            active_user_count = active_user_count + 1
     context = {'active_user_count' :active_user_count}
     return render(request, 'equ/a_overview.html',context)
 
@@ -76,7 +78,7 @@ def a_overview(request):
 def a_members(request):
     user = request.user  
     lab = Lab.objects.get(lab_admin=user)
-    users = User.objects.filter(userlab__lab=lab)
+    users = User.objects.filter(profile__lab=lab)
     context = {'users': users}
     return render(request, 'equ/a_members.html',context)
 
@@ -182,7 +184,7 @@ def u_settings(request):
 #PROJECT CREATION
 
 def u_create_project(request):
-    current_lab = request.user.userlab.lab
+    current_lab = request.user.profile.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
     available_materials = Material.objects.filter(equipment__lab=current_lab)
     if request.method == 'POST':
@@ -278,7 +280,7 @@ def u_profile_page(request):
 
 @login_required
 def c_list(request):
-    lab = request.user.userlab.lab
+    lab = request.user.profile.lab
     equipment_of_lab = Equipment.objects.filter(lab=lab)
 
     current_date = datetime.today()
@@ -296,7 +298,6 @@ def c_list(request):
 
 @login_required
 def c_m1(request, pk):
-    lab = request.user.userlab.lab
     equipment = get_object_or_404(Equipment, pk=pk)
     bookings = Confirmed_Booking.objects.filter(equipment=equipment)
 
@@ -322,7 +323,6 @@ def c_m1(request, pk):
 
 @login_required
 def c_m2(request, pk):
-    lab = request.user.userlab.lab
     equipment = get_object_or_404(Equipment, pk=pk)
     bookings = Confirmed_Booking.objects.filter(equipment=equipment)
 
@@ -350,7 +350,6 @@ def c_m2(request, pk):
 
 @login_required
 def c_m3(request, pk):
-    lab = request.user.userlab.lab
     equipment = get_object_or_404(Equipment, pk=pk)
     bookings = Confirmed_Booking.objects.filter(equipment=equipment)
 
@@ -381,10 +380,16 @@ def c_m3(request, pk):
 
 def u_profile(request):
     if request.method == 'POST':
+        user = request.user
         form = ProfileForm(request.POST)
         if form.is_valid():
             profile = form.save(commit=False)
-            profile.user = request.user
+            profile.user = user
+            labuser_group = Group.objects.get(name='labuser')
+            user.groups.add(labuser_group)
+            lab_id = user.username[:3]  # Extract the first 3 digits from the username
+            lab = Lab.objects.get(name=lab_id)  # Query the Lab model to find the matching lab
+            profile.lab = lab
             profile.save()
             return redirect('user_redirect') 
     else:

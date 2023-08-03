@@ -15,13 +15,7 @@ class Lab(models.Model):
 
     def __str__(self):
         return self.name
-    
-class UserLab(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return f'{self.user} - {self.lab}'
+
 
 class Profile(models.Model):
     USER_TYPES = [
@@ -45,6 +39,7 @@ class Profile(models.Model):
         ('Others', 'Others'),
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE, null=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPES)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)

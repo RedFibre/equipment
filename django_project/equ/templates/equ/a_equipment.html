@@ -1,7 +1,8 @@
 {% extends "equ/a_base.html" %}
 {% block content %}    
 
-
+<div class="my_projects">
+  <div class="mp1">
 <h1>Equipment Page</h1>
 
 {% for equipment in equipments %}
@@ -11,6 +12,7 @@
     {{ material.name }}
   {% endfor %}
 {% endfor %}
-  
+  </div>
+</div>
 
 {% endblock content %}   
