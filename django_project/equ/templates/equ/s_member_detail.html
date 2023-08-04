@@ -5,16 +5,16 @@
 <div class="my_projects">
     <div class="mp1">  
 <h2>{{user.username}}</h2>
-<p>Name: {{ profile.first_name }} {{ profile.last_name }}</p>
-        <p>Lab: {{ profile.lab }}</p>
-        <p>User Type: {{ profile.user_type }}</p>
-        <p>Contact Number: {{ profile.contact_number }}</p>
-        <p>Email: {{ profile.email }}</p>
-        <p>Branch: {{ profile.branch }}</p>
-        <p>Year of Graduation: {{ profile.year_of_graduation }}</p>
-        <p>Institute Name: {{ profile.institute_name }}</p>
-        <p>Training Record: {{ profile.training_record }}</p>
-        <p>Machines Trained In: {{ profile.machines_trained_in }}</p>
+<p><span style="color: black;">Name:</span> {{ profile.first_name }} {{ profile.last_name }}</p>
+        <p><span style="color: black;">Lab: </span>{{ profile.lab }}</p>
+        <p><span style="color: black;">User Type: </span>{{ profile.user_type }}</p>
+        <p><span style="color: black;">Contact Number: </span>{{ profile.contact_number }}</p>
+        <p><span style="color: black;">Email: </span>{{ profile.email }}</p>
+        <p><span style="color: black;">Branch: </span>{{ profile.branch }}</p>
+        <p><span style="color: black;">Year of Graduation: </span>{{ profile.year_of_graduation }}</p>
+        <p><span style="color: black;">Institute Name: </span>{{ profile.institute_name }}</p>
+        <p><span style="color: black;">Training Record: </span>{{ profile.training_record }}</p>
+        <p><span style="color: black;">Machines Trained In: </span>{{ profile.machines_trained_in }}</p>
 <br>
 <h1>Projects</h1>
 {% for project in projects %}
@@ -22,8 +22,8 @@
 <h2><a href="{% url 's_confirmed_project_detail' project.pk %}">{{ project.name }}</a></h2>
 {%endfor%}
 
-<h1>Logs</h1>
-<table>
+<h1 class="lgs">Logs</h1>
+<table class="logs">
     <tr>
         <th>Log In</th>
         <th>Log Out</th>
