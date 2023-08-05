@@ -48,6 +48,7 @@ class BookingForm(forms.ModelForm):
         self.fields['end_time'].widget = CustomDateTimeInput(attrs={'type': 'datetime-local', 'step': '3600'},format='%Y-%m-%d %H:%M')
         self.fields['materials'].queryset = available_materials
 
+
     def clean(self):
         cleaned_data = super().clean()
         start_time = cleaned_data.get('start_time')

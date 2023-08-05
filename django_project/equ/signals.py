@@ -1,21 +1,26 @@
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Notification
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.utils import timezone
 from .models import UserActivityLog
 
-@receiver(pre_save, sender=Notification)
+@receiver(post_save, sender=Notification)
 def delete_old_notifications(sender, instance, **kwargs):
     # Get the count of notifications for the user
     notification_count = Notification.objects.filter(user=instance.user).count()
 
-    # If the count exceeds 10, delete the oldest 5 notifications
     if notification_count > 10:
-        oldest_notifications = Notification.objects.filter(user=instance.user).order_by('timestamp')[:5]
-        oldest_notifications.delete()
+        notifications_to_keep = 5
+        notifications_to_delete = notification_count - notifications_to_keep
+
+        oldest_notifications = Notification.objects.filter(user=instance.user).order_by('timestamp')[:notifications_to_delete]
+
+        # Delete each of the oldest notifications
+        for notification in oldest_notifications:
+            notification.delete()
         
-pre_save.connect(delete_old_notifications, sender=Notification)
+post_save.connect(delete_old_notifications, sender=Notification)
 
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):

@@ -1,10 +1,9 @@
 {% extends "equ/a_base.html" %}
 {% block content %}
   <div class="project-details">
-    <h1>Project Details</h1>
-    <br>
+    <h1>{{ project.name }}</h1>
+    <br> 
     <div class="project-info">
-      <p><strong>Name:</strong> {{ project.name }}</p>
       <p><strong>Description:</strong> {{ project.description }}</p>
       <p><strong>Lab:</strong> {{ project.lab }}</p>
       <p><strong>User:</strong> {{ project.user }}</p>

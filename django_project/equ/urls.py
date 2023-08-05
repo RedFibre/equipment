@@ -30,5 +30,5 @@ urlpatterns = [
     path('c_m1/<int:pk>/', views.c_m1, name='c_m1'),
     path('c_m2/<int:pk>/', views.c_m2, name='c_m2'),
     path('c_m3/<int:pk>/', views.c_m3, name='c_m3'),
-    path('u_confirmed_project_detail/<int:pk>/', views.u_confirmed_project_detail, name='u_confirmed_project_detail'),
+    path('u_confirmed_project_detail/<int:pk>/', views.u_confirmed_project_detail, name='u_confirmed_project_detail')
 ]

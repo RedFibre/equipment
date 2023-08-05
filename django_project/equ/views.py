@@ -7,7 +7,7 @@ from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
 from django.contrib.auth.models import Group
-
+from django.http import JsonResponse
 
 def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
@@ -261,9 +261,7 @@ def u_create_project(request):
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
 
-
-
-
+ 
 
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)

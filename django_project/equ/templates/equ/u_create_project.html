@@ -53,13 +53,16 @@
         <div class="error-message">{{ form.end_time.errors }}</div>
       {% endif %}
       <br>
-      <!-- Materials Checkbox for Booking Slot -->
+
+      <div class="materials-container">
+
       <label for="{{ form.materials.id_for_label }}">Materials:</label>
       {{ form.materials }}
       {% if form.materials.errors %}
         <div class="error-message">{{ form.materials.errors }}</div>
       {% endif %}
       <br>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -74,14 +77,16 @@
 </form>
 
 <!-- JavaScript to Handle Show/Hide of Bookings Container and Enable/Disable Add Slot Button -->
+
 <script>
   const addBookingBtn = document.getElementById('add-booking-btn');
   const bookingsContainer = document.getElementById('bookings-container');
   const equipmentDropdown = document.getElementById("id_booking_set-0-equipment");
   const createslotbtn = document.getElementById('create-slot-btn');
 
+  
 
-  // Enable/Disable Add Slot Button Based on Equipment Dropdown Selection
+ // Enable/Disable Add Slot Button Based on Equipment Dropdown Selection
   equipmentDropdown.addEventListener("change", () => {
     if (equipmentDropdown.value) {
       addBookingBtn.disabled = false; // Enable Add Slot Button
@@ -89,7 +94,10 @@
       addBookingBtn.disabled = true; // Disable Add Slot Button
       bookingsContainer.style.display = "none"; // Hide Bookings Container
     }
-  });
+  }); 
+
+  const equipmentDropdowns = document.querySelectorAll('select[name^="equipment_"]');
+ 
 </script>
 
  
