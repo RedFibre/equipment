@@ -2,7 +2,8 @@
 {% block content %}    
 
 <div class="my_projects">
-    <h1>Overview</h1>
+    <h1>Lab :{{lab.name}}</h1>
+    <h2>Admin :{{lab.lab_admin}}</h2>
     <div class="mp1">
         <a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a>
         <h2> Active Users: {{active_user_count}}</h2>

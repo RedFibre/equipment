@@ -95,7 +95,7 @@ def a_overview(request):
         if user.logout_time is None:
             active_users.append(user.user)
             active_user_count = active_user_count + 1
-    context = {'active_user_count' :active_user_count}
+    context = {'active_user_count' :active_user_count,'lab':lab}
     return render(request, 'equ/a_overview.html',context)
 
 @login_required
