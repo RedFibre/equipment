@@ -25,7 +25,6 @@ post_save.connect(delete_old_notifications, sender=Notification)
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
     # Get the login reason from the custom login form data
-    login_reason = request.POST.get('login_reason', 'No Reason')  # You can set a default value or handle empty reason
 
     # Create UserActivityLog instance for login
     user_activity_log = UserActivityLog.objects.create(user=user, login_time=timezone.now())

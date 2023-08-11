@@ -6,8 +6,8 @@
   <br>
 {% for equipment in equipments %}
   <h2 class="{{ equipment.condition|lower }}">{{ equipment.name }}</h2>
-  <a href="{% url 'a_remove_equipment' equipment.pk %}" style="background-color: darkred;padding: 4px 6px; border: none; border-radius: 5px;">Remove Equipment</a>
-  <br><b>Materials</b>
+  <a href="{% url 'a_remove_equipment' equipment.pk %}" style="background-color: darkred;padding: 4px 6px; border: none; border-radius: 5px;">X</a>
+  <br>
   <p>
   <ul>
   {% for material in equipment.material_set.all %}
@@ -15,7 +15,7 @@
   {% endfor %}
   </ul>
   </p>
-  <a href="{% url 'a_add_material' equipment.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">Add Material</a>
+  <a href="{% url 'a_add_material' equipment.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">+</a>
   <br>
 {% endfor %}
 <br>

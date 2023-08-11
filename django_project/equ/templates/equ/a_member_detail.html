@@ -23,17 +23,15 @@
 {%endfor%}
 
 <h1>Logs</h1>
-<table>
+<table class="logs">
     <tr>
         <th>Log In</th>
         <th>Log Out</th>
-        <th>Reason</th>
     </tr>
 {%for log in logs%}
 <tr>
     <td>{{log.login_time}}</td>
     <td>{{log.logout_time}}</td>
-    <td>{{log.login_reason}}</td>
 </tr>
 {%endfor%}
 </table>

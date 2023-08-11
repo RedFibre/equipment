@@ -59,7 +59,7 @@ def s_member_detail(request,pk):
     user = get_object_or_404(User,pk=pk)
     projects = Confirmed_Project.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
-    logs = UserActivityLog.objects.filter(user=user)
+    logs = UserActivityLog.objects.filter(user=user).order_by('-login_time')[:30]
     context = {'user': user, 'projects':projects, 'profile':profile,'logs':logs}
     return render(request, 'equ/s_member_detail.html',context)
 @login_required
@@ -117,7 +117,7 @@ def a_member_detail(request,pk):
     user = get_object_or_404(User,pk=pk)
     projects = Confirmed_Project.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
-    logs = UserActivityLog.objects.filter(user=user)
+    logs = UserActivityLog.objects.filter(user=user).order_by('-login_time')[:30]
     context = {'user': user, 'projects':projects, 'profile':profile,'logs':logs}
     return render(request, 'equ/a_member_detail.html',context)
 
