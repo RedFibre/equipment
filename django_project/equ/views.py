@@ -224,12 +224,22 @@ def a_project_detail(request, pk):
             end_date=project.end_date
         )
             for booking in bookings:
-                confirmed_booking = Confirmed_Booking.objects.create(
-                    project = confirmed,
-                    equipment=booking.equipment,
-                    start_time=booking.start_time,
-                    end_time=booking.end_time)
-                confirmed_booking.materials.set(booking.materials.all())
+                overlapping_bookings = Confirmed_Booking.objects.filter(
+                equipment=booking.equipment,
+                start_time__lt=booking.end_time,
+                end_time__gt=booking.start_time,
+                )
+            if overlapping_bookings.exists():
+                error_message = "You Accepted a slot that was already booked. Please check the calendar."
+                confirmed.delete()
+                context = {'project': project,'bookings': bookings,'error_message':error_message}
+                return render(request, 'equ/a_project_detail.html', context)
+            confirmed_booking = Confirmed_Booking.objects.create(
+                project = confirmed,
+                equipment=booking.equipment,
+                start_time=booking.start_time,
+                end_time=booking.end_time)
+            confirmed_booking.materials.set(booking.materials.all())
             Notification.objects.create(user=project.user,message=f"Your Request for {project.name} has been Accepted",timestamp=datetime.now())
             project.delete()
             return redirect('a_activity')

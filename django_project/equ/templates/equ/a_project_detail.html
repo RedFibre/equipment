@@ -27,6 +27,12 @@
       {% endfor %}
     </div>
   </div>
+  {% if error_message %}
+  <div class="error-message">>{{ error_message }}</div>
+  <br>
+  <a href="{% url 'c_list' %}" class="btn-uproject">View Calendar</a>
+  <br>
+  {% endif %}
   <form method="POST" class="action-form">
     {% csrf_token %}
     <button type="submit" name="action" value="accept" class="a-actionbutton accept">Accept</button>
