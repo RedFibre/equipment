@@ -8,6 +8,8 @@ from django.utils.timezone import localdate
 import calendar
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
+from users.forms import UserRegisterForm
+from django.contrib.auth import login, authenticate
 
 def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
@@ -229,17 +231,17 @@ def a_project_detail(request, pk):
                 start_time__lt=booking.end_time,
                 end_time__gt=booking.start_time,
                 )
-            if overlapping_bookings.exists():
-                error_message = "You Accepted a slot that was already booked. Please check the calendar."
-                confirmed.delete()
-                context = {'project': project,'bookings': bookings,'error_message':error_message}
-                return render(request, 'equ/a_project_detail.html', context)
-            confirmed_booking = Confirmed_Booking.objects.create(
-                project = confirmed,
-                equipment=booking.equipment,
-                start_time=booking.start_time,
-                end_time=booking.end_time)
-            confirmed_booking.materials.set(booking.materials.all())
+                if overlapping_bookings.exists():
+                    error_message = "You Accepted a slot that was already booked. Please check the calendar."
+                    confirmed.delete()
+                    context = {'project': project,'bookings': bookings,'error_message':error_message}
+                    return render(request, 'equ/a_project_detail.html', context)
+                confirmed_booking = Confirmed_Booking.objects.create(
+                    project = confirmed,
+                    equipment=booking.equipment,
+                    start_time=booking.start_time,
+                    end_time=booking.end_time)
+                confirmed_booking.materials.set(booking.materials.all())
             Notification.objects.create(user=project.user,message=f"Your Request for {project.name} has been Accepted",timestamp=datetime.now())
             project.delete()
             return redirect('a_activity')
@@ -504,20 +506,40 @@ def c_m3(request, pk):
     return render(request, 'equ/c_m3.html', context)
 
 
-def u_profile(request):
+def register(request):
     if request.method == 'POST':
-        user = request.user
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = user
+        user_form = UserRegisterForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save(commit=False)
+            profile = profile_form.save(commit=False)
+            lab_id = profile_form.cleaned_data.get('lab')
+            password = user_form.cleaned_data.get('password1')
+            latest_user = User.objects.filter(username__startswith=lab_id).order_by('-username').first()
+            if latest_user:
+                user_id = int(latest_user.username[-4:])
+            else:
+                user_id = 0
+            user_id = user_id + 1
+            username = f"{lab_id}{user_id:04d}"
+            user.username = username
+            user.save()
             labuser_group = Group.objects.get(name='labuser')
             user.groups.add(labuser_group)
-            lab_id = user.username[:3]  # Extract the first 3 digits from the username
-            lab = Lab.objects.get(name=lab_id)  # Query the Lab model to find the matching lab
+            user = authenticate(username=username, password=password) 
+            profile.user = user
+            
+            lab = Lab.objects.get(name=lab_id)
             profile.lab = lab
             profile.save()
-            return redirect('user_redirect') 
+            if user is not None:
+                login(request, user)
+            print("success")
+            return redirect('user_redirect')
+        else:
+            print("INVALID")
     else:
-        form = ProfileForm()
-    return render(request, 'equ/u_profile.html', {'form': form})
+        user_form = UserRegisterForm()
+        profile_form = ProfileForm()
+
+    return render(request, 'users/register.html', {'user_form': user_form, 'profile_form': profile_form})

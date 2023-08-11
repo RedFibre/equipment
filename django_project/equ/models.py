@@ -154,7 +154,6 @@ class Notification(models.Model):
 class UserActivityLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     login_time = models.DateTimeField()
-    login_reason = models.CharField(max_length=255)
     logout_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):

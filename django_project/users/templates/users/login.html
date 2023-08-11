@@ -22,13 +22,6 @@
                     <small class="form-text text-danger">{{ form.password.errors|join:", " }}</small>
                 {% endif %}
             </div>
-            <div class="form-group">
-                {{ form.login_reason.label_tag }}
-                {{ form.login_reason }}
-                {% if form.login_reason.errors %}
-                    <small class="form-text text-danger">{{ form.login_reason.errors|join:", " }}</small>
-                {% endif %}
-            </div>
             <br>
             <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Log In</button>
         

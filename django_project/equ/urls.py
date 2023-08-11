@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.user_redirect, name='user_redirect'),
+    path('register/', views.register, name='register'),
     path('a_overview/',views.a_overview,name="a_overview"),
     path('a_members/',views.a_members,name="a_members"),
     path('a_member_detail/<int:pk>/', views.a_member_detail, name='a_member_detail'),
@@ -20,7 +21,6 @@ urlpatterns = [
     path('u_projects/',views.u_projects,name="u_projects"),
     path('u_help/',views.u_help,name="u_help"),
     path('u_settings/',views.u_settings,name="u_settings"),
-    path('u_profile/', views.u_profile, name='u_profile'),
     path('u_profilepage/', views.u_profile_page, name='u_profile_page'),
     path('s_overview/', views.s_overview, name='s_overview'),
     path('s_labs/', views.s_labs, name='s_labs'),

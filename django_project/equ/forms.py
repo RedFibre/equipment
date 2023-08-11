@@ -5,7 +5,7 @@ from datetime import datetime
 from django.contrib.auth.forms import AuthenticationForm
 
 class CustomLoginForm(AuthenticationForm):
-    login_reason = forms.CharField(max_length=255)
+    pass
 
 class CustomDateTimeInput(DateTimeInput):
     def format_value(self, value):
@@ -73,6 +73,7 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = [
             'user_type',
+            'lab',
             'first_name',
             'last_name',
             'contact_number',

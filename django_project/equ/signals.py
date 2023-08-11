@@ -28,7 +28,7 @@ def user_logged_in_callback(sender, request, user, **kwargs):
     login_reason = request.POST.get('login_reason', 'No Reason')  # You can set a default value or handle empty reason
 
     # Create UserActivityLog instance for login
-    user_activity_log = UserActivityLog.objects.create(user=user, login_time=timezone.now(), login_reason=login_reason)
+    user_activity_log = UserActivityLog.objects.create(user=user, login_time=timezone.now())
     user_activity_log.save()
 
 @receiver(user_logged_out)
