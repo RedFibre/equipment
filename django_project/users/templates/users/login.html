@@ -10,7 +10,7 @@
                 {{ form.username.label_tag }}
                 {{ form.username }}
                 {% if form.username.errors %}
-                    <small class="form-text text-danger">{{ form.username.errors|join:", " }}</small>
+                    <small >{{ form.username.errors|join:", " }}</small>
                 {% endif %}
             </div>
             <br>
@@ -18,7 +18,7 @@
                 {{ form.password.label_tag }}
                 {{ form.password }}
                 {% if form.password.errors %}
-                    <small class="form-text text-danger">{{ form.password.errors|join:", " }}</small>
+                    <small>{{ form.password.errors|join:", " }}</small>
                 {% endif %}
             </div>
             <br>
