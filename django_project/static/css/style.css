@@ -81,8 +81,8 @@
       background-color: white;
       display: flex;
       justify-content: center;
-      align-items: center;
-
+      /* align-items: center; */
+      min-height: max-content;
     }
 
     .rcntc{
@@ -105,6 +105,15 @@
     align-items: center;
     background-image: linear-gradient(90deg,#6ab8cb, #5095f4);
     }
+
+    .clndr{
+      width: 100%;
+      /* border: 1px solid black; */
+      /* text-align: right; */
+      display: flex;
+      justify-content: end;
+    }
+
 
 /*USER UI CSS STARTS HERE */
      /* u_project css */
@@ -417,7 +426,7 @@
 
 .btn {
     display: block;
-    width: 100%;
+    width: max-content;
     padding: 10px;
     background-color: #333;
     color: #fff;
