@@ -104,7 +104,9 @@ def a_members(request):
     user = request.user  
     lab = Lab.objects.get(lab_admin=user)
     users = User.objects.filter(profile__lab=lab)
-    context = {'users': users}
+    profiles = Profile.objects.filter(lab=lab)
+    users_and_profiles = zip(users,profiles)
+    context = {'users': users_and_profiles}
     return render(request, 'equ/a_members.html',context)
 
 @login_required
@@ -132,9 +134,7 @@ def a_equipment(request):
 def a_activity(request):
     user = request.user
     lab = Lab.objects.get(lab_admin=user)
-    print(lab)
     all_projects = Project.objects.filter(lab=lab)
-    print(all_projects)
     context = {'all_projects': all_projects}
     return render(request, 'equ/a_activity.html', context)
 
@@ -226,7 +226,6 @@ def u_create_project(request):
     available_equipment = Equipment.objects.filter(lab=current_lab)
     available_materials = Material.objects.filter(equipment__lab=current_lab)
     if request.method == 'POST':
-        print(request.POST)
         project_form = ProjectForm(request.POST)
         booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
         if project_form.is_valid() and booking_formset.is_valid():

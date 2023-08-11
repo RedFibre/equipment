@@ -50,7 +50,7 @@ class Profile(models.Model):
     institute_name = models.CharField(max_length=100)
     training_record = models.CharField(max_length=3, choices=MACHINE_CHOICES)
     machines_trained_in = models.CharField(max_length=200, blank=True)
-    how_heard_about = models.CharField(max_length=50, choices=HOW_HEARD_CHOICES)
+    how_heard_about = models.CharField(max_length=50, choices=HOW_HEARD_CHOICES, blank=True, null=True)
 
 
 
