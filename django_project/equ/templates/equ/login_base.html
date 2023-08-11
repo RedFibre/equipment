@@ -1,0 +1,21 @@
+<!-- This File contains all the common code that I want to be inherited by all my webpages--> 
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/u_projects.css' %}">
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="container rcntc">
+        <div class="content rcnt">
+          {% block content %}
+          {% endblock %}
+        </div>
+  </div>
+
+  </body>
+</html>

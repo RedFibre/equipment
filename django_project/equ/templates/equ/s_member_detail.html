@@ -20,8 +20,10 @@
 {% for project in projects %}
 <br>
 <h2><a href="{% url 's_confirmed_project_detail' project.pk %}">{{ project.name }}</a></h2>
-{%endfor%}
-
+{% empty %}
+    <li>No projects found.</li>
+{% endfor %}
+<br>
 <h1 class="lgs">Logs</h1>
 <table class="logs">
     <tr>

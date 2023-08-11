@@ -12,9 +12,9 @@
           <ul>
             {% if user.is_authenticated %}
             <li><a href="{% url 's_overview' %}">Overview</a></li>
-            <li><a href="{% url 's_labs' %}">Labs</a></li>
-            <li><a href="{% url 's_equipment' %}">Equipments</a></li>
-            <li><a href="{% url 'admin:index' %}">Settings</a></li>
+            <li><a href="{% url 's_labs' %}">Projects</a></li>
+            <!--<li><a href="{% url 's_equipment' %}">Equipments</a></li>-->
+            <li><a href="{% url 'admin:index' %}">Data</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             {% else %}
             <a href="{% url 'login' %}">Log In</a>
