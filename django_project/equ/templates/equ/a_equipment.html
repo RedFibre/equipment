@@ -2,18 +2,23 @@
 {% block content %}    
 
 <div class="my_projects">
-<h1>Equipment Page</h1>
-
+  <h1>Equipments</h1> 
+  <br>
 {% for equipment in equipments %}
-<br><br>
-  <h2>{{ equipment.name }}</h2>
-  <br>Materials:
+  <h2 class="{{ equipment.condition|lower }}">{{ equipment.name }}</h2>
+  <a href="{% url 'a_remove_equipment' equipment.pk %}" style="background-color: darkred;padding: 4px 6px; border: none; border-radius: 5px;">Remove Equipment</a>
+  <br><b>Materials</b>
+  <p>
   <ul>
   {% for material in equipment.material_set.all %}
-    <li>{{ material.name }}</li>
+    <li>{{ material.name }} <a href="{% url 'a_add_stock' material.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">{{material.stock}} </a></li>
   {% endfor %}
   </ul>
+  </p>
+  <a href="{% url 'a_add_material' equipment.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">Add Material</a>
+  <br>
 {% endfor %}
+<br>
+<a href="{% url 'a_add_equipment' %}" class="btn-uproject">Add Equipment</a>
 </div>
-
 {% endblock content %}   

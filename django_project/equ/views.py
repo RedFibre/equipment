@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
-from .forms import ProjectForm,BookingFormSet,ProfileForm
+from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
@@ -128,6 +128,63 @@ def a_equipment(request):
     equipment = equipment.prefetch_related('material_set')
     context = {'equipments':equipment}
     return render(request, 'equ/a_equipment.html',context)
+
+@login_required
+@admin_required
+def a_add_equipment(request):
+    if request.method == 'POST':
+        lab = Lab.objects.get(lab_admin=request.user)
+        form = EquipmentCreationForm(request.POST)
+        if form.is_valid():
+            equipment = form.save(commit=False)
+            equipment.lab = lab
+            equipment.save()
+            return redirect('a_equipment') 
+    else:
+        form = EquipmentCreationForm()
+    
+    context = {'form': form}
+    return render(request, 'equ/a_add_equipment.html', context)
+
+@login_required
+@admin_required
+def a_remove_equipment(request, pk):
+    equipment = get_object_or_404(Equipment, pk=pk) 
+    equipment.delete()
+    return redirect('a_equipment')  
+
+@login_required
+@admin_required
+def a_add_material(request, pk):
+    equipment = Equipment.objects.get(pk=pk)
+    
+    if request.method == 'POST':
+        form = MaterialForm(request.POST)
+        if form.is_valid():
+            material = form.save(commit=False)
+            material.equipment = equipment
+            material.save()
+            return redirect('a_equipment')
+    else:
+        form = MaterialForm()
+    
+    context = {'equipment': equipment, 'form': form}
+    return render(request, 'equ/a_add_material.html', context)
+
+def a_add_stock(request, pk):
+    material = get_object_or_404(Material, pk=pk)
+    
+    if request.method == 'POST':
+        if 'modify' in request.POST:
+            stock = int(request.POST.get('stock'))
+            material.stock = stock
+            material.save()
+            return redirect('a_equipment')
+        elif 'delete' in request.POST:
+            material.delete()  
+            return redirect('a_equipment')
+    context = {'material': material}
+    return render(request, 'equ/a_add_stock.html', context)
 
 @login_required
 @admin_required

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, Booking,Material,Profile
+from .models import Project,Booking,Material,Profile,Equipment
 from django.forms import formset_factory,DateTimeInput, DateInput
 from datetime import datetime
 from django.contrib.auth.forms import AuthenticationForm
@@ -96,3 +96,13 @@ class ProfileForm(forms.ModelForm):
             'machines_trained_in': forms.TextInput(attrs={'class': 'form-control'}),
             'how_heard_about': forms.Select(attrs={'class': 'form-control'}),
         }
+
+class EquipmentCreationForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = ['name', 'condition']
+
+class MaterialForm(forms.ModelForm):
+    class Meta:
+        model = Material
+        fields = ['name', 'stock']

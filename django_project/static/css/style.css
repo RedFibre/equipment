@@ -251,7 +251,19 @@
     text-decoration: none;
     cursor: pointer;
   }
+  .btn-uproject-small {
+    background-color: #800d39;
+    color: #fff;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+  }
   .btn-uproject:hover {
+    background-color: #444;
+  }
+  .btn-uproject-small:hover {
     background-color: #444;
   }
   .project-form select {
@@ -737,3 +749,8 @@ td.Booked {
 .logs th, .logs td{
   padding: 5px;
 }
+
+.excellent { color: rgb(42, 143, 42); }
+.good { color: rgb(4, 73, 4); }
+.poor { color: rgb(161, 111, 19); }
+.bad { color: red; }
