@@ -1,66 +1,107 @@
-{% extends "equ/u_base.html" %}
+{% extends "equ/login_base.html" %}
 
 {% block content %}
-    <div class="content-section"> 
-        <form method="POST" class="form-signin">
-            {% csrf_token %}
-            <div class="form_head">
-                <div class="cld"></div>
-                <div class="wlcm">Welcome!</div>
-            </div>
-            <h1 class="lcya">Let's create Your Account</h1>
-            <br>
-            <div class="form-group">
-                {{ form.email.label_tag }}
-                {{ form.email }}
-                {% if form.email.errors %}
-                    <small class="form-text text-danger">{{ form.email.errors|join:", " }}</small>
-                {% endif %}
-            </div>
-            <br>
-            <div class="form-group">
-                {{ form.username.label_tag }}
-                {{ form.username }}
-                {% if form.username.errors %}
-                    <small class="form-text text-danger">{{ form.username.errors|join:", " }}</small>
-                {% endif %}
-            </div>
-            <br>
-            <div class="form-group">
-                {{ form.password1.label_tag }}
-                {{ form.password1 }}
-                
-                <br>
-                {% if form.password1.errors %}
-                    <small class="form-text text-danger">{{ form.password1.errors|join:", " }}</small>
-                {% else %}
-                    <br>
-                    <small class="form-text text-muted">
-                        Your password can’t be too similar to your other personal information.<br>
-                        Your password must contain at least 8 characters.<br>
-                        Your password can’t be a commonly used password.<br>
-                        Your password can’t be entirely numeric.
-                    </small>
-                {% endif %}
-            </div>
-            <br>
-            <div class="form-group">
-                {{ form.password2.label_tag }}
-                {{ form.password2 }}
-                {% if form.password2.errors %}
-                    <small class="form-text text-danger">{{ form.password2.errors|join:", " }}</small>
-                {% endif %}
-            </div>
-            
-            <br>
-            <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Sign Up</button>
-        
-        </form>
-        
-        <div class="border-top pt-3" style="margin-top: 20px">
-            <small class="text-muted">
-                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
-            </small>
+<div class="content-section"> 
+    <form method="POST" class="form-signin">
+        {% csrf_token %}
+        <div class="form_head">
+            <div class="cld"></div>
+            <div class="wlcm">Welcome!</div>
         </div>
+        <h1 class="lcya">Let's create Your Account</h1>
+        <br>
+        <div class="form-group">
+            {{ profile_form.first_name.label_tag }}
+            {{ profile_form.first_name }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.last_name.label_tag }}
+            {{ profile_form.last_name }}
+        </div>
+        <br>
+
+        <div class="form-group">
+            {{ profile_form.user_type.label_tag }}
+            {{ profile_form.user_type }}
+        </div>
+        <br>
+
+        <div class="form-group">
+            {{ profile_form.lab.label_tag }}
+            {{ profile_form.lab }}
+            {% if profile_form.lab.errors %}
+                <small class="form-text text-danger">{{ profile_form.lab.errors|join:", " }}</small>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ user_form.password1.label_tag }}
+            {{ user_form.password1 }}
+            {% if user_form.password1.errors %}
+                <small class="form-text text-danger">{{ user_form.password1.errors|join:", " }}</small>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ user_form.password2.label_tag }}
+            {{ user_form.password2 }}
+            {% if user_form.password2.errors %}
+                <small class="form-text text-danger">{{ user_form.password2.errors|join:", " }}</small>
+            {% endif %}
+        </div>
+        <br>
+
+        <div class="form-group">
+            {{ profile_form.contact_number.label_tag }}
+            {{ profile_form.contact_number }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.email.label_tag }}
+            {{ profile_form.email }}
+            {% if profile_form.email.errors %}
+                <small class="form-text text-danger">{{ profile_form.email.errors|join:", " }}</small>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.branch.label_tag }}
+            {{ profile_form.branch }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.year_of_graduation.label_tag }}
+            {{ profile_form.year_of_graduation }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.institute_name.label_tag }}
+            {{ profile_form.institute_name }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.training_record.label_tag }}
+            {{ profile_form.training_record }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.machines_trained_in.label_tag }}
+            {{ profile_form.machines_trained_in }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ profile_form.how_heard_about.label_tag }}
+            {{ profile_form.how_heard_about }}
+        </div>
+        <br>
+
+        <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Sign Up</button>
+    </form>
+    <div class="border-top pt-3" style="margin-top: 20px">
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+        </small>
     </div>
+</div>
 {% endblock content %}

@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 django_project/db.sqlite3
 __pycache__/
+=======
+django_project/db.sqlite3
+__pycache__/
+>>>>>>> 211a2d7862c9c8542cd8783a92becf5f11a94eda
 *.pyc

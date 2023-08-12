@@ -1,11 +1,11 @@
 from django import forms
-from .models import Project, Booking,Material,Profile
+from .models import Project,Booking,Material,Profile,Equipment
 from django.forms import formset_factory,DateTimeInput, DateInput
 from datetime import datetime
 from django.contrib.auth.forms import AuthenticationForm
 
 class CustomLoginForm(AuthenticationForm):
-    login_reason = forms.CharField(max_length=255)
+    pass
 
 class CustomDateTimeInput(DateTimeInput):
     def format_value(self, value):
@@ -48,6 +48,7 @@ class BookingForm(forms.ModelForm):
         self.fields['end_time'].widget = CustomDateTimeInput(attrs={'type': 'datetime-local', 'step': '3600'},format='%Y-%m-%d %H:%M')
         self.fields['materials'].queryset = available_materials
 
+
     def clean(self):
         cleaned_data = super().clean()
         start_time = cleaned_data.get('start_time')
@@ -72,6 +73,7 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = [
             'user_type',
+            'lab',
             'first_name',
             'last_name',
             'contact_number',
@@ -95,3 +97,13 @@ class ProfileForm(forms.ModelForm):
             'machines_trained_in': forms.TextInput(attrs={'class': 'form-control'}),
             'how_heard_about': forms.Select(attrs={'class': 'form-control'}),
         }
+
+class EquipmentCreationForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = ['name', 'condition']
+
+class MaterialForm(forms.ModelForm):
+    class Meta:
+        model = Material
+        fields = ['name', 'stock']

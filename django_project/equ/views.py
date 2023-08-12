@@ -2,12 +2,14 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
-from .forms import ProjectForm,BookingFormSet,ProfileForm
+from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
 from django.contrib.auth.models import Group
-
+from django.http import JsonResponse
+from users.forms import UserRegisterForm
+from django.contrib.auth import login, authenticate
 
 def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
@@ -57,7 +59,7 @@ def s_member_detail(request,pk):
     user = get_object_or_404(User,pk=pk)
     projects = Confirmed_Project.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
-    logs = UserActivityLog.objects.filter(user=user)
+    logs = UserActivityLog.objects.filter(user=user).order_by('-login_time')[:30]
     context = {'user': user, 'projects':projects, 'profile':profile,'logs':logs}
     return render(request, 'equ/s_member_detail.html',context)
 @login_required
@@ -95,7 +97,7 @@ def a_overview(request):
         if user.logout_time is None:
             active_users.append(user.user)
             active_user_count = active_user_count + 1
-    context = {'active_user_count' :active_user_count}
+    context = {'active_user_count' :active_user_count,'lab':lab}
     return render(request, 'equ/a_overview.html',context)
 
 @login_required
@@ -104,7 +106,9 @@ def a_members(request):
     user = request.user  
     lab = Lab.objects.get(lab_admin=user)
     users = User.objects.filter(profile__lab=lab)
-    context = {'users': users}
+    profiles = Profile.objects.filter(lab=lab)
+    users_and_profiles = zip(users,profiles)
+    context = {'users': users_and_profiles}
     return render(request, 'equ/a_members.html',context)
 
 @login_required
@@ -113,7 +117,7 @@ def a_member_detail(request,pk):
     user = get_object_or_404(User,pk=pk)
     projects = Confirmed_Project.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
-    logs = UserActivityLog.objects.filter(user=user)
+    logs = UserActivityLog.objects.filter(user=user).order_by('-login_time')[:30]
     context = {'user': user, 'projects':projects, 'profile':profile,'logs':logs}
     return render(request, 'equ/a_member_detail.html',context)
 
@@ -129,12 +133,67 @@ def a_equipment(request):
 
 @login_required
 @admin_required
+def a_add_equipment(request):
+    if request.method == 'POST':
+        lab = Lab.objects.get(lab_admin=request.user)
+        form = EquipmentCreationForm(request.POST)
+        if form.is_valid():
+            equipment = form.save(commit=False)
+            equipment.lab = lab
+            equipment.save()
+            return redirect('a_equipment') 
+    else:
+        form = EquipmentCreationForm()
+    
+    context = {'form': form}
+    return render(request, 'equ/a_add_equipment.html', context)
+
+@login_required
+@admin_required
+def a_remove_equipment(request, pk):
+    equipment = get_object_or_404(Equipment, pk=pk) 
+    equipment.delete()
+    return redirect('a_equipment')  
+
+@login_required
+@admin_required
+def a_add_material(request, pk):
+    equipment = Equipment.objects.get(pk=pk)
+    
+    if request.method == 'POST':
+        form = MaterialForm(request.POST)
+        if form.is_valid():
+            material = form.save(commit=False)
+            material.equipment = equipment
+            material.save()
+            return redirect('a_equipment')
+    else:
+        form = MaterialForm()
+    
+    context = {'equipment': equipment, 'form': form}
+    return render(request, 'equ/a_add_material.html', context)
+
+def a_add_stock(request, pk):
+    material = get_object_or_404(Material, pk=pk)
+    
+    if request.method == 'POST':
+        if 'modify' in request.POST:
+            stock = int(request.POST.get('stock'))
+            material.stock = stock
+            material.save()
+            return redirect('a_equipment')
+        elif 'delete' in request.POST:
+            material.delete()  
+            return redirect('a_equipment')
+    context = {'material': material}
+    return render(request, 'equ/a_add_stock.html', context)
+
+@login_required
+@admin_required
 def a_activity(request):
     user = request.user
     lab = Lab.objects.get(lab_admin=user)
-    print(lab)
     all_projects = Project.objects.filter(lab=lab)
-    print(all_projects)
     context = {'all_projects': all_projects}
     return render(request, 'equ/a_activity.html', context)
 
@@ -167,6 +226,16 @@ def a_project_detail(request, pk):
             end_date=project.end_date
         )
             for booking in bookings:
+                overlapping_bookings = Confirmed_Booking.objects.filter(
+                equipment=booking.equipment,
+                start_time__lt=booking.end_time,
+                end_time__gt=booking.start_time,
+                )
+                if overlapping_bookings.exists():
+                    error_message = "You Accepted a slot that was already booked. Please check the calendar."
+                    confirmed.delete()
+                    context = {'project': project,'bookings': bookings,'error_message':error_message}
+                    return render(request, 'equ/a_project_detail.html', context)
                 confirmed_booking = Confirmed_Booking.objects.create(
                     project = confirmed,
                     equipment=booking.equipment,
@@ -226,7 +295,6 @@ def u_create_project(request):
     available_equipment = Equipment.objects.filter(lab=current_lab)
     available_materials = Material.objects.filter(equipment__lab=current_lab)
     if request.method == 'POST':
-        print(request.POST)
         project_form = ProjectForm(request.POST)
         booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
         if project_form.is_valid() and booking_formset.is_valid():
@@ -261,9 +329,21 @@ def u_create_project(request):
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
 
+def u_get_dynamic_form(request):
+    selected_equipment_id = request.GET.get('equipment_id')
+    try:
+        equipment = Equipment.objects.get(id=selected_equipment_id)
+    except Equipment.DoesNotExist:
+        return JsonResponse({'error': 'Equipment not found'})
 
+    form_fields = [
+        {'label': 'Start Time', 'name': 'start_time', 'type': 'datetime'},
+        {'label': 'End Time', 'name': 'end_time', 'type': 'datetime'},
+    ]
 
+    materials = Material.objects.filter(equipment=equipment)
 
+    return JsonResponse({'form_fields': form_fields, 'materials': list(materials.values())})
 
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
@@ -440,20 +520,40 @@ def c_m3(request, pk):
     return render(request, 'equ/c_m3.html', context)
 
 
-def u_profile(request):
+def register(request):
     if request.method == 'POST':
-        user = request.user
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = user
+        user_form = UserRegisterForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save(commit=False)
+            profile = profile_form.save(commit=False)
+            lab_id = profile_form.cleaned_data.get('lab')
+            password = user_form.cleaned_data.get('password1')
+            latest_user = User.objects.filter(username__startswith=lab_id).order_by('-username').first()
+            if latest_user:
+                user_id = int(latest_user.username[-4:])
+            else:
+                user_id = 0
+            user_id = user_id + 1
+            username = f"{lab_id}{user_id:04d}"
+            user.username = username
+            user.save()
             labuser_group = Group.objects.get(name='labuser')
             user.groups.add(labuser_group)
-            lab_id = user.username[:3]  # Extract the first 3 digits from the username
-            lab = Lab.objects.get(name=lab_id)  # Query the Lab model to find the matching lab
+            user = authenticate(username=username, password=password) 
+            profile.user = user
+            
+            lab = Lab.objects.get(name=lab_id)
             profile.lab = lab
             profile.save()
-            return redirect('user_redirect') 
+            if user is not None:
+                login(request, user)
+            print("success")
+            return redirect('user_redirect')
+        else:
+            print("INVALID")
     else:
-        form = ProfileForm()
-    return render(request, 'equ/u_profile.html', {'form': form})
+        user_form = UserRegisterForm()
+        profile_form = ProfileForm()
+
+    return render(request, 'users/register.html', {'user_form': user_form, 'profile_form': profile_form})

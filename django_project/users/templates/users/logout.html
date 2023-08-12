@@ -1,5 +1,4 @@
-{% extends "equ/u_base.html" %}
-{% block logout_active %}active{% endblock %}
+{% extends "equ/login_base.html" %}
 {% block content %}
     <div class="content-section"> 
             {% csrf_token %}
@@ -9,7 +8,7 @@
         
         <div class="border-top pt-3" style="margin-top: 20px">
             <small class="text-muted">
-            Toodles
+            <a href="{% url 'login' %}">Log Back In </a>
             </small>
         </div>
     </div>
