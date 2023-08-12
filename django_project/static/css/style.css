@@ -20,6 +20,20 @@
       list-style: none;
      }
 
+     .content table{
+      width: 100%;
+    }
+    
+    .content table, .content tr, .content th, .content td{
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    
+    .content th, .content td{
+      padding: 10px;
+      text-align: center;
+    }
+
      .container {
       display: flex;
       /* flex-direction: column; */
@@ -81,9 +95,11 @@
       background-color: white;
       display: flex;
       justify-content: center;
-      align-items: center;
-
+      /* align-items: center; */
+      min-height: max-content;
     }
+
+    
 
     .rcntc{
       background-color: #576689;
@@ -105,6 +121,15 @@
     align-items: center;
     background-image: linear-gradient(90deg,#6ab8cb, #5095f4);
     }
+
+    .clndr{
+      width: 100%;
+      /* border: 1px solid black; */
+      /* text-align: right; */
+      display: flex;
+      justify-content: end;
+    }
+
 
 /*USER UI CSS STARTS HERE */
      /* u_project css */
@@ -139,7 +164,7 @@
   .my_projects{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     width: 100%;
     height: 100%;
   }
@@ -429,7 +454,7 @@
 
 .btn {
     display: block;
-    width: 100%;
+    width: max-content;
     padding: 10px;
     background-color: #333;
     color: #fff;
@@ -618,7 +643,7 @@ td.Booked {
   padding: 20px;
   background-color: white;
   box-shadow: 1px 1px 25px 1px #b4b4b4;
-}
+} 
 
 .calendar h1{
   padding: 0 10px 20px 10px;

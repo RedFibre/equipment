@@ -1,0 +1,79 @@
+/* Complete your profile */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #f0f0f0;
+}
+
+.cp{
+    width: 50%;
+    /* border: 1px solid black; */
+    margin: auto;
+    padding: 20px 0;
+}
+
+.cp_head{
+    margin:20px 0;
+}
+
+.cp_head h1{
+    width: max-content;
+      font-size: 1rem;
+      /* border: 1px solid black; */
+      padding: 15px;
+      border-radius: 15px;
+      color:#3d3d90;
+      background-color: white;
+      box-shadow: 0px 0px 4px 0px #3d3d90;
+  }
+
+  .project-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    /* border: 1px solid black; */
+    box-shadow: 0px 0px 4px 0px #3d3d90;
+}
+
+.project-form p{
+    padding: 10px 0;
+    color: #6c8bb9;
+    /* border: 1px solid black; */
+    width: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.project-form input, .project-form select{
+    padding: 5px 10px;
+    border: 1px solid #6c8bb9;
+    border-radius: 10px;
+    width: 250px;
+    outline: none;
+}
+
+.fsb{
+    width:100%;
+    text-align: right;
+}
+
+.fsb button{
+    padding: 10px 15px;
+    /* border: 1px solid black; */
+    border-radius: 15px;
+    background-image: linear-gradient(to right, #69b7cc, #5196f3);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+}
+
+.fsb button:hover{
+    box-shadow: 0px 0px 5px 0px #3d3d90;
+}

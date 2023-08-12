@@ -2,16 +2,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/u_projects.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
 </head>
 <body>
-      <h1>Profile Page</h1>
+      <div class="cp">
+        <div class="cp_head"><h1>Complete your Profile</h1></div>
         <form method="post" action="{% url 'u_profile' %}" class="project-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+        <div class="fsb"><button type="submit">Submit</button></div>
+        </form>
+      </div>
     
 </body>
 </html>
