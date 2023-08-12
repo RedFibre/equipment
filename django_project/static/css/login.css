@@ -1,0 +1,17 @@
+.rcnt{
+    flex-grow: 1;
+  /* border: 1px solid black; */
+  /* border: none; */
+  /* width: 32%; */
+  max-width: 600px;
+  margin: 20px auto;
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: none;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(90deg,#6ab8cb, #5095f4);
+  color: white;
+  }
