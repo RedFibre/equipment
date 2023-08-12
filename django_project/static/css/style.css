@@ -92,7 +92,8 @@
       border-radius: 30px;
       padding: 20px;
       box-shadow: 1px 1px 25px 1px #b4b4b4;
-      background-color: white;
+      background-image: linear-gradient(90deg,#6ab8cb, #5095f4);
+  color: white;
       display: flex;
       justify-content: center;
       /* align-items: center; */
@@ -102,25 +103,10 @@
     
 
     .rcntc{
-      background-color: #576689;
+      background-color: #F0F0F0;
     }
 
-    .rcnt{
-      flex-grow: 1;
-    /* border: 1px solid black; */
-    /* border: none; */
-    /* width: 32%; */
-    max-width: 600px;
-    margin: 20px auto;
-    border-radius: 30px;
-    padding: 20px;
-    box-shadow: none;
     
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: linear-gradient(90deg,#6ab8cb, #5095f4);
-    }
 
     .clndr{
       width: 100%;
@@ -497,6 +483,7 @@
   width: 100%;
   border-collapse: collapse;
   margin: 10px 0;
+  color:black;
 }
 
 .user-table a{
