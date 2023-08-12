@@ -329,7 +329,21 @@ def u_create_project(request):
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
 
- 
+def u_get_dynamic_form(request):
+    selected_equipment_id = request.GET.get('equipment_id')
+    try:
+        equipment = Equipment.objects.get(id=selected_equipment_id)
+    except Equipment.DoesNotExist:
+        return JsonResponse({'error': 'Equipment not found'})
+
+    form_fields = [
+        {'label': 'Start Time', 'name': 'start_time', 'type': 'datetime'},
+        {'label': 'End Time', 'name': 'end_time', 'type': 'datetime'},
+    ]
+
+    materials = Material.objects.filter(equipment=equipment)
+
+    return JsonResponse({'form_fields': form_fields, 'materials': list(materials.values())})
 
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)

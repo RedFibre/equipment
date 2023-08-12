@@ -1,6 +1,56 @@
 {% extends "equ/u_base.html" %}
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  
+  $(document).ready(function() {
+    var formIndex = 0;
 
+    // Initialize the formset with the first booking form
+    var bookingForm = $('.booking-form');
+    bookingForm.find('h3').text('Booking ' + (formIndex + 1));
+
+    $('#add-booking-btn').click(function() {
+      formIndex++;
+
+      // Clone the booking form
+      var clonedForm = bookingForm.clone();
+
+      // Update the form index in the cloned form
+      clonedForm.find('input, select, textarea').each(function() {
+        var oldName = $(this).attr('name');
+        var newName = oldName.replace(/-0-/, '-' + formIndex + '-');
+        $(this).attr('name', newName);
+        $(this).attr('id', 'id_' + newName);
+      });
+
+      // Update the label and heading with the new form index
+      clonedForm.find('label').each(function() {
+        var oldFor = $(this).attr('for');
+        if (oldFor !== undefined) {
+          var newFor = oldFor.replace(/-0-/, '-' + formIndex + '-');
+          $(this).attr('for', newFor);
+        }
+      });
+      clonedForm.find('h3').text('Booking ' + (formIndex + 1));
+
+      // Insert the cloned form after the last booking form
+      $('.booking-form').last().after(clonedForm);
+    });
+    
+
+    // Submit event handler
+    $('form').submit(function() {
+      // Update the total number of forms before submission
+      var totalFormsInput = $('<input type="hidden" name="form-TOTAL_FORMS">');
+      totalFormsInput.val(formIndex + 1);
+      $(this).append(totalFormsInput);
+    });
+  });
+
+  
+  
+</script>
 <form method="post" action="{% url 'u_create_project' %}" class="project-form">
   {% csrf_token %}
 
@@ -75,30 +125,6 @@
 
   <button type="submit" class="submit-btn">Submit</button>
 </form>
-
-<!-- JavaScript to Handle Show/Hide of Bookings Container and Enable/Disable Add Slot Button -->
-
-<script>
-  const addBookingBtn = document.getElementById('add-booking-btn');
-  const bookingsContainer = document.getElementById('bookings-container');
-  const equipmentDropdown = document.getElementById("id_booking_set-0-equipment");
-  const createslotbtn = document.getElementById('create-slot-btn');
-
-  
-
- // Enable/Disable Add Slot Button Based on Equipment Dropdown Selection
-  equipmentDropdown.addEventListener("change", () => {
-    if (equipmentDropdown.value) {
-      addBookingBtn.disabled = false; // Enable Add Slot Button
-    } else {
-      addBookingBtn.disabled = true; // Disable Add Slot Button
-      bookingsContainer.style.display = "none"; // Hide Bookings Container
-    }
-  }); 
-
-  const equipmentDropdowns = document.querySelectorAll('select[name^="equipment_"]');
- 
-</script>
 
  
 {% endblock content %}
