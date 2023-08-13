@@ -93,7 +93,6 @@ class Booking(models.Model):
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(default=timezone.now)
-    materials = models.ManyToManyField(Material)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True,default=None)
 
     def __str__(self):
@@ -115,7 +114,6 @@ class Confirmed_Booking(models.Model):
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(default=timezone.now)
-    materials = models.ManyToManyField(Material)
     project = models.ForeignKey(Confirmed_Project, on_delete=models.CASCADE, null=True, blank=True,default=None)
 
     def __str__(self):
@@ -136,8 +134,7 @@ class Archived_Project(models.Model):
 class Archived_Booking(models.Model): 
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=timezone.now)
-    end_time = models.DateTimeField(default=timezone.now)
-    materials = models.ManyToManyField(Material)
+    end_time = models.DateTimeField(default=timezone.now) 
     project = models.ForeignKey(Archived_Project, on_delete=models.CASCADE, null=True, blank=True,default=None)
 
     def __str__(self):

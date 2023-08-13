@@ -17,12 +17,7 @@
       <div class="booking">
         <p class="equipment-name">{{booking.equipment}}</p>
         <p class="booking-details">
-          Booking from {{booking.start_time}} to {{booking.end_time}} using the following materials
-          <ul class="material-list">
-            {% for material in booking.materials.all %}
-            <li>{{material.name}}</li>
-            {% endfor %}
-          </ul>
+          Booking from {{booking.start_time}} to {{booking.end_time}} 
         </p>
       </div>
       {% endfor %}

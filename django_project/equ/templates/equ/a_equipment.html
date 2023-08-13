@@ -8,11 +8,7 @@
 <div class="equip_container">
     <h2 class="{{ equipment.condition|lower }}">{{ equipment.name }}</h2>
     <a href="{% url 'a_remove_equipment' equipment.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">X</a>
-    <ul>
-      {% for material in equipment.material_set.all %}
-        <li>{{ material.name }} <a href="{% url 'a_add_stock' material.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">{{material.stock}} </a></li>
-      {% endfor %}
-      </ul>
+
 
   <a href="{% url 'a_add_material' equipment.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">+</a>
   <br>

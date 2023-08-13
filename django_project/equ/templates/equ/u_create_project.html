@@ -104,15 +104,6 @@
       {% endif %}
       <br>
 
-      <div class="materials-container">
-
-      <label for="{{ form.materials.id_for_label }}">Materials:</label>
-      {{ form.materials }}
-      {% if form.materials.errors %}
-        <div class="error-message">{{ form.materials.errors }}</div>
-      {% endif %}
-      <br>
-        </div>
       </div>
       {% endfor %}
     </div>

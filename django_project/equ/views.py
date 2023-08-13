@@ -231,21 +231,25 @@ def a_project_detail(request, pk):
         )
             for booking in bookings:
                 overlapping_bookings = Confirmed_Booking.objects.filter(
+                project__lab = project.lab,
                 equipment=booking.equipment,
                 start_time__lt=booking.end_time,
                 end_time__gt=booking.start_time,
                 )
+                print(overlapping_bookings)
                 if overlapping_bookings.exists():
+                    print("YES")
+                    print(overlapping_bookings)
                     error_message = "You Accepted a slot that was already booked. Please check the calendar."
                     confirmed.delete()
                     context = {'project': project,'bookings': bookings,'error_message':error_message}
                     return render(request, 'equ/a_project_detail.html', context)
-                confirmed_booking = Confirmed_Booking.objects.create(
+                Confirmed_Booking.objects.create(
                     project = confirmed,
                     equipment=booking.equipment,
                     start_time=booking.start_time,
                     end_time=booking.end_time)
-                confirmed_booking.materials.set(booking.materials.all())
+    
             Notification.objects.create(user=project.user,message=f"Your Request for {project.name} has been Accepted",timestamp=datetime.now())
             project.delete()
             return redirect('a_activity')
@@ -297,10 +301,9 @@ def u_settings(request):
 def u_create_project(request):
     current_lab = request.user.profile.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
-    available_materials = Material.objects.filter(equipment__lab=current_lab)
     if request.method == 'POST':
         project_form = ProjectForm(request.POST)
-        booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
+        booking_formset = BookingFormSet(request.POST, form_kwargs={'available_equipment': available_equipment})
         if project_form.is_valid() and booking_formset.is_valid():
             project = project_form.save(commit=False)
             project.user = request.user
@@ -313,7 +316,7 @@ def u_create_project(request):
                 booking.start_time = data.get('start_time')
                 booking.end_time = data.get('end_time')
                   # Check for overlapping bookings
-                overlapping_bookings = Confirmed_Booking.objects.filter(
+                overlapping_bookings = Confirmed_Booking.objects.filter(project__lab = current_lab,
                     equipment=booking.equipment,
                     start_time__lt=booking.end_time,
                     end_time__gt=booking.start_time,
@@ -322,32 +325,14 @@ def u_create_project(request):
                     error_message = "You Booked a slot that was already booked. Please check the calendar."
                     project.delete()
                     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset, 'error_message': error_message})
-                booking.save()
-                materials = data.get('materials')
-                booking.materials.set(materials)              
+                booking.save()            
             return redirect('u_projects')
     
     else:
         project_form = ProjectForm()
-        booking_formset = BookingFormSet(form_kwargs={'available_equipment': available_equipment, 'available_materials': available_materials})
+        booking_formset = BookingFormSet(form_kwargs={'available_equipment': available_equipment})
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
-
-def u_get_dynamic_form(request):
-    selected_equipment_id = request.GET.get('equipment_id')
-    try:
-        equipment = Equipment.objects.get(id=selected_equipment_id)
-    except Equipment.DoesNotExist:
-        return JsonResponse({'error': 'Equipment not found'})
-
-    form_fields = [
-        {'label': 'Start Time', 'name': 'start_time', 'type': 'datetime'},
-        {'label': 'End Time', 'name': 'end_time', 'type': 'datetime'},
-    ]
-
-    materials = Material.objects.filter(equipment=equipment)
-
-    return JsonResponse({'form_fields': form_fields, 'materials': list(materials.values())})
 
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
@@ -383,7 +368,7 @@ def u_confirmed_project_detail(request, pk):
                 start_time=booking.start_time,
                 end_time=booking.end_time
             )
-            archived_booking.materials.set(booking.materials.all())
+
 
         confirmed_project.delete()
         return redirect('u_projects')
