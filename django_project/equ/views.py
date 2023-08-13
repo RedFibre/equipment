@@ -2,10 +2,12 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
+from .graphs import footfall
 from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
+
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
 from users.forms import UserRegisterForm
@@ -31,11 +33,11 @@ def admin_required(function):
 
 #SUPERADMIN VIEWS
 
-
 @login_required
 @superadmin_required
 def s_overview(request):
-    return render(request, 'equ/s_overview.html')
+    graph_url = footfall()
+    return render(request, 'equ/s_overview.html', {'graph_url': graph_url})
 
 @login_required
 @superadmin_required
