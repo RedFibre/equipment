@@ -2,8 +2,9 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
+from .models import Category, Request
 from .graphs import footfall, lab_footfall
-from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm
+from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm,CategoryCreationForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
@@ -131,9 +132,17 @@ def a_equipment(request):
     user = request.user  
     lab = Lab.objects.get(lab_admin=user)
     equipment = Equipment.objects.filter(lab=lab)
-    equipment = equipment.prefetch_related('material_set')
     context = {'equipments':equipment}
     return render(request, 'equ/a_equipment.html',context)
+
+@login_required
+@admin_required
+def a_materials(request):
+    user = request.user  
+    lab = Lab.objects.get(lab_admin=user)
+    categories = Category.objects.filter(lab=lab)
+    context = {'categories':categories}
+    return render(request, 'equ/a_materials.html',context)
 
 @login_required
 @admin_required
@@ -154,6 +163,23 @@ def a_add_equipment(request):
 
 @login_required
 @admin_required
+def a_add_category(request):
+    if request.method == 'POST':
+        lab = Lab.objects.get(lab_admin=request.user)
+        form = CategoryCreationForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.lab = lab
+            category.save()
+            return redirect('a_materials') 
+    else:
+        form = CategoryCreationForm()
+    
+    context = {'form': form}
+    return render(request, 'equ/a_add_category.html', context)
+
+@login_required
+@admin_required
 def a_remove_equipment(request, pk):
     equipment = get_object_or_404(Equipment, pk=pk) 
     equipment.delete()
@@ -161,34 +187,50 @@ def a_remove_equipment(request, pk):
 
 @login_required
 @admin_required
+def a_remove_category(request, pk):
+    category = get_object_or_404(Category, pk=pk) 
+    category.delete()
+    return redirect('a_materials') 
+
+@login_required
+@admin_required
+def a_category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk) 
+    materials = Material.objects.filter(category=category)
+    context = {'category':category,'materials':materials}
+    return render(request, 'equ/a_category_detail.html', context)
+
+
+@login_required
+@admin_required
 def a_add_material(request, pk):
-    equipment = Equipment.objects.get(pk=pk)
+    category = Category.objects.get(pk=pk)
     
     if request.method == 'POST':
         form = MaterialForm(request.POST)
         if form.is_valid():
             material = form.save(commit=False)
-            material.equipment = equipment
+            material.category = category
             material.save()
-            return redirect('a_equipment')
+            return redirect('a_category_detail',pk)
     else:
         form = MaterialForm()
     
-    context = {'equipment': equipment, 'form': form}
+    context = {'category': category, 'form': form}
     return render(request, 'equ/a_add_material.html', context)
 
-def a_add_stock(request, pk):
-    material = get_object_or_404(Material, pk=pk)
+def a_add_stock(request, material_pk,category_pk):
+    material = get_object_or_404(Material, pk=material_pk)
     
     if request.method == 'POST':
         if 'modify' in request.POST:
             stock = int(request.POST.get('stock'))
             material.stock = stock
             material.save()
-            return redirect('a_equipment')
+            return redirect('a_category_detail',category_pk)
         elif 'delete' in request.POST:
             material.delete()  
-            return redirect('a_equipment')
+            return redirect('a_category_detail',category_pk)
     context = {'material': material}
     return render(request, 'equ/a_add_stock.html', context)
 
@@ -290,10 +332,7 @@ def u_projects(request):
 def u_help(request):
     return render(request, 'equ/u_help.html')
 
-@login_required
-@labuser_required
-def u_inventory(request):
-    return render(request, 'equ/u_inventory.html')
+
 
 
 #PROJECT CREATION
@@ -390,6 +429,26 @@ def u_profile_page(request):
     return render(request, 'equ/u_profile_page.html', context)
 
 
+@login_required
+@labuser_required
+def u_inventory(request):
+    return render(request, 'equ/u_inventory.html')
+
+@login_required
+@labuser_required
+def u_inventory_category(request):
+    lab = request.user.profile.lab
+    categories = Category.objects.filter(lab=lab)
+    context = {'categories':categories}
+    return render(request, 'equ/u_inventory_category.html',context)
+
+@login_required
+@labuser_required
+def u_request_material(request,pk):
+    category = get_object_or_404(Category,pk=pk)
+    materials = Material.objects.filter(category=category)
+    context = {'materials':materials}
+    return render(request, 'equ/u_request_material.html',context)
 #CALENDAR VIEWS
 
 @login_required

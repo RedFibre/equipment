@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project,Booking,Material,Profile,Equipment
+from .models import Project,Booking,Material,Profile,Equipment,Category
 from django.forms import formset_factory,DateTimeInput, DateInput
 from datetime import datetime
 from django.contrib.auth.forms import AuthenticationForm
@@ -100,6 +100,11 @@ class EquipmentCreationForm(forms.ModelForm):
     class Meta:
         model = Equipment
         fields = ['name', 'condition']
+
+class CategoryCreationForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
 
 class MaterialForm(forms.ModelForm):
     class Meta:

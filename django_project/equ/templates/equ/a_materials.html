@@ -1,0 +1,16 @@
+{% extends "equ/a_base.html" %}
+{% block content %}    
+
+<div class="my_projects" style="padding: 20px;">
+  <h1>Materials</h1> 
+  <br>
+{% for category in categories %}
+<div class="equip_container">
+    <h2 style="color: black;"><a href="{% url 'a_category_detail' category.pk %}">{{ category.name }}</a></h2>
+    <a href="{% url 'a_remove_category' category.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">Remove</a>
+</div>
+{% endfor %}
+<br>
+<a href="{% url 'a_add_category' %}" class="btn-uproject">Add Category</a>
+</div>
+{% endblock content %}   

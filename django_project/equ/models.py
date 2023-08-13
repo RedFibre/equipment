@@ -81,13 +81,7 @@ class Equipment(models.Model):
     def __str__(self):
         return self.name
     
-class Material(models.Model):
-    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE,null=True,blank=True,default=None)
-    stock = models.IntegerField(null=True,blank=True)
-    name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.name
     
 class Booking(models.Model):
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
@@ -155,3 +149,27 @@ class UserActivityLog(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.login_time}"
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    lab = models.ForeignKey(Lab,on_delete=models.CASCADE)
+
+  
+class Material(models.Model):
+    stock = models.IntegerField(null=True,blank=True)
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+    
+class Request(models.Model):
+    REQUEST_TYPES = [
+        ('Borrow', 'Borrow'),
+        ('Issue', 'Issue'),
+    ]
+
+    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    request_type = models.CharField(max_length=10, choices=REQUEST_TYPES)
+    return_date = models.DateField(null=True, blank=True)  # Set only for issue requests
