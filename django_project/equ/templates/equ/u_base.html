@@ -17,9 +17,9 @@
         <div class="sidebar">
           <ul>
             {% if user.is_authenticated %}
-            <a href="{% url 'u_projects' %}"><li>Projects</li></a>            
-            <!--<a href="{% url 'u_help' %}"><li>Help Blogs</li></a>
-            <a href="{% url 'u_settings' %}"><li>Settings</li></a>-->
+            <a href="{% url 'u_projects' %}"><li>Bookings</li></a>            
+            <!--<a href="{% url 'u_help' %}"><li>Help Blogs</li></a>-->
+            <a href="{% url 'u_inventory' %}"><li>Inventory</li></a>
             <a href="{% url 'logout' %}"><li>Log Out</li></a>
             {% else %}
             <a href="{% url 'login' %}">Log In</a>

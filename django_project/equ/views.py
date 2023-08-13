@@ -292,12 +292,13 @@ def u_help(request):
 
 @login_required
 @labuser_required
-def u_settings(request):
-    return render(request, 'equ/u_settings.html')
+def u_inventory(request):
+    return render(request, 'equ/u_inventory.html')
 
 
 #PROJECT CREATION
-
+@login_required
+@labuser_required
 def u_create_project(request):
     current_lab = request.user.profile.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
@@ -334,6 +335,8 @@ def u_create_project(request):
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
 
+@login_required
+@labuser_required
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
     bookings = Booking.objects.filter(project=project)
@@ -344,6 +347,8 @@ def u_project_detail(request, pk):
     }
     return render(request, 'equ/u_project_detail.html', context)
 
+@login_required
+@labuser_required
 def u_confirmed_project_detail(request, pk):
     confirmed_project = get_object_or_404(Confirmed_Project, pk=pk)
     confirmed_bookings = Confirmed_Booking.objects.filter(project=confirmed_project)
@@ -376,6 +381,8 @@ def u_confirmed_project_detail(request, pk):
 
     return render(request, 'equ/u_confirmed_project_detail.html', context)
 
+@login_required
+@labuser_required
 def u_profile_page(request):
     user = request.user
     profile = Profile.objects.get(user=user)
