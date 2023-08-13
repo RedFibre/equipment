@@ -6,12 +6,24 @@
     <div class="mp1">
 
         <h1>Request Material</h1>
-        <ul>
-            {% for material in materials %}
-            <li>{{ material }}</a></li>
+        <br>
+        <form method="post" class="project-form">
+            {% csrf_token %}
+            {% for form, material in zipped_data %}
+        <h3>{{ material.name }}</h3>
+            <label for="id_request_type">Request Type:</label>
+            {{ form.request_type }}
+            <br>
+            <label for="id_material">Quantity:</label>
+            {{ form.quantity }}
+            <br>
+            <br>
+            <br>
             {% endfor %}
-        </ul>
-
+            <button type="submit">Submit Request</button>
+        </form>
+</div>
+</div>
   
 
 {% endblock content %}   

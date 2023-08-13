@@ -110,3 +110,10 @@ class MaterialForm(forms.ModelForm):
     class Meta:
         model = Material
         fields = ['name', 'stock']
+
+class MaterialRequestForm(forms.Form):
+    material_pk = forms.CharField(widget=forms.HiddenInput)
+    request_type = forms.ChoiceField(choices=(('Borrow', 'Borrow'), ('Issue', 'Issue')))
+    quantity = forms.IntegerField(min_value=1)
+    
+

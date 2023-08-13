@@ -3,15 +3,18 @@
 
 
 <div class="my_projects">
-    <div class="mp1">
+
 
         <h1>Select a Category</h1>
-        <ul>
+        <br>
             {% for category in categories %}
-            <li><a href="{% url 'u_request_material' category.pk %}">{{ category }}</a></li>
+            <p><a href="{% url 'u_request_material' category.pk %}">{{ category.name }}</a></p>
+            <br>
+            <br>
             {% endfor %}
-        </ul>
+        
 
-  
+
+</div>
 
 {% endblock content %}   

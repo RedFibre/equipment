@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
 from .models import Category, Request
 from .graphs import footfall, lab_footfall
-from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm,CategoryCreationForm
+from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm,CategoryCreationForm,MaterialRequestForm,formset_factory
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
@@ -447,8 +447,22 @@ def u_inventory_category(request):
 def u_request_material(request,pk):
     category = get_object_or_404(Category,pk=pk)
     materials = Material.objects.filter(category=category)
-    context = {'materials':materials}
-    return render(request, 'equ/u_request_material.html',context)
+    print(len(materials))
+    MaterialRequestFormSet = formset_factory(MaterialRequestForm, extra=len(materials))
+    
+    if request.method == 'POST':
+        formset = MaterialRequestFormSet(request.POST)
+        if formset.is_valid():
+            pass
+        
+    else:
+        formset = MaterialRequestFormSet()
+        zipped_data = zip(formset.forms, materials)
+    return render(
+        request,
+        'equ/u_request_material.html',
+        {'formset': formset, 'zipped_data':zipped_data}
+    )
 #CALENDAR VIEWS
 
 @login_required
