@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
-from .graphs import footfall
+from .graphs import footfall, lab_footfall
 from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
@@ -99,7 +99,9 @@ def a_overview(request):
         if user.logout_time is None:
             active_users.append(user.user)
             active_user_count = active_user_count + 1
-    context = {'active_user_count' :active_user_count,'lab':lab}
+
+    graph = lab_footfall(request.user)
+    context = {'active_user_count' :active_user_count,'lab':lab, 'graph':graph}
     return render(request, 'equ/a_overview.html',context)
 
 @login_required
