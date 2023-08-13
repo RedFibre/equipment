@@ -1,6 +1,11 @@
 {% extends "equ/a_base.html" %}
 {% block content %}    
-
+<style>
+    .graph-image {
+      width: 100%; /* Adjust the percentage or pixel value as needed */
+      height: auto;
+    }
+  </style>
 <div class="my_projects">
     <h1>Lab :{{lab.name}}</h1>
     <h2>Admin :{{lab.lab_admin}}</h2>
@@ -8,7 +13,7 @@
         <div class="clndr"><a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a></div>
         <h2> Active Users: {{active_user_count}}</h2>
 
-        <img src="data:image/png;base64,{{ graph }}" alt="Daily Footfall Graph">
+        <img src="data:image/png;base64,{{ graph }}" alt="Daily Footfall Graph" class="graph-image">
 
 
 
