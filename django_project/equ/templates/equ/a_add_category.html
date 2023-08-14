@@ -1,0 +1,12 @@
+{% extends "equ/a_base.html" %}
+{% block content %}    
+
+<div class="my_projects">
+<h2>Create Category</h2>
+    <form method="post" class="project-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Create</button>
+    </form>
+
+{% endblock content %}   

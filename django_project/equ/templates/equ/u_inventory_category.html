@@ -1,0 +1,20 @@
+{% extends "equ/u_base.html" %}
+{% block content %}    
+
+
+<div class="my_projects">
+
+
+        <h1>Select a Category</h1>
+        <br>
+            {% for category in categories %}
+            <p><a href="{% url 'u_request_material' category.pk %}">{{ category.name }}</a></p>
+            <br>
+            <br>
+            {% endfor %}
+        
+
+
+</div>
+
+{% endblock content %}   

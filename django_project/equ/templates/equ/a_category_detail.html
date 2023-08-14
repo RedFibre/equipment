@@ -1,0 +1,16 @@
+{% extends "equ/a_base.html" %}
+{% block content %}    
+
+<div class="my_projects" style="padding: 20px;">
+  <h1>{{category.name}}</h1> 
+  <br>
+  {% for material in materials %}
+  <div class="equip_container">
+      <h2 style="color: black;">{{ material.name }} <a href="{% url 'a_add_stock' material.pk category.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">{{material.stock}}</a></h2>
+
+  </div>
+  {% endfor %}
+  <a href="{% url 'a_add_material' category.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">Add Material</a>
+
+</div>
+{% endblock content %}   

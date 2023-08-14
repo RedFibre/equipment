@@ -1,0 +1,25 @@
+{% extends "equ/u_base.html" %}
+{% block content %}    
+
+
+<div class="my_projects">
+    <div class="mp1">
+
+<small><a href="{% url 'u_inventory_category' %}" class="btn-uproject"> Request Items </a></small>
+<br>
+<br>
+<br>
+<h1> Recently Requested Items</h1>
+<br>
+<br>
+<div class="navbar">
+  <a href="{% url 'u_inventory_active' %}" class="btn-uproject">Active</a>
+  <a href="{% url 'u_inventory_pending' %}" class="btn-uproject">Pending</a>
+  <a href="{% url 'u_inventory_closed' %}" class="btn-uproject">Closed</a>
+  </div>
+  <div class="content">
+    {% block requestcontent %}
+    {% endblock %}
+  </div>
+
+{% endblock content %}   

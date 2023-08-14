@@ -1,0 +1,17 @@
+{% extends "equ/u_inventory.html" %}
+{% block requestcontent %}
+<br>
+<h2>Your Inventory</h2>
+<br>
+<ul class="project_list">
+    {% for req in material_requests %}
+    <li>
+        {{ req.quantity }} {{ req.material.name }}
+        {% if req.request_type == 'Borrow' %}
+            To be returned by {{ req.return_date }}
+        {% endif %}
+    {% empty %}
+      <li>No Requests found.</li>
+    {% endfor %}
+  </ul>
+{% endblock requestcontent %}   

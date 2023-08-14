@@ -1,0 +1,21 @@
+{% extends "equ/a_activity.html" %}
+{% block activitycontent %}    
+
+<h1> Early Collection </h1>
+<ul class="project_list">
+  {% for req in material_requests %}
+  <li><form method="post" class="action-form" action="{% url 'a_material_request_handling' req.pk %}">
+    {% csrf_token %}
+    {{ req.quantity }} {{ req.material.name }} by User {{ req.user.username }}
+    {% if req.request_type == 'Borrow' %}
+    which was to be returned by {{ req.return_date }}
+    {% endif %}
+    
+    <button type="submit" name="action" value="collect_early" class="a-actionbutton accept">Collected</button></form>
+  </li>
+  {% empty %}
+    <li>No Requests found.</li>
+  {% endfor %}
+</ul>
+
+{% endblock activitycontent %}   

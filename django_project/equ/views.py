@@ -2,8 +2,9 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
+from .models import Category, Material_Request
 from .graphs import footfall, lab_footfall
-from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm
+from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm,CategoryCreationForm,MaterialRequestForm,formset_factory
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
@@ -131,9 +132,17 @@ def a_equipment(request):
     user = request.user  
     lab = Lab.objects.get(lab_admin=user)
     equipment = Equipment.objects.filter(lab=lab)
-    equipment = equipment.prefetch_related('material_set')
     context = {'equipments':equipment}
     return render(request, 'equ/a_equipment.html',context)
+
+@login_required
+@admin_required
+def a_materials(request):
+    user = request.user  
+    lab = Lab.objects.get(lab_admin=user)
+    categories = Category.objects.filter(lab=lab)
+    context = {'categories':categories}
+    return render(request, 'equ/a_materials.html',context)
 
 @login_required
 @admin_required
@@ -154,6 +163,23 @@ def a_add_equipment(request):
 
 @login_required
 @admin_required
+def a_add_category(request):
+    if request.method == 'POST':
+        lab = Lab.objects.get(lab_admin=request.user)
+        form = CategoryCreationForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.lab = lab
+            category.save()
+            return redirect('a_materials') 
+    else:
+        form = CategoryCreationForm()
+    
+    context = {'form': form}
+    return render(request, 'equ/a_add_category.html', context)
+
+@login_required
+@admin_required
 def a_remove_equipment(request, pk):
     equipment = get_object_or_404(Equipment, pk=pk) 
     equipment.delete()
@@ -161,46 +187,125 @@ def a_remove_equipment(request, pk):
 
 @login_required
 @admin_required
+def a_remove_category(request, pk):
+    category = get_object_or_404(Category, pk=pk) 
+    category.delete()
+    return redirect('a_materials') 
+
+@login_required
+@admin_required
+def a_category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk) 
+    materials = Material.objects.filter(category=category)
+    context = {'category':category,'materials':materials}
+    return render(request, 'equ/a_category_detail.html', context)
+
+
+@login_required
+@admin_required
 def a_add_material(request, pk):
-    equipment = Equipment.objects.get(pk=pk)
+    category = Category.objects.get(pk=pk)
     
     if request.method == 'POST':
         form = MaterialForm(request.POST)
         if form.is_valid():
             material = form.save(commit=False)
-            material.equipment = equipment
+            material.category = category
             material.save()
-            return redirect('a_equipment')
+            return redirect('a_category_detail',pk)
     else:
         form = MaterialForm()
     
-    context = {'equipment': equipment, 'form': form}
+    context = {'category': category, 'form': form}
     return render(request, 'equ/a_add_material.html', context)
 
-def a_add_stock(request, pk):
-    material = get_object_or_404(Material, pk=pk)
+def a_add_stock(request, material_pk,category_pk):
+    material = get_object_or_404(Material, pk=material_pk)
     
     if request.method == 'POST':
         if 'modify' in request.POST:
             stock = int(request.POST.get('stock'))
             material.stock = stock
             material.save()
-            return redirect('a_equipment')
+            return redirect('a_category_detail',category_pk)
         elif 'delete' in request.POST:
             material.delete()  
-            return redirect('a_equipment')
+            return redirect('a_category_detail',category_pk)
     context = {'material': material}
     return render(request, 'equ/a_add_stock.html', context)
 
 @login_required
 @admin_required
 def a_activity(request):
+   return render(request, 'equ/a_activity.html')
+
+@login_required
+@admin_required
+def a_activity_project_requests(request):
     user = request.user
     lab = Lab.objects.get(lab_admin=user)
     all_projects = Project.objects.filter(lab=lab)
     context = {'all_projects': all_projects}
-    return render(request, 'equ/a_activity.html', context)
+    return render(request, 'equ/a_activity_project_requests.html', context)
 
+@login_required
+@admin_required
+def a_activity_material_requests(request):
+    user = request.user
+    lab = Lab.objects.get(lab_admin=user)
+    material_requests = Material_Request.objects.filter(user__profile__lab=lab, status=0)
+    context = {'material_requests':material_requests}
+    return render(request, 'equ/a_activity_material_requests.html', context)
+
+@login_required
+@admin_required
+def a_activity_past_due(request):
+    user = request.user
+    current_date = localdate()
+    lab = Lab.objects.get(lab_admin=user)
+    material_requests = Material_Request.objects.filter(user__profile__lab=lab, status=0, return_date__lt=current_date)
+    context = {'material_requests':material_requests}
+    return render(request, 'equ/a_activity_past_due.html', context)
+
+@login_required
+@admin_required
+def a_activity_early_collection(request):
+    user = request.user
+    lab = Lab.objects.get(lab_admin=user)
+    material_requests = Material_Request.objects.filter(user__profile__lab=lab, status=1)
+    context = {'material_requests':material_requests}
+    return render(request, 'equ/a_activity_early_collection.html', context)
+
+def a_material_request_handling(request,pk):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        material_request = Material_Request.objects.get(pk=pk)
+        material = material_request.material
+        if action == 'accept':
+            material_request.status = 1
+            material_request.save()
+            material.stock = material.stock - material_request.quantity
+            material.save()
+            return redirect('a_activity_material_requests')
+        elif action == 'reject':      
+            material_request.delete()
+            return redirect('a_activity_material_requests')
+        elif action == 'collect_due':
+            material_request.status = 2
+            material_request.save()
+            if material_request.request_type == "Borrow":
+                material.stock = material.stock + material_request.quantity
+                material.save()
+            return redirect('a_activity_past_due')
+        elif action == 'collect_early':
+            material_request.status = 2
+            material_request.save()
+            if material_request.request_type == "Borrow":
+                material.stock = material.stock + material_request.quantity
+                material.save()
+            return redirect('a_activity_early_collection')
+        
+               
 @login_required
 @admin_required
 def a_confirmed_project_detail(request, pk):
@@ -238,7 +343,6 @@ def a_project_detail(request, pk):
                 )
                 print(overlapping_bookings)
                 if overlapping_bookings.exists():
-                    print("YES")
                     print(overlapping_bookings)
                     error_message = "You Accepted a slot that was already booked. Please check the calendar."
                     confirmed.delete()
@@ -290,14 +394,12 @@ def u_projects(request):
 def u_help(request):
     return render(request, 'equ/u_help.html')
 
-@login_required
-@labuser_required
-def u_settings(request):
-    return render(request, 'equ/u_settings.html')
+
 
 
 #PROJECT CREATION
-
+@login_required
+@labuser_required
 def u_create_project(request):
     current_lab = request.user.profile.lab
     available_equipment = Equipment.objects.filter(lab=current_lab)
@@ -334,6 +436,8 @@ def u_create_project(request):
 
     return render(request, 'equ/u_create_project.html', {'project_form': project_form, 'booking_formset': booking_formset})
 
+@login_required
+@labuser_required
 def u_project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
     bookings = Booking.objects.filter(project=project)
@@ -344,6 +448,8 @@ def u_project_detail(request, pk):
     }
     return render(request, 'equ/u_project_detail.html', context)
 
+@login_required
+@labuser_required
 def u_confirmed_project_detail(request, pk):
     confirmed_project = get_object_or_404(Confirmed_Project, pk=pk)
     confirmed_bookings = Confirmed_Booking.objects.filter(project=confirmed_project)
@@ -376,6 +482,8 @@ def u_confirmed_project_detail(request, pk):
 
     return render(request, 'equ/u_confirmed_project_detail.html', context)
 
+@login_required
+@labuser_required
 def u_profile_page(request):
     user = request.user
     profile = Profile.objects.get(user=user)
@@ -383,6 +491,77 @@ def u_profile_page(request):
     return render(request, 'equ/u_profile_page.html', context)
 
 
+@login_required
+@labuser_required
+def u_inventory(request):
+    return render(request, 'equ/u_inventory.html')
+
+@login_required
+@labuser_required
+def u_inventory_category(request):
+    lab = request.user.profile.lab
+    categories = Category.objects.filter(lab=lab)
+    context = {'categories':categories}
+    return render(request, 'equ/u_inventory_category.html',context)
+
+@login_required
+@labuser_required
+def u_request_material(request,pk):
+    category = get_object_or_404(Category,pk=pk)
+    materials = Material.objects.filter(category=category)
+    MaterialRequestFormSet = formset_factory(MaterialRequestForm, extra=len(materials))
+    
+    if request.method == 'POST':
+        formset = MaterialRequestFormSet(request.POST)
+        if formset.is_valid():
+            for form,material in zip(formset.forms,materials):
+                request_type = form.cleaned_data['request_type']
+                if request_type == '_':
+                    continue
+                quantity = form.cleaned_data['quantity']
+                return_date = form.cleaned_data['return_date']               
+                material_request = Material_Request(material=material, request_type=request_type, quantity=quantity,user=request.user)
+                
+                if quantity > material.stock:
+                    error_message = f"Sorry, we only have {material.stock} {material.name} in stock"
+                    return render(request,'equ/u_request_material.html',{'formset': formset, 'zipped_data':zip(formset.forms, materials), 'error_message':error_message}
+                    )
+                if request_type == 'Borrow':
+                    if return_date is None:
+                        print('BORROW ERROR')
+                        error_message = f"Please Fill The Return Dates for {material.name}"
+                        return render(request,'equ/u_request_material.html',{'formset': formset, 'zipped_data':zip(formset.forms, materials), 'error_message':error_message}
+                        )
+                    else:
+                        material_request.return_date = return_date
+                else:
+                    material_request.return_date = None
+                
+                material_request.save()
+            return redirect('u_inventory')  
+        
+    else:
+        formset = MaterialRequestFormSet()
+    return render(
+        request,
+        'equ/u_request_material.html',
+        {'formset': formset, 'zipped_data':zip(formset.forms, materials)}
+    )
+@login_required
+@labuser_required
+def u_inventory_active(request):
+    material_requests = Material_Request.objects.filter(user=request.user, status=1)
+    return render(request, 'equ/u_inventory_active.html',{'material_requests':material_requests})
+@login_required
+@labuser_required
+def u_inventory_pending(request):
+    material_requests = Material_Request.objects.filter(user=request.user, status=0)
+    return render(request, 'equ/u_inventory_pending.html',{'material_requests':material_requests})
+@login_required
+@labuser_required
+def u_inventory_closed(request):
+    material_requests = Material_Request.objects.filter(user=request.user, status=2)
+    return render(request, 'equ/u_inventory_closed.html',{'material_requests':material_requests})
 #CALENDAR VIEWS
 
 @login_required

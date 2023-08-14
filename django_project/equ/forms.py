@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project,Booking,Material,Profile,Equipment
+from .models import Project,Booking,Material,Profile,Equipment,Category,Material_Request
 from django.forms import formset_factory,DateTimeInput, DateInput
 from datetime import datetime
 from django.contrib.auth.forms import AuthenticationForm
@@ -101,7 +101,19 @@ class EquipmentCreationForm(forms.ModelForm):
         model = Equipment
         fields = ['name', 'condition']
 
+class CategoryCreationForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+
 class MaterialForm(forms.ModelForm):
     class Meta:
         model = Material
         fields = ['name', 'stock']
+
+class MaterialRequestForm(forms.Form):
+    request_type = forms.ChoiceField(choices=(('_', '_'),('Borrow', 'Borrow'), ('Issue', 'Issue')),required=False)
+    quantity = forms.IntegerField(min_value=1,required=False)
+    return_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+
+  

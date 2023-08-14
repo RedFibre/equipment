@@ -14,7 +14,8 @@
             {% if user.is_authenticated %}
             <a href="{% url 'a_overview' %}"><li>Overview</li></a>
             <a href="{% url 'a_members' %}"><li>Members</li></a>
-            <a href="{% url 'a_equipment' %}"><li>Inventory</li></a>
+            <a href="{% url 'a_equipment' %}"><li>Equipment</li></a>
+            <a href="{% url 'a_materials' %}"><li>Materials</li></a>
             <a href="{% url 'a_activity' %}"><li>Activity Log</li></a>
             <a href="{% url 'logout' %}"><li>Log Out</li></a>
             {% else %}
