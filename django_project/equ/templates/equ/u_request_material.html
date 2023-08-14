@@ -1,38 +1,133 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
-
+{% load static %}
 
 <div class="my_projects">
     <div class="mp1">
-
-        <h1>Request Material</h1>
-        <br>
+        <h1 class="form-title">Request Material</h1>
         <form method="post" class="project-form">
             {% csrf_token %}
             {{ formset.management_form }}
             {% for form, material in zipped_data %}
-        <h3>{{ material.name }}</h3>
-            <label for="request_type">Request Type:</label>
-            {{ form.request_type }}
-            <br>
-            <label for="quantity">Quantity:</label>
-            {{ form.quantity }}
-            <br>
-            <label for="return_date">Return Date: </label>
-            {{ form.return_date }}
-            <br>
+            <div class="material-entry">
+                <div class="material-info">
+                    <h3 class="material-name"><img src="{% static 'images/item.png' %}">{{ material.name }}</h3>
+                    <button type="button" class="add-button" onclick="showRequestType(this)">+</button>
+                    <div class="request-type" style="display: none;">
+                        <label for="request_type">Request Type:</label>
+                        {{ form.request_type }}
+                    </div>
+                    <div class="quantity-input" style="display: none;">
+                        <button type="button" class="quantity-button" onclick="decrementQuantity(this)">-</button>
+                        {{ form.quantity }}
+                        <button type="button" class="quantity-button" onclick="incrementQuantity(this)">+</button>
+                    </div>
+                    <br>
+                    <label for="return_date" class="return-date-label">Return Date: </label>
+                    <input type="date" id="return_date" name="return_date" class="return-date-input">
+                </div>
+            </div>
             <br>
             {% endfor %}
             {% if error_message %}
-            <br>
             <div class="error-message">{{ error_message }}</div>
             <br>
             {% endif %}
-            <small>Leave Return Date Empty for Issue Requests</small><br><br>
+            <p class="instructions">Leave Return Date Empty for Issue Requests</p>
             <button type="submit" class="submit-btn">Submit Request</button> 
         </form>
+    </div>
 </div>
-</div>
-  
 
-{% endblock content %}   
+<script>
+    function showRequestType(button) {
+        var requestTypeDiv = button.parentNode.querySelector('.request-type');
+        var quantityInputDiv = button.parentNode.querySelector('.quantity-input');
+
+        if (requestTypeDiv.style.display === "none") {
+            requestTypeDiv.style.display = "block";
+            quantityInputDiv.style.display = "block";
+            button.style.display = "none";
+        }
+    }
+
+    function incrementQuantity(button) {
+        var inputField = button.parentNode.querySelector('input[type="number"]');
+        inputField.stepUp();
+    }
+
+    function decrementQuantity(button) {
+        var inputField = button.parentNode.querySelector('input[type="number"]');
+        inputField.stepDown();
+    }
+</script>
+
+<style>
+     .add-button,
+    .quantity-button,
+    .submit-btn {
+        background-color: #3498db;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .add-button:hover,
+    .quantity-button:hover,
+    .submit-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .form-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .material-entry {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .material-name {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .request-type,
+    .quantity-input {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .request-type label,
+    .quantity-button,
+    .quantity-input input {
+        margin-right: 10px;
+    }
+
+    .return-date-label {
+        margin-right: 10px;
+    }
+
+    .instructions {
+        font-size: 12px;
+        color: #888;
+        margin-top: 5px;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+</style>
+
+{% endblock content %}
