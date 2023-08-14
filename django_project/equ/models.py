@@ -163,7 +163,7 @@ class Material(models.Model):
     def __str__(self):
         return self.name
     
-class Request(models.Model):
+class Material_Request(models.Model):
     REQUEST_TYPES = [
         ('Borrow', 'Borrow'),
         ('Issue', 'Issue'),

@@ -9,18 +9,27 @@
         <br>
         <form method="post" class="project-form">
             {% csrf_token %}
+            {{ formset.management_form }}
             {% for form, material in zipped_data %}
         <h3>{{ material.name }}</h3>
-            <label for="id_request_type">Request Type:</label>
+            <label for="request_type">Request Type:</label>
             {{ form.request_type }}
             <br>
-            <label for="id_material">Quantity:</label>
+            <label for="quantity">Quantity:</label>
             {{ form.quantity }}
             <br>
+            <label for="return_date">Return Date: </label>
+            {{ form.return_date }}
             <br>
             <br>
             {% endfor %}
-            <button type="submit">Submit Request</button>
+            {% if error_message %}
+            <br>
+            <div class="error-message">{{ error_message }}</div>
+            <br>
+            {% endif %}
+            <small>Leave Return Date Empty for Issue Requests</small><br><br>
+            <button type="submit" class="submit-btn">Submit Request</button> 
         </form>
 </div>
 </div>

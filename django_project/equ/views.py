@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
-from .models import Category, Request
+from .models import Category, Material_Request
 from .graphs import footfall, lab_footfall
 from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm,CategoryCreationForm,MaterialRequestForm,formset_factory
 from datetime import datetime,timedelta
@@ -447,21 +447,42 @@ def u_inventory_category(request):
 def u_request_material(request,pk):
     category = get_object_or_404(Category,pk=pk)
     materials = Material.objects.filter(category=category)
-    print(len(materials))
     MaterialRequestFormSet = formset_factory(MaterialRequestForm, extra=len(materials))
     
     if request.method == 'POST':
         formset = MaterialRequestFormSet(request.POST)
         if formset.is_valid():
-            pass
+            print("VALID")
+            for form,material in zip(formset.forms,materials):
+                request_type = form.cleaned_data['request_type']
+                quantity = form.cleaned_data['quantity']
+                return_date = form.cleaned_data['return_date']               
+                material_request = Material_Request(material=material, request_type=request_type, quantity=quantity)
+                
+                if request_type == 'Borrow':
+                    if return_date is None:
+                        print('BORROW ERROR')
+                        error_material = material.name
+                        error_message = f"Please Fill The Return Dates for {error_material}"
+                        return render(request,'equ/u_request_material.html',{'formset': formset, 'zipped_data':zip(formset.forms, materials), 'error_message':error_message}
+                        )
+                    else:
+                        material_request.return_date = return_date
+                else:
+                    material_request.return_date = None
+                
+                material_request.save()
+            return redirect('u_inventory')
+        else:
+            print("NOT VALID")
+            print(formset.errors)   
         
     else:
         formset = MaterialRequestFormSet()
-        zipped_data = zip(formset.forms, materials)
     return render(
         request,
         'equ/u_request_material.html',
-        {'formset': formset, 'zipped_data':zipped_data}
+        {'formset': formset, 'zipped_data':zip(formset.forms, materials)}
     )
 #CALENDAR VIEWS
 
