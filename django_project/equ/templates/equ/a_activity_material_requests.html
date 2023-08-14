@@ -1,0 +1,24 @@
+{% extends "equ/a_activity.html" %}
+{% block activitycontent %}    
+
+<h1>Pending Material Requests</h1>
+
+  {% for req in material_requests %}
+  <li><form method="post" class="action-form" action="{% url 'a_material_request_handling' req.pk %}">
+    {% csrf_token %}
+    Request for {{ req.quantity }} {{ req.material.name }} by User {{ req.user.username }}
+    {% if req.request_type == 'Borrow' %}
+      To be returned by {{ req.return_date }}
+    {% endif %}
+    
+  
+        <button type="submit" name="action" value="accept" class="a-actionbutton accept">Accept</button>
+        <button type="submit" name="action" value="reject" class="a-actionbutton reject">Reject</button>
+      </form>
+  </li>
+  {% empty %}
+    <li>No Requests found.</li>
+  {% endfor %}
+</ul>
+</div></div>
+{% endblock activitycontent %}   

@@ -1,0 +1,18 @@
+{% extends "equ/a_activity.html" %}
+{% block activitycontent %}    
+
+<h1>Pending Project Requests</h1>
+
+<a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a>
+
+<ul class="project_list">
+    {% for project in all_projects %}
+      <li><a href="{% url 'a_project_detail' project.pk %}">{{ project.name }}</a></li>
+    {% empty %}
+      <li>No projects found.</li>
+    {% endfor %}
+  </ul>
+
+
+</div></div>
+{% endblock activitycontent %}   

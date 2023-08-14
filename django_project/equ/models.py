@@ -165,11 +165,14 @@ class Material(models.Model):
     
 class Material_Request(models.Model):
     REQUEST_TYPES = [
+        ('_', '_'),
         ('Borrow', 'Borrow'),
         ('Issue', 'Issue'),
     ]
 
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(null=True, blank=True)
     request_type = models.CharField(max_length=10, choices=REQUEST_TYPES)
     return_date = models.DateField(null=True, blank=True)  # Set only for issue requests
+    status = models.IntegerField(default=0) #0-pending, 1-active, 2-closed
+    user = models.ForeignKey(User,on_delete=models.CASCADE)

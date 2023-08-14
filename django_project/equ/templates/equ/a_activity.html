@@ -1,21 +1,20 @@
 {% extends "equ/a_base.html" %}
 {% block content %}    
+<div class="my_projects">
+  <div class="mp1">
 
-<div class="activities">
-  <h1>Pending Project Requests</h1>
-
-<div class="clndr"><a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a></div>
-
-<ul class="project_list">
-    {% for project in all_projects %}
-      <li><a href="{% url 'a_project_detail' project.pk %}">{{ project.name }}</a></li>
-    {% empty %}
-      <li>No projects found.</li>
-    {% endfor %}
-  </ul>
-  
+<div class="navbar">
+  <a href="{% url 'a_activity_project_requests' %}" class="btn-uproject">Project Requests</a>
+  <a href="{% url 'a_activity_material_requests' %}" class="btn-uproject">Material Requests</a>
+  <a href="{% url 'a_activity_past_due' %}" class="btn-uproject">Past Due</a>
+  <a href="{% url 'a_activity_early_collection' %}" class="btn-uproject">Early Collection</a>
 </div>
+<br>
+<br>
+<br>
+    {% block activitycontent %}
+    {% endblock %}
 
-  
 
+</div></div>
 {% endblock content %}   

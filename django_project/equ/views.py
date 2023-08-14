@@ -237,12 +237,75 @@ def a_add_stock(request, material_pk,category_pk):
 @login_required
 @admin_required
 def a_activity(request):
+   return render(request, 'equ/a_activity.html')
+
+@login_required
+@admin_required
+def a_activity_project_requests(request):
     user = request.user
     lab = Lab.objects.get(lab_admin=user)
     all_projects = Project.objects.filter(lab=lab)
     context = {'all_projects': all_projects}
-    return render(request, 'equ/a_activity.html', context)
+    return render(request, 'equ/a_activity_project_requests.html', context)
 
+@login_required
+@admin_required
+def a_activity_material_requests(request):
+    user = request.user
+    lab = Lab.objects.get(lab_admin=user)
+    material_requests = Material_Request.objects.filter(user__profile__lab=lab, status=0)
+    context = {'material_requests':material_requests}
+    return render(request, 'equ/a_activity_material_requests.html', context)
+
+@login_required
+@admin_required
+def a_activity_past_due(request):
+    user = request.user
+    current_date = localdate()
+    lab = Lab.objects.get(lab_admin=user)
+    material_requests = Material_Request.objects.filter(user__profile__lab=lab, status=0, return_date__lt=current_date)
+    context = {'material_requests':material_requests}
+    return render(request, 'equ/a_activity_past_due.html', context)
+
+@login_required
+@admin_required
+def a_activity_early_collection(request):
+    user = request.user
+    lab = Lab.objects.get(lab_admin=user)
+    material_requests = Material_Request.objects.filter(user__profile__lab=lab, status=1)
+    context = {'material_requests':material_requests}
+    return render(request, 'equ/a_activity_early_collection.html', context)
+
+def a_material_request_handling(request,pk):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        material_request = Material_Request.objects.get(pk=pk)
+        material = material_request.material
+        if action == 'accept':
+            material_request.status = 1
+            material_request.save()
+            material.stock = material.stock - material_request.quantity
+            material.save()
+            return redirect('a_activity_material_requests')
+        elif action == 'reject':      
+            material_request.delete()
+            return redirect('a_activity_material_requests')
+        elif action == 'collect_due':
+            material_request.status = 2
+            material_request.save()
+            if material_request.request_type == "Borrow":
+                material.stock = material.stock + material_request.quantity
+                material.save()
+            return redirect('a_activity_past_due')
+        elif action == 'collect_early':
+            material_request.status = 2
+            material_request.save()
+            if material_request.request_type == "Borrow":
+                material.stock = material.stock + material_request.quantity
+                material.save()
+            return redirect('a_activity_early_collection')
+        
+               
 @login_required
 @admin_required
 def a_confirmed_project_detail(request, pk):
@@ -280,7 +343,6 @@ def a_project_detail(request, pk):
                 )
                 print(overlapping_bookings)
                 if overlapping_bookings.exists():
-                    print("YES")
                     print(overlapping_bookings)
                     error_message = "You Accepted a slot that was already booked. Please check the calendar."
                     confirmed.delete()
@@ -452,18 +514,22 @@ def u_request_material(request,pk):
     if request.method == 'POST':
         formset = MaterialRequestFormSet(request.POST)
         if formset.is_valid():
-            print("VALID")
             for form,material in zip(formset.forms,materials):
                 request_type = form.cleaned_data['request_type']
+                if request_type == '_':
+                    continue
                 quantity = form.cleaned_data['quantity']
                 return_date = form.cleaned_data['return_date']               
-                material_request = Material_Request(material=material, request_type=request_type, quantity=quantity)
+                material_request = Material_Request(material=material, request_type=request_type, quantity=quantity,user=request.user)
                 
+                if quantity > material.stock:
+                    error_message = f"Sorry, we only have {material.stock} {material.name} in stock"
+                    return render(request,'equ/u_request_material.html',{'formset': formset, 'zipped_data':zip(formset.forms, materials), 'error_message':error_message}
+                    )
                 if request_type == 'Borrow':
                     if return_date is None:
                         print('BORROW ERROR')
-                        error_material = material.name
-                        error_message = f"Please Fill The Return Dates for {error_material}"
+                        error_message = f"Please Fill The Return Dates for {material.name}"
                         return render(request,'equ/u_request_material.html',{'formset': formset, 'zipped_data':zip(formset.forms, materials), 'error_message':error_message}
                         )
                     else:
@@ -472,10 +538,7 @@ def u_request_material(request,pk):
                     material_request.return_date = None
                 
                 material_request.save()
-            return redirect('u_inventory')
-        else:
-            print("NOT VALID")
-            print(formset.errors)   
+            return redirect('u_inventory')  
         
     else:
         formset = MaterialRequestFormSet()
@@ -484,6 +547,21 @@ def u_request_material(request,pk):
         'equ/u_request_material.html',
         {'formset': formset, 'zipped_data':zip(formset.forms, materials)}
     )
+@login_required
+@labuser_required
+def u_inventory_active(request):
+    material_requests = Material_Request.objects.filter(user=request.user, status=1)
+    return render(request, 'equ/u_inventory_active.html',{'material_requests':material_requests})
+@login_required
+@labuser_required
+def u_inventory_pending(request):
+    material_requests = Material_Request.objects.filter(user=request.user, status=0)
+    return render(request, 'equ/u_inventory_pending.html',{'material_requests':material_requests})
+@login_required
+@labuser_required
+def u_inventory_closed(request):
+    material_requests = Material_Request.objects.filter(user=request.user, status=2)
+    return render(request, 'equ/u_inventory_closed.html',{'material_requests':material_requests})
 #CALENDAR VIEWS
 
 @login_required
