@@ -30,14 +30,16 @@
   <ul class="equipment_list">
     {% for equipment in equipments %}
     <br><br>
-      <h2>{{ equipment.name }}</h2>
-      <br>Materials:
-      <ul>
-      {% for material in equipment.material_set.all %}
-        <li>{{ material.name }}</li>
+      <h2>{{ equipment.name }} [{{ equipment.condition}}]</h2>
+    {% endfor %}
+    <br>
+    <br>
+  <h2>Materials</h2>
+    <ul class="equipment_list">
+      {% for material in materials %}
+        <li>{{material.stock}} {{ material.name }} </li>
       {% endfor %}
       </ul>
-    {% endfor %}
 </div>
 </div>
 {% endblock content %}   

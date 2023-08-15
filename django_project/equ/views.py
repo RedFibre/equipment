@@ -53,8 +53,8 @@ def s_lab_detail(request,pk):
     lab = get_object_or_404(Lab,pk=pk)
     users = User.objects.filter(profile__lab=lab)
     equipment = Equipment.objects.filter(lab=lab)
-    equipment = equipment.prefetch_related('material_set')
-    context = {'users': users, 'equipments':equipment,'lab':lab}
+    materials = Material.objects.filter(category__lab=lab)
+    context = {'users': users, 'equipments':equipment,'lab':lab,'materials':materials}
     return render(request, 'equ/s_lab_detail.html',context)
 @login_required
 @superadmin_required
