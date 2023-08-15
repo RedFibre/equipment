@@ -63,7 +63,7 @@
       text-align: center;
       display: flex;
       width: 100%;
-      border-radius: 50px;
+      /* border-radius: 50px; */
       align-items: center;
       justify-content: center;
       padding: 10px 15px;
@@ -77,10 +77,10 @@
     width: 70%;
      }
 
-     .sidebar a:hover{
+     /* .sidebar a:hover{
       cursor: pointer;
       background-color: var(--secondary);
-     }
+     } */
 
      .content {
       flex-grow: 1;
