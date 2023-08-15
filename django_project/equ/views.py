@@ -382,12 +382,32 @@ def labuser_required(function):
 @labuser_required
 def u_projects(request):
     profile = get_object_or_404(Profile, user=request.user)
-    user_projects = Project.objects.filter(user=request.user)
-    user_confirmed_projects = Confirmed_Project.objects.filter(user=request.user)
-    user_notifications = Notification.objects.filter(user=request.user)
-    context = {'user_projects': user_projects, 'user_confirmed_projects':user_confirmed_projects, 'user_notifications': user_notifications, 'profile':profile}
+    context = {'profile' :profile}
     return render(request, 'equ/u_projects.html', context)
 
+@login_required
+@labuser_required
+def u_projects_confirmed(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    user_confirmed_projects = Confirmed_Project.objects.filter(user=request.user)
+    context = {'user_confirmed_projects':user_confirmed_projects, 'profile':profile}
+    return render(request, 'equ/u_projects_confirmed.html', context)
+
+@login_required
+@labuser_required
+def u_projects_pending(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    user_projects = Project.objects.filter(user=request.user)
+    context = {'user_projects': user_projects, 'profile':profile}
+    return render(request, 'equ/u_projects_pending.html', context)
+
+@login_required
+@labuser_required
+def u_projects_notifications(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    user_notifications = Notification.objects.filter(user=request.user)
+    context = {'user_notifications': user_notifications, 'profile':profile}
+    return render(request, 'equ/u_projects_notifications.html', context)
 
 @login_required
 @labuser_required
@@ -515,8 +535,9 @@ def u_request_material(request,pk):
         formset = MaterialRequestFormSet(request.POST)
         if formset.is_valid():
             for form,material in zip(formset.forms,materials):
-                request_type = form.cleaned_data['request_type']
-                if request_type == '_':
+                try:
+                    request_type = form.cleaned_data['request_type']
+                except:
                     continue
                 quantity = form.cleaned_data['quantity']
                 return_date = form.cleaned_data['return_date']               

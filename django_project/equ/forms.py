@@ -112,7 +112,7 @@ class MaterialForm(forms.ModelForm):
         fields = ['name', 'stock']
 
 class MaterialRequestForm(forms.Form):
-    request_type = forms.ChoiceField(choices=(('_', '_'),('Borrow', 'Borrow'), ('Issue', 'Issue')),required=False)
+    request_type = forms.ChoiceField(choices=(('Borrow', 'Borrow'), ('Issue', 'Issue')),required=False,widget=forms.RadioSelect)
     quantity = forms.IntegerField(min_value=1,required=False)
     return_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
 

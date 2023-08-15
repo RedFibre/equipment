@@ -1,0 +1,17 @@
+{% extends "equ/u_projects.html" %}
+{% block projectcontent %}    
+
+<h2 class="my_proj">My Projects</h2>
+
+<ul class="project_list">
+  {% for project in user_confirmed_projects %}
+    <li><a href="{% url 'u_confirmed_project_detail' project.pk %}">{{ project.name }}</a></li>
+  {% empty %}
+    <li>No projects found.</li>
+  {% endfor %}
+</ul>
+
+<div class="mp2">
+  <a href="{% url 'u_create_project' %}" class="btn-uproject">Create Project Request</a>
+</div>
+{% endblock projectcontent %}   

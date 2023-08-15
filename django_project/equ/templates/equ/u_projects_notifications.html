@@ -1,0 +1,11 @@
+{% extends "equ/u_projects.html" %}
+{% block projectcontent %}    
+
+
+<h2 class="my_proj">Notifications</h2>
+{% for notification in user_notifications %}
+  {{notification.message}} <small>{{notification.time_stamp}}</small><br>
+{% endfor %}
+
+
+{% endblock projectcontent %}   

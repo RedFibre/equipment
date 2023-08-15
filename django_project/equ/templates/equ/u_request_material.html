@@ -14,7 +14,7 @@
                     <h3 class="material-name"><img src="{% static 'images/item.png' %}">{{ material.name }}</h3>
                     <button type="button" class="add-button" onclick="showRequestType(this)">+</button>
                     <div class="request-type" style="display: none;">
-                        <label for="request_type">Request Type:</label>
+                        <label for="request_type"></label>
                         {{ form.request_type }}
                     </div>
                     <div class="quantity-input" style="display: none;">
@@ -23,8 +23,10 @@
                         <button type="button" class="quantity-button" onclick="incrementQuantity(this)">+</button>
                     </div>
                     <br>
-                    <label for="return_date" class="return-date-label">Return Date: </label>
-                    <input type="date" id="return_date" name="return_date" class="return-date-input">
+                    <div class="date-input" style="display: none;">
+                        <label for="return_date" class="return-date-label">Return Date: </label>
+                        {{form.return_date}}
+                    </div>
                 </div>
             </div>
             <br>
@@ -43,10 +45,12 @@
     function showRequestType(button) {
         var requestTypeDiv = button.parentNode.querySelector('.request-type');
         var quantityInputDiv = button.parentNode.querySelector('.quantity-input');
+        var dateInputDiv = button.parentNode.querySelector('.date-input');
 
         if (requestTypeDiv.style.display === "none") {
             requestTypeDiv.style.display = "block";
             quantityInputDiv.style.display = "block";
+            dateInputDiv.style.display = "block";
             button.style.display = "none";
         }
     }
