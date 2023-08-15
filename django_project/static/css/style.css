@@ -1,6 +1,6 @@
 
     :root{
-      --primary:rgb(65 65 100);
+      --primary:#314677;
       --secondary:rgb(97, 97, 131);
     }
 
@@ -47,7 +47,7 @@
       width: 15%;
       /* height: 100vh; */
       background-color: var(--primary);
-      padding: 20px;
+      padding: 20px 2px;
      }
 
      .sidebar ul{
@@ -55,32 +55,61 @@
       /* width: 100%; */
      }
 
+     .mslogo{
+      margin-bottom: 50px;
+      text-align: center;
+     }
+
+     .mslogo img{
+      width: 70%;
+     }
+
      .sidebar a{
       color: white;
-      text-decoration: none;
-      font-size: 1.2rem;
-      /* border: 1px solid black; */
-      text-align: center;
-      display: flex;
+    text-decoration: none;
+    font-size: 1.2rem;
+    /* border: 1px solid black; */
+    text-align: center;
+    display: flex;
+    width: 100%;
+    /* border-radius: 50px; */
+    align-items: center;
+    justify-content: center;
+    /* padding: 10px 15px; */
+    margin: 10px 0;
+     }
+
+     .link{
       width: 100%;
-      /* border-radius: 50px; */
-      align-items: center;
-      justify-content: center;
-      padding: 10px 15px;
+      display: flex;
+     }
+
+     .sidebar span{
+      /* border: 1px solid white; */
+    width: 10px;
+    background: none;
+    transition: 0.3s ease-in;
      }
 
      .sidebar li{
       padding: 15px 0;
-    /* border: 1px solid black; */
-    /* border-radius: 50px; */
-    text-align: left;
-    width: 70%;
+      /* border: 1px solid black; */
+      /* border-radius: 50px; */
+      text-align: center;
+      width: 100%;
+      /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+      background-image: none;
+      transition: 0.3s ease-in;
      }
 
      /* .sidebar a:hover{
       cursor: pointer;
       background-color: var(--secondary);
      } */
+
+     .sidebar li:hover{
+      background-image: linear-gradient(to right, #60b8ca56, #5890f952);
+     }
 
      .content {
       flex-grow: 1;

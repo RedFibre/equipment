@@ -11,13 +11,18 @@
         <div class="sidebar">
           <ul>
             {% if user.is_authenticated %}
-            <li><a href="{% url 's_overview' %}">Overview</a></li>
-            <li><a href="{% url 's_labs' %}">Projects</a></li>
+            <div class="mslogo"><img src="{% static 'images/MSClogo2.png' %}" alt=""></div>
+            <a href="{% url 's_overview' %}" class="overview"><div class="link"><span></span><li>Overview</li></div></a>
+            <a href="{% url 's_labs' %}" class="projects"><div class="link"><span></span><li>Projects</li></div></a>
+            <a href="{% url 'admin:index' %}" class="data"><div class="link"><span></span><li>Data</li></div></a>
+            <a href="{% url 'logout' %}" class="logout"><div class="link"><span></span><li>Log Out</li></div></a>
+            <!-- <li><a href="{% url 's_overview' %}">Overview</a></li>
+            <li><a href="{% url 's_labs' %}">Projects</a></li> -->
             <!--<li><a href="{% url 's_equipment' %}">Equipments</a></li>-->
-            <li><a href="{% url 'admin:index' %}">Data</a></li>
-            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <!-- <li><a href="{% url 'admin:index' %}">Data</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li> -->
             {% else %}
-            <a href="{% url 'login' %}">Log In</a>
+            <a href="{% url 'login' %}" class="login"><div class="link"><span></span><li>Log In</li></div></a>
             {% endif %}
           </ul>
         </div>

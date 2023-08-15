@@ -1,5 +1,16 @@
 {% extends "equ/login_base.html" %}
 {% block content %}
+<style>
+
+    .login span{
+      border: 1px solid white;
+      background-color: white;
+    }
+
+    .login li{
+      background-image: linear-gradient(to right, #60B8CA, #5890F9);
+    }
+  </style>
     <div class="content-section" > 
         <form method="POST" class="form-signin">
             {% csrf_token %}
