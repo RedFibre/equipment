@@ -94,6 +94,8 @@ def s_equipment(request):
 def a_overview(request):
     lab = Lab.objects.get(lab_admin=request.user)
     users = list(UserActivityLog.objects.filter(user__profile__lab = lab))
+    material_requests_count = Material_Request.objects.filter(user__profile__lab=lab, status=0).count()
+    all_projects_count = Project.objects.filter(lab=lab).count()
     active_users =[]
     active_user_count = 0
     for user in users:
@@ -102,7 +104,7 @@ def a_overview(request):
             active_user_count = active_user_count + 1
 
     graph = lab_footfall(request.user)
-    context = {'active_user_count' :active_user_count,'lab':lab, 'graph':graph}
+    context = {'active_user_count' :active_user_count,'lab':lab, 'graph':graph, 'material_requests_count':material_requests_count, 'project_requests_count':all_projects_count}
     return render(request, 'equ/a_overview.html',context)
 
 @login_required

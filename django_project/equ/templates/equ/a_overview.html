@@ -14,6 +14,16 @@
     .overview li{
       background-image: linear-gradient(to right, #60B8CA, #5890F9);
     }
+    .actcard {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
   </style>
 <div class="my_projects">
     <h1>Lab :{{lab.name}}</h1>
@@ -23,7 +33,21 @@
         <h2> Active Users: {{active_user_count}}</h2>
 
         <img src="data:image/png;base64,{{ graph }}" alt="Daily Footfall Graph" class="graph-image">
-
+      <br>
+      <br>
+      <br>
+      <div class="actcard">
+        {{material_requests_count}} Pending Material Requests
+        <a href="{% url 'a_activity_material_requests' %}">Check</a>
+      </div>
+      </a>
+      <br>
+      
+      <div class="actcard">
+        {{project_requests_count}} Pending Project Requests
+        <a href="{% url 'a_activity_project_requests' %}">Check</a>
+      </div>
+      </a>
 
 
 </div>
