@@ -17,7 +17,6 @@
 <div class="equip_container">
     <h2 class="{{ equipment.condition|lower }}">{{ equipment.name }}</h2>
     <a href="{% url 'a_remove_equipment' equipment.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">Remove</a>
-  <br>
 </div>
 {% endfor %}
 <br>

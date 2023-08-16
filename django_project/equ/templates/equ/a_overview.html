@@ -23,6 +23,9 @@
   color: #333;
   font-size: 16px;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
   </style>
 <div class="my_projects">
@@ -37,14 +40,14 @@
       <br>
       <br>
       <div class="actcard">
-        {{material_requests_count}} Pending Material Requests
+        <div class="atcd">{{material_requests_count}} Pending Material Requests</div>
         <a href="{% url 'a_activity_material_requests' %}">Check</a>
       </div>
       </a>
       <br>
       
       <div class="actcard">
-        {{project_requests_count}} Pending Project Requests
+        <div class="atcd">{{project_requests_count}} Pending Project Requests</div>
         <a href="{% url 'a_activity_project_requests' %}">Check</a>
       </div>
       </a>
