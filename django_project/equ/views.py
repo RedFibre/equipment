@@ -18,7 +18,7 @@ def user_redirect(request):
     if request.user.groups.filter(name='admin').exists():
         return redirect('a_overview')
     elif request.user.groups.filter(name='labuser').exists():
-        return redirect('u_projects')
+        return redirect('u_projects_confirmed')
     elif request.user.groups.filter(name='superadmin').exists():
         return redirect('s_overview')
     else:

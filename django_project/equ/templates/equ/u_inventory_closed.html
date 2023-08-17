@@ -3,13 +3,13 @@
 
 <ul class="project_list">
     {% for req in material_requests %}
-    <li>
+    <li style="color:rgb(34, 15, 87);">
         Request for {{ req.quantity }} {{ req.material.name }}
         {% if req.request_type == 'Borrow' %}
             Was returned by {{ req.return_date }}
         {% endif %} closed.
     {% empty %}
-      <li>No Requests found.</li>
+      <li style="color:rgb(34, 15, 87);">No Requests found.</li>
     {% endfor %}
   </ul>
 {% endblock requestcontent %}   

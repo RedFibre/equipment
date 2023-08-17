@@ -5,6 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 from .models import UserActivityLog, Profile
+from .models import Lab
 
 
 def footfall():
@@ -30,7 +31,6 @@ def footfall():
     plt.tight_layout()
     plt.xticks(rotation=45)
     plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-    plt.show()
 
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
@@ -42,11 +42,8 @@ def footfall():
     return graph_url.decode('utf-8') 
 
 def lab_footfall(admin):
-    lab = Profile.objects.values('lab')
-    #print(lab[0]['lab'])
-    lab_no = lab[0]['lab']
-    data = UserActivityLog.objects.filter(user__profile__lab=lab_no)
-    #print(data)
+    lab = Lab.objects.get(lab_admin=admin)
+    data = UserActivityLog.objects.filter(user__profile__lab=lab)
 
     df = pd.DataFrame.from_records(data.values())
 
@@ -62,14 +59,13 @@ def lab_footfall(admin):
     plt.figure(figsize=(10, 6))
     plt.plot(date_range, footfall_per_day, label='Number of Users Logged In', color='blue')
     plt.fill_between(date_range, footfall_per_day, color='blue', alpha=0.1)
-    plt.title(f'Footfall of Lab {lab_no} Per Day')
+    plt.title(f'Footfall of Lab {lab.name} Per Day')
     plt.xlabel('Date')
     plt.ylabel('Number of Users')
     plt.legend()
     plt.tight_layout()
     plt.xticks(rotation=45)
     plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-    plt.show()
 
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
