@@ -7,11 +7,22 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
+  
+  {% if user.is_authenticated %}
+     <!-- Add the nav bar -->
+     <div class="main-navbar">
+      <div class="cloudlogo">
+        <img src="{% static 'images/cloudavt.png' %}" alt="" style="width: 90px; height: auto;">
+        <span style="margin-left: 100px;">Hello, {{ user.username }}</span>
+      </div>
+      <a class="profile-link" href="{% url 'u_profile_page' %}">
+        <button class="profile-button">{{ user.username }}</button>
+      </a>
+    </div>
   <div class="container rcntc">
         <div class="sidebar">
           <ul>
-            {% if user.is_authenticated %}
-            <div class="mslogo"><img src="{% static 'images/MSClogo2.png' %}" alt=""></div>
+            <div class="mslogo"><img src="{% static 'images/MSClogo2.png' %}" alt=""> <a> Lab ID: {{ user.username }}</a></div>
             <a href="{% url 's_overview' %}" class="overview"><div class="link"><span></span><li>Overview</li></div></a>
             <a href="{% url 's_labs' %}" class="projects"><div class="link"><span></span><li>Projects</li></div></a>
             <a href="{% url 'admin:index' %}" class="data"><div class="link"><span></span><li>Data</li></div></a>

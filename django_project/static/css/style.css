@@ -43,6 +43,46 @@
       background-color: #ececec;
     }
 
+
+
+    
+    .main-navbar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--primary);
+      padding: 10px 20px;
+  
+    }
+    .main-navbar h2{
+      text-decoration: none;
+      
+    }
+    .cloudlogo {
+   
+      align-items: center;
+      color: white; /* Set your desired text color */
+      display: flex;
+    }
+    
+    /* Style for the profile link */
+    .profile-link {
+      color: white; /* Set your desired text color */
+      text-decoration: none;
+    }
+    
+    /* Style for the profile button */
+    .profile-button {
+      background-color: #ff6600; /* Set your desired button color */
+      color: white; /* Set your desired text color */
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+
+
      .sidebar{
       width: 15%;
       /* height: 100vh; */
