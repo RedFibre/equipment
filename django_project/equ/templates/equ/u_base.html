@@ -13,16 +13,7 @@
 <body>
   
   {% if user.is_authenticated %}
-   <!-- Add the nav bar -->
-   <div class="main-navbar">
-    <div class="cloudlogo">
-      <img src="{% static 'images/cloudavt.png' %}" alt="" style="width: 90px; height: auto;">
-      <span style="margin-left: 100px;">Hello, {{ profile.first_name }}</span>
-    </div>
-    <a class="profile-link" href="{% url 'u_profile_page' %}">
-      <button class="profile-button">{{ profile.first_name }}</button>
-    </a>
-  </div>
+   
   
   <div class="container rcntc">
         <div class="sidebar">
@@ -43,6 +34,16 @@
         </div>
       
         <div class="content u_inventory">
+          <!-- Add the nav bar -->
+   <div class="main-navbar">
+    <div class="cloudlogo">
+      <div class="cloud"><img src="{% static 'images/cloudavt.png' %}" alt=""></div>
+      <span style="font-weight: bold;">Hello, {{ profile.first_name }}, Let's Create!</span>
+    </div>
+    <a class="profile-link" href="{% url 'u_profile_page' %}">
+      <button class="profile-button">{{ profile.first_name }}</button>
+    </a>
+  </div>
           {% block content %}
           {% endblock %}
         </div>

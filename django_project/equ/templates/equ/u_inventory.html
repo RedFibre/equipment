@@ -1,5 +1,6 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
+{% load static %}  
 <style>
   .inventory span{
     border: 1px solid white;
@@ -22,7 +23,12 @@
 <h1> Recently Requested Items</h1>
 <br>
 <br> -->
-<div class="rq_items"><a href="{% url 'u_inventory_category' %}" class="btn-uproject rqa"> Request Items </a></div>
+<div class="rq_items">
+  <div class="rq_search">
+    <img src="{% static 'images/search.png' %}" alt="" style="width: 20px;">
+    <input type="text" placeholder="Search Inventory"></div>
+  <a href="{% url 'u_inventory_category' %}" class="btn-uproject rqa"> Request Items </a>
+</div>
 <h1 class="rri"> Recently Requested Items</h1>
 <div class="navbar">
   <a href="{% url 'u_inventory_active' %}" class="iapc active btn-uproject">Active</a>
