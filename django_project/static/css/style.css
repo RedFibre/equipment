@@ -16,8 +16,13 @@
       outline: none;
      }
 
-     ul{
+     ul, li{
       list-style: none;
+     }
+
+
+     .mp1 li{
+      margin: 10px 0;
      }
 
      .content table{
@@ -111,7 +116,7 @@
     /* border: 1px solid black; */
     text-align: center;
     display: flex;
-    width: 100%;
+    /* width: 100%; */
     /* border-radius: 50px; */
     align-items: center;
     justify-content: center;
@@ -133,6 +138,7 @@
 
      .sidebar li{
       padding: 15px 0;
+      padding-right: 20px;
       /* border: 1px solid black; */
       /* border-radius: 50px; */
       text-align: center;
@@ -140,6 +146,13 @@
       /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
       background-image: none;
       transition: 0.3s ease-in;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+     }
+
+     .link img{
+      width: 20px;
      }
 
      /* .sidebar a:hover{
@@ -170,7 +183,8 @@
       min-height: max-content;
     }
     .rcnt{
-      background-image: linear-gradient(90deg,#6ab8cb, #5095f4);
+      background-image: linear-gradient(to right,#6ab8cb, #5095f4);
+      max-width:50%;
     }
     
 
@@ -178,7 +192,11 @@
       background-color: #F0F0F0;
     }
 
-    
+    .logout{
+      position: absolute;
+    width: 14.5%;
+    bottom: 0px;
+    }    
 
     .clndr{
       width: 100%;
@@ -477,6 +495,22 @@
     /* margin-left: 220px; */
     width: 75%;
 }
+
+.content-section img{
+
+  width: 300px;
+  position: absolute;
+  left: 13%;
+  top: -55px;
+
+}
+
+
+.lgin{
+  font-size: 1.8rem;
+  margin: 15px 0;
+}
+
 
   .wlcm{
     font-size: 3rem;
@@ -782,7 +816,7 @@ td.Booked {
 
 /* LABS */
 
-.my_projects a, .my_projects button{
+/* .my_projects a, .my_projects button{
   padding: 10px 15px;
     text-decoration: none;
     border: none;
@@ -792,7 +826,7 @@ td.Booked {
     width: max-content;
     font-size: 1rem;
     font-weight: normal;
-}
+} */
 
 
 .mp1 h2{
@@ -810,6 +844,7 @@ td.Booked {
 
 .my_projects a:hover{
   background-color: var(--secondary);
+  color: white;
 }
 
 .labs{
@@ -886,4 +921,17 @@ td.Booked {
 
 .equip_container ul li {
   margin-bottom: 5px;
+}
+
+/* User Inventory */
+.iapc{
+  background: white;
+  color: #338eb9;
+  border: 1px solid #338eb9;
+  margin: 0 5px;
+}
+
+.pending{
+  background-color: #338eb9;
+  color: white;
 }

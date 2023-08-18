@@ -1,6 +1,24 @@
 {% extends "equ/u_inventory.html" %}
 {% block requestcontent %}
 
+<style>
+  .pending{
+    background-color: #338eb9;
+    color: white;
+  }
+
+  .inventory span{
+    border: 1px solid white;
+    background-color: white;
+  }
+
+  .inventory li{
+    background-image: linear-gradient(to right, #60B8CA, #5890F9);
+  }
+
+</style>
+
+
 <ul class="project_list">
     {% for req in material_requests %}
     <li style="color:rgb(34, 15, 87);">

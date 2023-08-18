@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/u_projects.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/u_inventory.css' %}">
   
 </head>
 <body>
@@ -29,18 +30,19 @@
             <div class="mslogo"><img src="{% static 'images/MSClogo2.png' %}" alt="">
               <a> Lab ID: {{ user.username }}</a>
             </div> 
+            <a href="{% url 'u_projects_confirmed' %}" class="bookings"><div class="link"><span></span><li><img src="{% static 'images/schedule logo.png' %}" alt="">Schedule</li></div></a> 
             
-            <a href="{% url 'u_projects_confirmed' %}"><li>Bookings</li></a>            
+            <!-- <a href="{% url 'u_projects_confirmed' %}"><li>Bookings</li></a>             -->
             <!--<a href="{% url 'u_help' %}"><li>Help Blogs</li></a>-->
-            <a href="{% url 'u_inventory_active' %}"><li>Inventory</li></a>
-            <a href="{% url 'logout' %}"><li>Log Out</li></a>
+            <a href="{% url 'u_inventory_active' %}" class="inventory"><div class="link"><span></span><li><img src="{% static 'images/inventory icon.png' %}" alt="">Inventory</li></div></a>
+            <a href="{% url 'logout' %}" class="logout"><div class="link"><span></span><li>Log Out</li></div></a>
             {% else %}
-            <a href="{% url 'login' %}">Log In</a>
+            <a href="{% url 'login' %}" class="login"><div class="link"><span></span><li>Log In</li></div></a>
             {% endif %}
           </ul>
         </div>
       
-        <div class="content rcnt">
+        <div class="content u_inventory">
           {% block content %}
           {% endblock %}
         </div>
