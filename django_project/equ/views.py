@@ -516,11 +516,13 @@ def u_profile_page(request):
 @login_required
 @labuser_required
 def u_inventory(request):
-    return render(request, 'equ/u_inventory.html')
+    profile = get_object_or_404(Profile, user=request.user)
+    return render(request, 'equ/u_inventory.html',{'profile':profile})
 
 @login_required
 @labuser_required
 def u_inventory_category(request):
+    profile = get_object_or_404(Profile, user=request.user)
     lab = request.user.profile.lab
     categories = Category.objects.filter(lab=lab)
     context = {'categories':categories}
@@ -573,18 +575,21 @@ def u_request_material(request,pk):
 @login_required
 @labuser_required
 def u_inventory_active(request):
+    profile = get_object_or_404(Profile, user=request.user)
     material_requests = Material_Request.objects.filter(user=request.user, status=1)
-    return render(request, 'equ/u_inventory_active.html',{'material_requests':material_requests})
+    return render(request, 'equ/u_inventory_active.html',{'material_requests':material_requests,'profile':profile})
 @login_required
 @labuser_required
 def u_inventory_pending(request):
+    profile = get_object_or_404(Profile, user=request.user)
     material_requests = Material_Request.objects.filter(user=request.user, status=0)
-    return render(request, 'equ/u_inventory_pending.html',{'material_requests':material_requests})
+    return render(request, 'equ/u_inventory_pending.html',{'material_requests':material_requests,'profile':profile})
 @login_required
 @labuser_required
 def u_inventory_closed(request):
+    profile = get_object_or_404(Profile, user=request.user)
     material_requests = Material_Request.objects.filter(user=request.user, status=2)
-    return render(request, 'equ/u_inventory_closed.html',{'material_requests':material_requests})
+    return render(request, 'equ/u_inventory_closed.html',{'material_requests':material_requests,'profile':profile})
 #CALENDAR VIEWS
 
 @login_required
