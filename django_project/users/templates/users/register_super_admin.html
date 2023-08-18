@@ -1,0 +1,19 @@
+{% extends "equ/login_base.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class="content-section"> 
+    <img src="{% static 'images/cloud avatar-1.png' %}" alt="">
+    <form method="POST" class="form-signin">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Sign Up</button>
+    </form>
+    <div class="border-top pt-3" style="margin-top: 20px">
+        <small class="text-muted">
+            Already Have An Organisation? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+        </small>
+    </div>
+</div>
+{% endblock content %}
