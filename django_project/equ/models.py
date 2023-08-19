@@ -2,8 +2,31 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+class Organisation(models.Model):
+    name = models.CharField(max_length=100)
+    super_admin = models.ForeignKey(
+        User,
+        limit_choices_to={'groups__name': 'superadmin'},
+        null=True, 
+        on_delete=models.CASCADE,
+    )
+    organisation_id = models.IntegerField(null=True)
+    description = models.TextField(null=True)  # Nullable field
+    contact_person = models.CharField(max_length=100, null=True)  # Nullable field
+    contact_email = models.EmailField(null=True)  # Nullable field
+    contact_phone = models.CharField(max_length=20, null=True)  # Nullable field
+    street_address = models.CharField(max_length=255, null=True)  # Nullable field
+    city = models.CharField(max_length=100, null=True)  # Nullable field
+    state_province = models.CharField(max_length=100, null=True)  # Nullable field
+    postal_code = models.CharField(max_length=20, null=True)  # Nullable field
+    country = models.CharField(max_length=100, null=True)  # Nullable field
+
+    def __str__(self):
+        return self.name
+
 
 class Lab(models.Model):
+    organisation = models.ForeignKey(Organisation,on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     lab_admin = models.ForeignKey(
         User,
@@ -40,6 +63,7 @@ class Profile(models.Model):
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE, null=True)
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE, null=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPES)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
