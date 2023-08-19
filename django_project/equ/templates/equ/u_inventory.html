@@ -1,24 +1,41 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
+{% load static %}  
+<style>
+  .inventory span{
+    border: 1px solid white;
+    background-color: white;
+  }
 
+  .inventory li{
+    background-image: linear-gradient(to right, #60B8CA, #5890F9);
+  }
+</style>
 
 
 <div class="my_projects">
     <div class="mp1">
 
-<small><a href="{% url 'u_inventory_category' %}" class="btn-uproject"> Request Items </a></small>
+<!-- <small><a href="{% url 'u_inventory_category' %}" class="btn-uproject"> Request Items </a></small>
 <br>
 <br>
 <br>
 <h1> Recently Requested Items</h1>
 <br>
-<br>
+<br> -->
+<div class="rq_items">
+  <div class="rq_search">
+    <img src="{% static 'images/search.png' %}" alt="" style="width: 20px;">
+    <input type="text" placeholder="Search Inventory"></div>
+  <a href="{% url 'u_inventory_category' %}" class="btn-uproject rqa"> Request Items </a>
+</div>
+<h1 class="rri"> Recently Requested Items</h1>
 <div class="navbar">
-  <a href="{% url 'u_inventory_active' %}" class="btn-uproject">Active</a>
-  <a href="{% url 'u_inventory_pending' %}" class="btn-uproject">Pending</a>
-  <a href="{% url 'u_inventory_closed' %}" class="btn-uproject">Closed</a>
+  <a href="{% url 'u_inventory_active' %}" class="iapc active btn-uproject">Active</a>
+  <a href="{% url 'u_inventory_pending' %}" class="iapc pending btn-uproject">Pending</a>
+  <a href="{% url 'u_inventory_closed' %}" class="iapc closed btn-uproject">Closed</a>
   </div>
-  <div class="content">
+  <div class="content u_c">
     {% block requestcontent %}
     {% endblock %}
   </div>

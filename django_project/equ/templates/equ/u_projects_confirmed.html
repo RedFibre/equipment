@@ -1,5 +1,23 @@
 {% extends "equ/u_projects.html" %}
-{% block projectcontent %}    
+{% block projectcontent %}   
+
+<style>
+
+  .bookings span{
+    border: 1px solid white;
+    background-color: white;
+  }
+
+  .bookings li{
+    background-image: linear-gradient(to right, #60B8CA, #5890F9);
+  }
+
+  .prjt{
+    background-color: #338eb9;
+    color: white;
+  }
+
+</style>
 
 <h2 class="my_proj">My Projects</h2>
 
@@ -11,7 +29,7 @@
   {% endfor %}
 </ul>
 
-<div class="mp2">
+<!-- <div class="mp2">
   <a href="{% url 'u_create_project' %}" class="btn-uproject">Create Project Request</a>
-</div>
+</div> -->
 {% endblock projectcontent %}   

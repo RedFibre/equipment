@@ -1,18 +1,40 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
 
+<!-- <style>
+
+  .bookings span{
+    border: 1px solid white;
+    background-color: white;
+  }
+
+  .bookings li{
+    background-image: linear-gradient(to right, #60B8CA, #5890F9);
+  }
+
+  .prjt{
+    background-color: #338eb9;
+    color: white;
+  }
+
+</style> -->
+
 <div class="my_projects">
 <div class="mp1">
+  
 
-  <a href="{% url 'c_list' %}" class="btn-uproject">View Calendar</a>
-  <small><a href="{% url 'u_profile_page' %}" class="btn-uproject"> Profile</a></small>
+  <div class="rq_items cpr">
+    <a href="{% url 'u_create_project' %}" class="btn-uproject rqa">Create Project Request</a>
+  <a href="{% url 'c_list' %}" class="btn-uproject rqa">View Calendar</a>
+  </div>
+  
 <br>
 <br>
 <br>
 <div class="navbar">
-  <a href="{% url 'u_projects_confirmed' %}" class="btn-uproject">Projects</a>
-  <a href="{% url 'u_projects_pending' %}" class="btn-uproject">Pending Requests</a>
-  <a href="{% url 'u_projects_notifications' %}" class="btn-uproject">Notifications</a>
+  <a href="{% url 'u_projects_confirmed' %}" class="iapc prjt btn-uproject">Projects</a>
+  <a href="{% url 'u_projects_pending' %}" class="iapc pending_req btn-uproject">Pending Requests</a>
+  <a href="{% url 'u_projects_notifications' %}" class="iapc noti btn-uproject">Notifications</a>
   </div>
 
     {% block projectcontent %}

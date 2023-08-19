@@ -1,5 +1,6 @@
 {% extends "equ/login_base.html" %}
 {% block content %}
+{% load static %}
 <style>
 
     .login span{
@@ -12,10 +13,13 @@
     }
   </style>
     <div class="content-section" > 
+        <img src="{% static 'images/cloud avatar-1.png' %}" alt="">
         <form method="POST" class="form-signin">
             {% csrf_token %}
             <br>
-            <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
+            <!-- <h1 class="h3 mb-3 font-weight-normal">Log In</h1> -->
+            <div class="wlcm">Welcome!</div>
+            <h1 class="h3 mb-3 font-weight-normal lgin">Log In</h1>
             <br>
             <div class="form-group">
                 {{ form.username.label_tag }}
