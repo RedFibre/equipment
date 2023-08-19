@@ -1,16 +1,25 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
 
+<style>
+    .inventory span{
+      border: 1px solid white;
+      background-color: white;
+    }
+  
+    .inventory li{
+      background-image: linear-gradient(to right, #60B8CA, #5890F9);
+    }
+  </style>
 
-<div class="my_projects">
+
+<div class="my_projects cent-d">
 
 
         <h1>Select a Category</h1>
         <br>
             {% for category in categories %}
             <p><a href="{% url 'u_request_material' category.pk %}">{{ category.name }}</a></p>
-            <br>
-            <br>
             {% endfor %}
         
 
