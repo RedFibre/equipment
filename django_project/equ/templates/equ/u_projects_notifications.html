@@ -1,31 +1,11 @@
 {% extends "equ/u_projects.html" %}
 {% block projectcontent %}    
 
-<style>
-
-  .bookings span{
-    border: 1px solid white;
-    background-color: white;
-  }
-
-  .bookings li{
-    background-image: linear-gradient(to right, #60B8CA, #5890F9);
-  }
-
-  .noti{
-    background-color: #338eb9;
-    color: white;
-  }
-
-</style>
-
 
 <h2 class="my_proj">Notifications</h2>
-<ul class="project_list">
-  {% for notification in user_notifications %}
-  <li>{{notification.message}} {{notification.time_stamp}}</li>
+{% for notification in user_notifications %}
+  {{notification.message}} <small>{{notification.time_stamp}}</small><br>
 {% endfor %}
-</ul>
 
 
 {% endblock projectcontent %}   
