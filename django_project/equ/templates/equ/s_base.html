@@ -5,20 +5,14 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/u_inventory.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/a_overview.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/superadmin.css' %}">
 </head>
 <body>
   
   {% if user.is_authenticated %}
-     <!-- Add the nav bar -->
-     <div class="main-navbar">
-      <div class="cloudlogo">
-        <img src="{% static 'images/cloudavt.png' %}" alt="" style="width: 90px; height: auto;">
-        <span style="margin-left: 100px;">Hello, {{ user.username }}</span>
-      </div>
-      <a class="profile-link" href="{% url 'u_profile_page' %}">
-        <button class="profile-button">{{ user.username }}</button>
-      </a>
-    </div>
+     
   <div class="container rcntc">
         <div class="sidebar">
           <ul>
@@ -38,7 +32,19 @@
           </ul>
         </div>
       
-        <div class="content rcnt">
+        <div class="content">
+          <!-- Add the nav bar -->
+     <div class="main-navbar">
+      <div class="cloudlogo">
+        
+        <div class="cloud"><img src="{% static 'images/cloudavt.png' %}" alt=""></div>
+        <span>Hello, {{ user.username }}</span>
+      </div>
+      <a class="profile-link" href="{% url 'u_profile_page' %}">
+        <button class="profile-button">{{ user.username }}</button>
+      </a>
+    </div>
+
           {% block content %}
           {% endblock %}
         </div>

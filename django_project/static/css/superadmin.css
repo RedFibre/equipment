@@ -1,0 +1,56 @@
+.sgp{
+    width: 900px;
+    /* border: 1px solid black; */
+    text-align: center;
+    margin: 10px auto;
+    box-shadow: 0px 0px 5px 0px gray;
+    height: max-content;
+}
+
+.labs h1{
+    width: 900px;
+    margin: 20px auto;
+}
+
+.mp1{
+    flex-direction: column;
+    justify-content: start;
+    height: max-content;
+}
+
+.mp1 h2 {
+    margin-bottom: 20px;
+    /* border: 1px solid black; */
+    height: max-content;
+}
+
+.my_projects {
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: 0px 0px 5px 0px gray;
+}
+
+.cln_btn a {
+    width: 150px;
+    height: max-content;
+}
+
+.labs {
+    width: 900px;
+    height: 100%;
+    margin: 20px auto;
+    box-shadow: 0px 0px 5px 0px gray;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.user-table th, .user-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.members{
+    height: max-content;
+}

@@ -1,5 +1,6 @@
 {% extends "equ/a_base.html" %}
 {% block content %}
+{% load static %}
 <style>
   .members span{
       border: 1px solid white;
@@ -10,7 +11,16 @@
       background-image: linear-gradient(to right, #60B8CA, #5890F9);
     }
 </style>
-  <div class="members">
+
+
+
+<div class="members amb">
+  <div class="mem_search">
+    <div class="searchbar">
+      <img src="{% static 'images/search.png' %}" alt="">
+      <input type="text" placeholder="Start typing to search names..">
+    </div>
+  </div>
   <table class="user-table">
     <thead>
       <tr>

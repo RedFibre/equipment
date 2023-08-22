@@ -1,0 +1,161 @@
+/* Admin */
+.acon{
+    background-color: #f0f0f0;
+  }
+
+.mp1{
+    display: flex;
+    /* border: 1px solid black; */
+    height: 400px;
+    margin: 20px 0;
+    justify-content: space-between;
+}
+
+.mp1 a:hover{
+    background-color: transparent;
+    color: #6fafcd;
+}
+
+.graph{
+    height: 100%;
+    width: 50%;
+    margin: 0 5px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px 0px gray;
+}
+
+.status_up{
+    width: 50%;
+    padding: 0 5px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.status{
+        /* border: 1px solid black; */
+        height: 49%;
+        /* margin: 5px; */
+        border-radius: 10px;
+        /* margin-bottom: 0; */
+        background: white;
+        padding: 20px;
+        box-shadow: 0px 0px 5px 0px gray;
+}
+
+.up{
+    height: 49%;
+    /* margin: 5px; */
+    /* margin-top: 0; */
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    /* border: 1px solid black; */
+    box-shadow: 0px 0px 5px 0px gray;
+}
+
+.allst{
+    margin: 10px 0;
+}
+
+.st{
+    color: #576689;
+    font-weight: bold;
+}
+
+.sts{
+        /* border: 1px solid black; */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+.sts img{
+    width: 200px;
+}
+
+.sts2 img{
+    width: 180px;
+}
+
+.sts a{
+    color: #6fafcd;
+}
+
+.num{
+    border: 1px solid #6fafcd;
+    color: #6fafcd;
+    /* content: "7"; */
+    /* padding: 10px; */
+    width: 50px;
+    height: 30px;
+    outline: 1px solid #6fafcd;
+    outline-offset: 2px;
+    /* box-shadow: 2px 2px 0px 2px black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.allup{
+    margin: 0 0;
+}
+
+.aal{
+    display: flex;
+    /* border: 1px solid black; */
+    height: 400px;
+    margin: 20px 0;
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  
+  .navbar a{
+    margin: 0 5px;
+  }
+
+  .mem_search{
+    /* border: 1px solid black; */
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 5px 0px gray;
+    margin-top: -40px;
+  }
+
+  .searchbar{
+    border: 1px solid gray;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    padding: 0 10px;
+    border-radius: 10px;
+  }
+
+  .searchbar img{
+    width: 20px;
+  }
+
+  .searchbar input{
+    padding: 10px;
+    border: none;
+  }
+
+  .user-table {
+    margin: 20px auto;
+  }
+
+  .amb{
+    width: 900px;
+    margin: auto;
+  }

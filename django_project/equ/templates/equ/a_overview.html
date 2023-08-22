@@ -1,9 +1,12 @@
 {% extends "equ/a_base.html" %}
 {% block content %}    
+{% load static %}
 <style>
     .graph-image {
-      width: 100%; /* Adjust the percentage or pixel value as needed */
-      height: auto;
+      width: 100%;
+    height: 100%;
+    /* object-fit: contain; */
+    border-radius: 10px;
     }
 
     .overview span{
@@ -28,29 +31,68 @@
   justify-content: space-between;
 }
   </style>
-<div class="my_projects">
-    <h1>Lab :{{lab.name}}</h1>
-    <h2>Admin :{{lab.lab_admin}}</h2>
+<div class="my_projects u_inventory">
+  <div class="rq_items cpr">
+    <a href="{% url 'c_list' %}" class="btn-uproject rqa"><img src="{% static 'images/viewcalendaricon.png' %}" alt=""> View Calendar</a>
+    <a href="{% url 'a_activity_project_requests' %}" class="btn-uproject rqa"><img src="{% static 'images/managebookingsicon.png' %}" alt="" style="width: 30px;"> Manage Bookings</a>
+    <a href="{% url 'a_activity_material_requests' %}" class="btn-uproject rqa"><img src="{% static 'images/manageitemsicon.png' %}" alt="">Manage Items</a>
+  
+  </div>
+    <!-- <h1>Lab :{{lab.name}}</h1> -->
+    <!-- <h2>Admin :{{lab.lab_admin}}</h2> -->
     <div class="mp1">
-        <div class="clndr"><a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a></div>
-        <h2> Active Users: {{active_user_count}}</h2>
+        <!-- <div class="clndr"><a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a></div> -->
+        <!-- <h2> Active Users: {{active_user_count}}</h2> -->
 
-        <img src="data:image/png;base64,{{ graph }}" alt="Daily Footfall Graph" class="graph-image">
-      <br>
-      <br>
-      <br>
-      <div class="actcard">
-        <div class="atcd">{{material_requests_count}} Pending Material Requests</div>
+        <div class="graph">
+          <img src="data:image/png;base64,{{ graph }}" alt="Daily Footfall Graph" class="graph-image">
+        </div>
+        <div class="status_up">
+          <div class="status">
+            <div class="st">Status</div>
+            <div class="allst">
+              <div class="sts">
+                <div class="num">07</div>
+                <p>Pending Booking Requests</p>
+                <a href="#">view all</a>
+              </div>
+              <div class="sts">
+                <div class="num">10</div>
+                <p>Pending Item Requests</p>
+                <a href="#">view all</a>
+              </div>
+              <div class="sts">
+                <div class="num">03</div>
+                <p>Active Users & Equipments</p>
+                <a href="#">view all</a>
+              </div>
+            </div>
+          </div>
+          <div class="up">
+            <div class="st">Upcomings</div>
+            <div class="allst allup">
+              <div class="sts">
+                <img src="{% static 'images/up1.jpg' %}" alt="">
+                <a href="#"> view all</a>
+              </div>
+              <div class="sts sts2">
+                <img src="{% static 'images/up2.jpg' %}" alt="">
+                <a href="#"> view all</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      <!-- <div class="actcard"> -->
+        <!-- <div class="atcd">{{material_requests_count}} Pending Material Requests</div>
         <a href="{% url 'a_activity_material_requests' %}">Check</a>
       </div>
-      </a>
-      <br>
+      <br> -->
       
-      <div class="actcard">
+      <!-- <div class="actcard">
         <div class="atcd">{{project_requests_count}} Pending Project Requests</div>
         <a href="{% url 'a_activity_project_requests' %}">Check</a>
-      </div>
-      </a>
+      </div> -->
 
 
 </div>

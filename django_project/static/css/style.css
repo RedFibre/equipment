@@ -206,7 +206,7 @@
   background-color:white;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      /* justify-content: center; */
       /* align-items: center; */
       min-height: max-content;
     }
@@ -391,6 +391,7 @@
     border-radius: 10px;
     text-decoration: none;
     cursor: pointer;
+    width: max-content;
   }
   .btn-uproject-small {
     background-color: #800d39;
@@ -621,10 +622,16 @@
 
 
 /*Admin UI css starts here */
-.members{
-  width: 100%;
-  /* height: 100%; */
+  .members {
+    width: 100%;
+    height: 100%;
+    /* background: white; */
 }
+
+.members table{
+  background-color: white;
+}
+
 
 .members h1{
   margin: 20px 0;
@@ -963,12 +970,12 @@ td.Booked {
 
 .equip_container a {
   text-decoration: none;
-  color: white;
+  /* color: white; */
 }
 
-.equip_container a:hover {
+/* .equip_container a:hover {
   background-color: darkred;
-}
+} */
 
 .equip_container ul {
   list-style: none;
@@ -1013,3 +1020,5 @@ td.Booked {
   border: 1px solid white;
   border-radius: 10px;
 }
+
+
