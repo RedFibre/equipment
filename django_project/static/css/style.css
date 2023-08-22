@@ -949,28 +949,37 @@ td.Booked {
 .excellent { color: rgb(42, 143, 42); }
 .good { color: rgb(4, 73, 4); }
 .poor { color: rgb(161, 111, 19); }
-.bad { color: red; }
+.bad { color: #4d4d5e; }
 
 .equip_container {
-  border: 1px solid #ccc;
+  text-decoration: underline;
+  text-decoration-color: #4d4d5e;
+  width: max-content;
+  /* border: 1px solid #ccc; */
   padding: 10px;
   margin: 10px 0;
   border-radius: 8px;
-  background-color: #f7f7f7;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  /* background-color: #f7f7f7; */
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  text-underline-offset: 3px;
 }
 
 .equip_container h2 {
-  font-size: 1.5rem;
-  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.bad a{
+  font-size: 0.7rem;
 }
 
 .equip_container a {
   text-decoration: none;
   /* color: white; */
+  
+  margin: 0 10px;
 }
 
 /* .equip_container a:hover {

@@ -1,9 +1,27 @@
 {% extends "equ/a_base.html" %}
 {% block content %}
   
-
+<style>
+    .members span{
+        border: 1px solid white;
+        background-color: white;
+      }
+  
+      .members li{
+        background-image: linear-gradient(to right, #60B8CA, #5890F9);
+      }
+  
+      .dpn{
+    display: none;
+  }
+  
+  .main-navbar{
+    justify-content: end;
+    height: max-content;
+  }
+  </style>
 <div class="my_projects">
-    <div class="mp1">  
+    <div class="mp1 apm">  
 <h2>{{user.username}}</h2>
 <p>Name: {{ profile.first_name }} {{ profile.last_name }}</p>
         <p>Lab: {{ profile.lab }}</p>
