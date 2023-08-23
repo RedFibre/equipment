@@ -10,6 +10,15 @@
     background-color: blue;
     color: white;
   }
+
+  .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
   </style>
 </head>
 <body>
@@ -32,7 +41,7 @@
 
   <div class="content u_inventory">
     <div class="main-navbar">
-      <div class="cloudlogo">
+      <div class="cloudlogo dpn">
         <div class="cloud"><img src="{% static 'images/cloudavt.png' %}" alt=""></div>
         <span style="font-weight: bold;">Hello, {{ profile.first_name }}, Let's Create!</span>
       </div>

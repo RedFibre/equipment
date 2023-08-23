@@ -1,25 +1,84 @@
 {% extends "equ/a_activity.html" %}
-{% block activitycontent %}    
+{% block activitycontent %}   
 
-<h1>Pending Material Requests</h1>
+<style>
+  .mt_req{
+    background-color: #338eb9;
+    color: white;
+  }
+  .proj_req{
+  background-color: white;
+    color: #338eb9;
+}
 
-  {% for req in material_requests %}
-  <li><form method="post" class="action-form" action="{% url 'a_material_request_handling' req.pk %}">
-    {% csrf_token %}
-    Request for {{ req.quantity }} {{ req.material.name }} by User {{ req.user.username }}
-    {% if req.request_type == 'Borrow' %}
-      To be returned by {{ req.return_date }}
-    {% endif %}
+.dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+
+.action-form {
+    /* margin-top: 20px; */
+    display: flex;
+    /* border: 1px solid black; */
+    align-items: center;
+    /* justify-content: space-between; */
     
-  
-    <div>
-      <button type="submit" name="action" value="accept" class="a-actionbutton accept">Accept</button>
-    <button type="submit" name="action" value="reject" class="a-actionbutton reject">Reject</button>
-    </div>
-      </form>
-  </li>
+    width: auto;
+    /* margin-top: -70px; */
+    /* margin-bottom: 50px; */
+    /* padding-right: 10px; */
+    justify-content: space-between;
+    margin: auto;
+}
+
+.ar-btn{
+      /* border: 1px solid black; */
+      display: flex;
+    /* flex-direction: column; */
+    /* height: 100%; */
+    align-items: flex-end;
+    /* justify-content: space-between; */
+}
+
+.accept, .reject{
+  margin: 5px;
+  width: 95px;
+}
+
+.aal{
+  height: max-content;
+  margin: 0;
+}
+</style>
+
+<!-- <h1>Pending Material Requests</h1> -->
+<ul class="project_list">
+  {% for req in material_requests %}
+      <li><form method="post" class="action-form" action="{% url 'a_material_request_handling' req.pk %}">
+        <div>
+          {% csrf_token %}
+        Request for {{ req.quantity }} {{ req.material.name }} by User {{ req.user.username }}
+        {% if req.request_type == 'Borrow' %}
+          To be returned by {{ req.return_date }}
+        {% endif %}
+        
+        </div>
+      
+        
+          </form>
+          <div class="ar-btn">
+            <button type="submit" name="action" value="accept" class="a-actionbutton accept">Accept</button>
+          <button type="submit" name="action" value="reject" class="a-actionbutton reject">Reject</button>
+          </div>
+      </li>
+
   {% empty %}
     <li>No Requests found.</li>
+
   {% endfor %}
 </ul>
 </div></div>

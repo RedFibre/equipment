@@ -1,7 +1,27 @@
 {% extends "equ/a_activity.html" %}
 {% block activitycontent %}    
 
-<h1> Past Due Date </h1>
+<style>
+  .p_due{
+    background-color: #338eb9;
+    color: white;
+  }
+  .proj_req{
+  background-color: white;
+    color: #338eb9;
+}
+
+.dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+</style>
+
+<!-- <h1> Past Due Date </h1> -->
 <ul class="project_list">
   {% for req in material_requests%}
   <li><form method="post" class="action-form" action="{% url 'a_material_request_handling' req.pk %}">

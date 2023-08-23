@@ -54,3 +54,9 @@
 .members{
     height: max-content;
 }
+
+.smproj{
+    padding: 0;
+    box-shadow: none;
+}
+

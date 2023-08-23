@@ -12,6 +12,10 @@
       font-family: Arial, Helvetica, sans-serif;
      }
 
+     h1, h2, h3, h4, h5{
+      color: #576689;
+     }
+
      input, select{
       outline: none;
      }
@@ -200,7 +204,7 @@
       
       border-radius: 30px;
       /* padding: 20px; */
-      box-shadow: 1px 1px 25px 1px #b4b4b4;
+      box-shadow:0px 0px 25px 0px lightgray;
       
   /* color: white; */
   background-color:white;
@@ -281,6 +285,7 @@
       padding: 30px 0;
       /* padding-bottom: 50px; */
       border-bottom: 1px solid #d9d9d9;
+      color: #576689;
   }
 
   .activities{
@@ -307,12 +312,18 @@
 
   .project_list li a{
     text-decoration: none;
-    color: white;
-    background: #0000ff82;
+    color: black;
+    /* background: #0000ff82; */
     padding: 10px;
     border: none;
-    border-radius: 50px;
+    font-size: 1.3rem;
+    /* border-radius: 50px; */
   }
+
+  .project_list li a:hover{
+    text-decoration: underline;
+  }
+
 
   .u_create_project{
     color: white;
@@ -393,7 +404,7 @@
     cursor: pointer;
     width: max-content;
   }
-  .btn-uproject-small {
+  /* .btn-uproject-small {
     background-color: #800d39;
     color: #fff;
     padding: 6px 10px;
@@ -401,13 +412,14 @@
     border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
-  }
+  } */
   .btn-uproject:hover {
-    background-color: #444;
+    background-color: #e2f4ff;
+    color: #338eb9;
   }
-  .btn-uproject-small:hover {
+  /* .btn-uproject-small:hover {
     background-color: #444;
-  }
+  } */
   .project-form select {
     width: 100%;
     padding: 10px;
@@ -676,7 +688,7 @@
   background: white;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0px 0px 5px 0px gray;
+  box-shadow: 0px 0px 25px 0px lightgray;
 }
 
 .cent-d h1{
@@ -751,8 +763,24 @@
   display: flex;
   /* border: 1px solid black; */
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  margin: auto;
+  width: 900px;
+  margin-top: -70px;
+  margin-bottom: 50px;
+  padding-right: 10px;
+  justify-content: end;
 }
+
+.project-details{
+      width: 900px;
+    background: white;
+    margin: 20px auto;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 0px 25px 0px lightgray;
+}
+
 
 
 
@@ -772,12 +800,24 @@
   transition: background-color 0.3s ease;
 }
 
+.accept{
+  background-color: #0080000f;
+  border: 1px solid green;
+  color: green;
+}
+
 .accept:hover{
-  background-color: green;
+  background-color: rgba(1, 255, 1, 0.199);
+}
+
+.reject{
+  background-color: #ff00000f;
+  color: red;
+  border: 1px solid red;
 }
 
 .reject:hover{
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.199);
 }
 
 /* Calender  */
@@ -812,7 +852,7 @@ td.Booked {
   border-radius: 20px;
   padding: 20px;
   background-color: white;
-  box-shadow: 0px 0px 5px 0px gray;
+  box-shadow: 0px 0px 25px 0px lightgray;
 } 
 
 .calendar h1{
@@ -847,7 +887,7 @@ td.Booked {
   padding: 30px;
   min-height: 90vh;
   background-color: white;
-  box-shadow: 0px 0px 5px 0px gray;
+  box-shadow: 0px 0px 25px 0px lightgray;
 }
 
 .all_lists h1{
@@ -905,10 +945,10 @@ td.Booked {
   margin: 10px 0;
 }
 
-.my_projects a:hover{
+/* .my_projects a:hover{
   background-color: var(--secondary);
   color: white;
-}
+} */
 
 .labs{
   width: 100%;

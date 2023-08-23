@@ -1,9 +1,25 @@
 {% extends "equ/a_activity.html" %}
 {% block activitycontent %}    
 
-<h1>Pending Project Requests</h1>
+<style>
+  .proj_req{
+  background-color: #338eb9;
+    color: white;
+}
 
-<a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a>
+.dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+</style>
+
+<!-- <h1>Pending Project Requests</h1> -->
+
+<!-- <a href="{% url 'c_list' %}" class="btn btn-primary">View Calendar</a> -->
 
 <ul class="project_list">
     {% for project in all_projects %}
