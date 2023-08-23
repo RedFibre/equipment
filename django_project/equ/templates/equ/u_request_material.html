@@ -22,7 +22,7 @@
             <div class="material-entry">
                 <div class="material-info">
                     <h3 class="material-name"><img src="{% static 'images/item.png' %}">{{ material.name }}</h3>
-                    <button type="button" class="add-button" onclick="showRequestType(this)">+</button>
+                    <button type="button" class="add-button" onclick="showRequestType(this)" style="margin-left: 20px; margin-top: 0;">+</button>
                     <div class="request-type" style="display: none;">
                         <label for="request_type"></label>
                         {{ form.request_type }}
@@ -126,6 +126,7 @@
         display: flex;
         align-items: center;
         margin-top: 10px;
+        margin-left: 15px;
     }
 
     .request-type label,
@@ -177,6 +178,10 @@ input[type=number] {
 
 .project-form input[type="date"]{
     width: max-content;
+}
+
+.material-info{
+    display: flex;
 }
 
 </style>

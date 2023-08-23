@@ -62,7 +62,7 @@
       align-items: flex-start;
       background-image: linear-gradient(to right, #76b8cc, #5e74bc);
       padding: 10px 20px;
-      height: 200px;
+      height: 175px;
   
     }
     .main-navbar h2{
@@ -89,6 +89,7 @@
       width: 200px;
     aspect-ratio: 3/3;
     object-fit: cover;
+    /* filter: drop-shadow(0px 0px 20px lightgray); */
     }
     
     /* Style for the profile link */
@@ -223,6 +224,14 @@
 
     .rcntc{
       background-color: #F0F0F0;
+    }
+
+    .lbg{
+      background-color: #314677;
+    }
+
+    .lbg .content{
+      box-shadow: none;
     }
 
     .logout{
@@ -544,7 +553,7 @@
 }
 
 .content-section img{
-
+  /* filter: drop-shadow(0px 0px 20px lightgray); */
   width: 300px;
   position: absolute;
   left: 13%;
@@ -621,16 +630,36 @@
 }
 
 .border-top {
-    border-top: 1px solid #ddd;
+    /* border-top: 1px solid #ddd; */
     padding-top: 10px;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 .text-muted {
     color: white;
+    font-size: 0.8rem;
+        /* border: 1px solid black; */
+        width: 360px;
+        margin: auto;
 }
 
+.pt-3 .text-muted{
+  background: black;
+  padding: 15px 20px;
+  /* margin: auto; */
+  font-size: 0.8rem;
+  width: max-content;
+  margin-left: 75px;
+  border-radius: 40px;
+}
 
+.ml-2{
+  color: rgb(0, 255, 0);
+}
+
+.ml-3{
+  color: lightblue;
+}
 
 
 /*Admin UI css starts here */
@@ -855,8 +884,10 @@ td.Booked {
   box-shadow: 0px 0px 25px 0px lightgray;
 } 
 
-.calendar h1{
+.calendar h3{
   padding: 0 10px 20px 10px;
+  margin-bottom: 15px;
+  font-weight: normal;
 }
 
 .table_con{
@@ -886,8 +917,8 @@ td.Booked {
   /* margin: 30px auto; */
   padding: 30px;
   min-height: 90vh;
-  background-color: white;
-  box-shadow: 0px 0px 25px 0px lightgray;
+  /* background-color: white; */
+  /* box-shadow: 0px 0px 25px 0px lightgray; */
 }
 
 .all_lists h1{
@@ -900,6 +931,18 @@ td.Booked {
 
 .all_lists li{
   margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+      box-shadow: 0px 0px 25px 0px lightgray;
+    border-radius: 20px;
+    padding: 20px;
+    background: white;
+    width: max-content;
+}
+
+.months{
+  display: flex;
+  margin: 10px 0;
 }
 
 .all_lists a{
@@ -908,7 +951,8 @@ td.Booked {
   background: #0000ff82;
   padding: 10px;
   border: none;
-  border-radius: 50px;
+  /* border-radius: 50px; */
+  margin-right: 10px;
   cursor: pointer;
 }
 
@@ -1015,16 +1059,49 @@ td.Booked {
   font-size: 0.7rem;
 }
 
-.equip_container a {
+
+
+
+.mat-con{
   text-decoration: none;
-  /* color: white; */
-  
-  margin: 0 10px;
+  align-items: self-start;
+  justify-content: center;
+  width: 100%;
+}
+
+
+
+.close img{
+  width: 7px;
+}
+
+.mat-con a{
+  /* border: 1px solid; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cat_img{
+  margin: 10px;
+  border: 1px solid gray;
+  padding: 15px 20px;
+  border-radius: 15px;
+}
+
+.cat_name{
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #338EB9;
 }
 
 /* .equip_container a:hover {
   background-color: darkred;
 } */
+
+
 
 .equip_container ul {
   list-style: none;

@@ -19,6 +19,14 @@
   justify-content: end;
   height: max-content;
 }
+
+.cal_w{
+  width: 50%;
+}
+
+.main-navbar{
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -31,15 +39,15 @@
       <div class="mslogo"><img src="{% static 'images/MSClogo2.png' %}" alt="">
         <a> Lab ID: {{ user.username }}</a>
       </div> 
-      <a href="{% url 'user_redirect' %}"><li>Home</li></a>
-      <a href="{% url 'logout' %}"><li>Log Out</li></a>
+      <a href="{% url 'user_redirect' %}"><li><img src="{% static 'images/back icon.png' %}" alt="" style="width: 20px;">Go Back</li></a>
+      <a href="{% url 'logout' %}" class="logout"><li>Log Out</li></a>
       {% else %}
       <a href="{% url 'login' %}">Log In</a>
       {% endif %}
     </ul>
   </div>
 
-  <div class="content u_inventory">
+  <div class="content u_inventory cal_w">
     <div class="main-navbar">
       <div class="cloudlogo dpn">
         <div class="cloud"><img src="{% static 'images/cloudavt.png' %}" alt=""></div>
