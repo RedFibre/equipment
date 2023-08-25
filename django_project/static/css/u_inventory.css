@@ -20,7 +20,8 @@
     align-items: center;
     justify-content: center;
     background: #ffffff8a;
-    box-shadow: 0px 0px 25px 0px lightgray;
+    /* box-shadow: 0px 0px 25px 0px lightgray; */
+    border: 1px solid lightgray;
 }
 
 
@@ -52,10 +53,11 @@
     display: flex;
     align-items: center;
     border-radius: 10px;
-    box-shadow: 0px 0px 25px 0px lightgray;
+    /* box-shadow: 0px 0px 25px 0px lightgray; */
     background: white;
     color: rgb(34, 15, 87);
-    box-shadow: 0px 0px 25px 0px lightgray;
+    /* box-shadow: 0px 0px 25px 0px lightgray; */
+    border: 1px solid lightgray;
     height: 100%;
 }
 
