@@ -13,13 +13,16 @@
     }
   </style>
     <div class="content-section" > 
-        <img src="{% static 'images/cloud avatar-1.png' %}" alt="">
+        <div class="login_logo">
+            <img src="{% static 'images/MSClogo2.png' %}" alt="">
+            <p>Your space to Create</p>
+        </div>
         <form method="POST" class="form-signin">
             {% csrf_token %}
             <br>
             <!-- <h1 class="h3 mb-3 font-weight-normal">Log In</h1> -->
-            <div class="wlcm">Welcome!</div>
-            <h1 class="h3 mb-3 font-weight-normal lgin">Log In</h1>
+            <!-- <div class="wlcm">Welcome!</div> -->
+            <h1 class="h3 mb-3 font-weight-normal lgin" style="color: white;">Log In</h1>
             <br>
             <div class="form-group">
                 {{ form.username.label_tag }}
@@ -28,7 +31,6 @@
                     <small >{{ form.username.errors|join:", " }}</small>
                 {% endif %}
             </div>
-            <br>
             <div class="form-group">
                 {{ form.password.label_tag }}
                 {{ form.password }}
@@ -36,7 +38,6 @@
                     <small>{{ form.password.errors|join:", " }}</small>
                 {% endif %}
             </div>
-            <br>
             <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Log In</button>
         
         </form>

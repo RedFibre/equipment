@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
 
     :root{
       --primary:#314677;
@@ -9,7 +11,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Lato', sans-serif;;
      }
 
      h1, h2, h3, h4, h5{
@@ -58,12 +60,13 @@
     
     .main-navbar{
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      background-image: linear-gradient(to right, #76b8cc, #5e74bc);
-      padding: 10px 20px;
-      height: 175px;
-  
+    justify-content: space-between;
+    align-items: flex-start;
+    /* background-image: linear-gradient(to right, #76b8cc, #5e74bc); */
+    padding: 10px 20px;
+    height: 150px;
+    border-bottom: 1px solid #6897f5;
+    background: #ededed;
     }
     .main-navbar h2{
       text-decoration: none;
@@ -72,7 +75,7 @@
     .cloudlogo {
    
       align-items: center;
-      color: white;
+      color: var(--primary);
       display: flex;
     }
 
@@ -103,13 +106,14 @@
     
     /* Style for the profile button */
     .profile-button {
-      background-color: transparent;
+      background-color: #578ef8;
       color: white;
-      border: 1px solid white;
+      /* border: 1px solid white; */
       padding: 10px 20px;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: bold;
+      border: none;
+      /* font-weight: bold; */
     }
 
     .profile-button:hover{
@@ -119,12 +123,13 @@
 
 
      .sidebar{
-      width: 15%;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      background-color: var(--primary);
-      padding: 20px 2px;
+      width: 13%;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 20px 0px;
+    border-right: 1px solid #6897f5;
      }
 
      .sidebar ul{
@@ -142,7 +147,7 @@
      }
 
      .sidebar a{
-      color: white;
+      /* color: white; */
     text-decoration: none;
     font-size: 1.2rem;
     /* border: 1px solid black; */
@@ -216,9 +221,10 @@
       min-height: max-content;
     }
     .rcnt{
-      background-image: linear-gradient(to right,#6ab8cb, #5095f4);
+      /* background-image: linear-gradient(to right,#6ab8cb, #5095f4); */
       max-width:50%;
       margin: 20px 0;
+      background: transparent;
     }
     
 
@@ -227,7 +233,7 @@
     }
 
     .lbg{
-      background-color: #314677;
+      background-color: #588FF9;
     }
 
     .lbg .content{
@@ -325,7 +331,7 @@
     /* background: #0000ff82; */
     padding: 10px;
     border: none;
-    font-size: 1.3rem;
+    font-size: 1rem;
     /* border-radius: 50px; */
   }
 
@@ -554,19 +560,28 @@
 
 .content-section img{
   /* filter: drop-shadow(0px 0px 20px lightgray); */
-  width: 300px;
+  /* width: 300px;
   position: absolute;
   left: 13%;
-  top: -55px;
-
+  top: -55px; */
+  width: 120px;
 }
 
 
 .lgin{
   font-size: 1.8rem;
-  margin: 15px 0;
+  /* margin: 15px 0; */
+  font-weight: normal;
 }
 
+.login_logo{
+  text-align: center;
+  color: white;
+}
+
+.login_logo p{
+  margin: 5px 0;
+}
 
   .wlcm{
     font-size: 3rem;
@@ -574,7 +589,10 @@
 
   .lcya{
     font-size: 1.5rem;
-    padding: 20px 0;
+    /* padding: 20px 0; */
+    color: white;
+    font-weight: normal;
+    margin-bottom: 20px;
   }
 
 .form-signin {
@@ -593,7 +611,7 @@
 
 .form-group label {
     display: block;
-    font-weight: bold;
+    /* font-weight: bold; */
     margin-bottom: 10px;
 }
 
@@ -738,10 +756,10 @@
   margin: 10px 0;
 }
 
-.pr_content_section{
+/* .pr_content_section{
   width: 100%;
   height: 100%;
-}
+} */
 
 .project-details h1 {
   font-size: 24px;
@@ -808,7 +826,7 @@
     margin: 20px auto;
     border-radius: 20px;
     padding: 20px;
-    box-shadow: 0px 0px 25px 0px lightgray;
+    /* box-shadow: 0px 0px 25px 0px lightgray; */
 }
 
 
@@ -882,7 +900,8 @@ td.Booked {
   border-radius: 20px;
   padding: 20px;
   background-color: white;
-  box-shadow: 0px 0px 25px 0px lightgray;
+  /* box-shadow: 0px 0px 25px 0px lightgray; */
+  border: 1px solid lightgray;
 } 
 
 .calendar h3{
@@ -903,7 +922,7 @@ td.Booked {
 /* Lists */
 .al{
   /* width: 85%; */
-  background-color: #ececec;
+  /* background-color: #ececec; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -934,10 +953,10 @@ td.Booked {
   margin: 30px 0;
   display: flex;
   flex-direction: column;
-      box-shadow: 0px 0px 25px 0px lightgray;
+      /* box-shadow: 0px 0px 25px 0px lightgray; */
     border-radius: 20px;
     padding: 20px;
-    background: white;
+    background: #eef4ff;
     width: max-content;
 }
 
@@ -1118,7 +1137,8 @@ td.Booked {
   background: white;
   color: #338eb9;
   border: 1px solid #338eb9;
-  margin: 0 5px;
+  /* margin: 0 5px; */
+  margin-right:5px;
 }
 
 .pending{
