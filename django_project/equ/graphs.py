@@ -12,13 +12,15 @@ def footfall():
     data = UserActivityLog.objects.values('user', 'login_time', 'logout_time')
     df = pd.DataFrame.from_records(data)
 
+
     def count_user(date, df): 
         start_date = pd.Timestamp(date).normalize()
         end_date = start_date + pd.Timedelta(days=1)
         return len(df[(df['login_time'] < end_date) & (df['logout_time'] >= start_date)])
-
+    print("working>>>>>>>>>>>>>>>>>>>>>>>>>>")
     date_range = pd.date_range(df['login_time'].min().normalize(), df['logout_time'].max().normalize(), freq='D')
-
+    print("data_range>>>>>>>>>>>>>>>>", date_range)
+    print("date_range>>>>>>",date_range)
     footfall_per_day = [count_user(date, df) for date in date_range]
 
     plt.figure(figsize=(10, 6))

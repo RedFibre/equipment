@@ -4,11 +4,14 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Project, Lab,Equipment,Booking,Material,Confirmed_Project,Confirmed_Booking,Archived_Booking,Archived_Project,Notification,Profile,UserActivityLog
 from .models import Category, Material_Request,Organisation
 from .graphs import footfall, lab_footfall
-from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm,CategoryCreationForm,MaterialRequestForm,formset_factory
+from .forms import ProjectForm,BookingFormSet,ProfileForm,EquipmentCreationForm,MaterialForm,CategoryCreationForm,MaterialRequestForm,formset_factory,CustomUserCreationForm,LabForm
 from .forms import OrganisationForm
 from datetime import datetime,timedelta
 from django.utils.timezone import localdate
 import calendar
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
@@ -38,15 +41,25 @@ def admin_required(function):
 @login_required
 @superadmin_required
 def s_overview(request):
-    graph_url = footfall()
-    return render(request, 'equ/s_overview.html', {'graph_url': graph_url})
+    try:
+        graph_url = footfall()
+        return render(request, 'equ/s_overview.html', {'graph_url': graph_url})
+    except:
+        return render(request, 'equ/s_overview.html')
 
 @login_required
 @superadmin_required
 def s_labs(request):
+    if request.method == "POST":
+        labform = LabForm(request.POST)
+        if labform.is_valid():
+            labform.save()
+    else:
+        labform = LabForm()
+
     labs = Lab.objects.all()
-    context = {'labs' : labs}
-    return render(request, 'equ/s_labs.html',context)
+    context = {'labs': labs, 'labform': labform}
+    return render(request, 'equ/s_labs.html', context)
 
 @login_required
 @superadmin_required
@@ -735,7 +748,7 @@ def register(request):
             username = f"{lab_id}{user_id:04d}"
             user.username = username
             user.save()
-            labuser_group = Group.objects.get(name='labuser')
+            labuser_group = Group.objects.get_or_create(name='labuser')
             user.groups.add(labuser_group)
             user = authenticate(username=username, password=password) 
             profile.user = user
@@ -755,47 +768,46 @@ def register(request):
 
     return render(request, 'users/register.html', {'user_form': user_form, 'profile_form': profile_form})
 
+
+
 def register_super_admin(request):
     if request.method == 'POST':
-        form = OrganisationForm(request.POST)
-        if form.is_valid():
+        org_form = OrganisationForm(request.POST)
+        user_form = CustomUserCreationForm(request.POST)  # Use the custom form here
+        
+        if org_form.is_valid() and user_form.is_valid():
             # Create User
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            username = user_form.cleaned_data['username']
+            email = user_form.cleaned_data['email']
+            password = user_form.cleaned_data['password1']
+            
             user = User.objects.create_user(username=username, email=email, password=password)
-
-            # Add User to 'superadmin' group
-            superadmin_group = Group.objects.get(name='superadmin')
+            
+            superadmin_group, created = Group.objects.get_or_create(name='superadmin')
             user.groups.add(superadmin_group)
-
-            # Generate Organisation ID
+            
             last_organisation = Organisation.objects.order_by('-organisation_id').first()
             if last_organisation:
                 last_id = int(last_organisation.organisation_id)
                 new_id = str(last_id + 1).zfill(5)
             else:
                 new_id = '00001'
-
-
-            organisation = Organisation.objects.create(
-                name=form.cleaned_data['name'],
-                super_admin=user,
-                description=form.cleaned_data['description'],
-                contact_person=form.cleaned_data['contact_person'],
-                contact_email=form.cleaned_data['contact_email'],
-                contact_phone=form.cleaned_data['contact_phone'],
-                street_address=form.cleaned_data['street_address'],
-                city=form.cleaned_data['city'],
-                state_province=form.cleaned_data['state_province'],
-                postal_code=form.cleaned_data['postal_code'],
-                country=form.cleaned_data['country'],
-                organisation_id = new_id
-            )
+            
+            organisation = org_form.save(commit=False)
+            organisation.super_admin = user
+            organisation.super_admin_id = superadmin_group.id  # Assign the group ID
+            organisation.organisation_id = new_id
+            organisation.save()
+            
             user = authenticate(username=username, password=password)
-
-            return redirect('user_redirect')  # Redirect to a success page
+            if user:
+                login(request, user)
+                return redirect('user_redirect')  # Redirect to a success page
+            else:
+                messages.error(request, "An error occurred during authentication.")
+            
     else:
-        form = OrganisationForm()
+        org_form = OrganisationForm()
+        user_form = CustomUserCreationForm()
     
-    return render(request, 'users/register_super_admin.html', {'form': form})
+    return render(request, 'users/register_super_admin.html', {'org_form': org_form, 'user_form': user_form})

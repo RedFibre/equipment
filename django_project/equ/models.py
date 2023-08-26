@@ -26,8 +26,8 @@ class Organisation(models.Model):
 
 
 class Lab(models.Model):
-    organisation = models.ForeignKey(Organisation,on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
+    description = models.TextField(max_length=250,null=True)
     lab_admin = models.ForeignKey(
         User,
         limit_choices_to={'groups__name': 'admin'},

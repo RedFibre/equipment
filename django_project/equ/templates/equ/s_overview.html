@@ -18,10 +18,26 @@
     .sgp{
       margin-top: -50px;
     }
+    .overlay-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 
-<div class="graph sgp">
-  <img src="data:image/png;base64,{{ graph_url }}" alt="Daily Footfall Graph" class="graph-image">
-</div>
-
+  <div class="graph sgp">
+    {% if graph_url %}
+      <img src="data:image/png;base64,{{ graph_url }}" alt="Daily Footfall Graph" class="graph-image">
+    {% else %}
+      <img src="/static/images/blur_graph.jpg" alt="No Graph Image" class="graph-image">
+    {% endif %}
+  </div>
+  <a href="/s_labs/"><button class="overlay-button">Add New Lab</button></a>
+  
 {% endblock content %}   
