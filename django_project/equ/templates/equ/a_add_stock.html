@@ -1,17 +1,42 @@
 {% extends "equ/a_base.html" %}
 {% block content %}    
 
+<style>
+  .dpn{
+    display: none;
+  }
+  
+  .main-navbar{
+    justify-content: end;
+    height: max-content;
+  }
+
+  .my_projects{
+    border: 1px solid lightgray;
+    border-radius: 20px;
+  }
+
+  .materials span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
+
+  .materials li{
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+  }
+</style>
+
 <div class="my_projects">
   <h2>Modify Stock for {{ material.name }}</h2>
-  <form method="post">
+  <form method="post" style="margin-top: 10px;">
     {% csrf_token %}
     <label for="stock">Amount:</label>
     <input type="number" id="stock" name="stock" required>
-    <button type="submit" name="modify">Change</button>
+    <button type="submit" name="modify" class="btn-uproject">Change</button>
   </form>
-  <br>
   <form method="post" style="margin-top: 1rem;">
     {% csrf_token %}
-    <button type="submit" name="delete">Delete Material</button>
+    <button type="submit" name="delete" class="btn-uproject" style="background: #fc716b;">Delete Material</button>
   </form>
 {% endblock content %}   

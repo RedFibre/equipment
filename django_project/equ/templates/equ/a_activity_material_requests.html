@@ -1,14 +1,16 @@
 {% extends "equ/a_activity.html" %}
 {% block activitycontent %}   
+{%load static%}
 
 <style>
   .mt_req{
-    background-color: #338eb9;
+    background-color: #6897f5;
+  border:1px solid #6897f5;
     color: white;
   }
   .proj_req{
   background-color: white;
-    color: #338eb9;
+    color: #6897f5;
 }
 
 .dpn{
@@ -46,7 +48,21 @@
 
 .accept, .reject{
   margin: 5px;
-  width: 95px;
+    /* width: 72px; */
+    padding: 5px 7px;
+}
+
+.accept{
+  background-color: #74D878;
+}
+
+.reject{
+  padding: 3.5px 7px;
+  background-color: #FC716B;
+}
+
+button img{
+  width: 20px;
 }
 
 .aal{
@@ -71,8 +87,8 @@
         
           </form>
           <div class="ar-btn">
-            <button type="submit" name="action" value="accept" class="a-actionbutton accept">Accept</button>
-          <button type="submit" name="action" value="reject" class="a-actionbutton reject">Reject</button>
+            <button type="submit" name="action" value="accept" class="a-actionbutton accept"><img src="{% static 'images/tick.png' %}" alt=""></button>
+          <button type="submit" name="action" value="reject" class="a-actionbutton reject"><img src="{% static 'images/cross.png' %}" alt=""></button>
           </div>
       </li>
 

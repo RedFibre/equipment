@@ -20,6 +20,10 @@
   justify-content: end;
   height: max-content;
 }
+
+.alleqps{
+  padding: 0 30px;
+}
 </style>
 <div class="my_projects a_proj" style="padding: 20px;">
   <div class="navbar pv rq_items">
@@ -29,15 +33,18 @@
         <input type="text" placeholder="Start typing to search names..">
       </div>
     </div>
-    <a href="{% url 'a_add_equipment' %}" class="btn-uproject rqa">Add Equipment</a>
+    <a href="{% url 'a_add_equipment' %}" class="btn-uproject rqa"><img src="{% static 'images/Add icon.png' %}" alt="" style="width: 30px;"> Add Equipment</a>
   </div>
   <!-- <h1>Equipments</h1>  -->
   <!-- <br> -->
 <div class="alleqps">
   {% for equipment in equipments %}
 <div class="equip_container">
-    <h2 class="{{ equipment.condition|lower }}">{{ equipment.name }}</h2>
-    <a href="{% url 'a_remove_equipment' equipment.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">Remove</a>
+  <img src="{% static 'images/Equipment (inside) icon.png' %}" alt="">
+    <div class="equip">
+      <h2 class="eh">{{ equipment.name }} <span class="{{ equipment.condition|lower }} ec"></span></h2>
+    <a href="{% url 'a_remove_equipment' equipment.pk %}" style="border: none; border-radius: 5px; font-size: 0.7rem; text-decoration: none;">Remove</a>
+    </div>
 </div>
 {% endfor %}
 </div>

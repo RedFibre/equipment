@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
 
 
     :root{
@@ -106,18 +106,20 @@
     
     /* Style for the profile button */
     .profile-button {
-      background-color: #578ef8;
-      color: white;
-      /* border: 1px solid white; */
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      border: none;
-      /* font-weight: bold; */
+      /* background-color: var(--primary);  */
+    color: #6897f5;
+    border: 1px solid #6897f5;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    /* border: none; */
+    font-weight: bold;
+    transition: 0.1s ease-in;
     }
 
     .profile-button:hover{
-      background-color: rgba(255, 255, 255, 0.123);
+      background-color: #6897f554;
+      color: white;
     }
 
 
@@ -147,9 +149,10 @@
      }
 
      .sidebar a{
-      /* color: white; */
+      color: var(--primary);
+      font-weight: 600;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     /* border: 1px solid black; */
     text-align: center;
     display: flex;
@@ -299,8 +302,9 @@
   .my_proj{
       padding: 30px 0;
       /* padding-bottom: 50px; */
-      border-bottom: 1px solid #d9d9d9;
+      /* border-bottom: 1px solid #d9d9d9; */
       color: #576689;
+      font-size: 2rem;
   }
 
   .activities{
@@ -343,7 +347,7 @@
   .u_create_project{
     color: white;
     text-decoration: none;
-    background: #3d3d90;
+    background: #6897f5;
     padding: 15px 20px;
     border-radius: 30px;
     background-color: var(--primary);
@@ -410,7 +414,7 @@
     outline: none;
   }
   .btn-uproject {
-    background-color: #3d3d90;
+    background-color: #6897f5;
     color: #fff;
     padding: 10px 10px;
     border: none;
@@ -430,7 +434,7 @@
   } */
   .btn-uproject:hover {
     background-color: #e2f4ff;
-    color: #338eb9;
+    color: #6897f5;
   }
   /* .btn-uproject-small:hover {
     background-color: #444;
@@ -466,7 +470,7 @@
   }
   
   #add-booking-btn {
-    background-color: #3d3d90;
+    background-color: #6897f5;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -480,7 +484,7 @@
   }
 
   #create-slot-btn {
-    background-color: #3d3d90;
+    background-color: #6897f5;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -494,7 +498,7 @@
   
   
   .submit-btn {
-    background-color: #3d3d90;
+    background-color: #6897f5;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -556,6 +560,7 @@
     /* margin-left: 220px; */
     width: 75%;
     margin:auto;
+    /* margin-top: -30px; */
 }
 
 .content-section img{
@@ -643,7 +648,7 @@
 
 .btnsb{
   background-color: white;
-  color: #3d3d90;
+  color: #6897f5;
   font-weight: bold;
 }
 
@@ -705,7 +710,7 @@
 
 .user-table a{
   text-decoration: none;
-  color: #3d3d90;
+  color: #6897f5;
 }
 
 .user-table th,
@@ -729,7 +734,7 @@
 
 .cent-d {
   width: 80%;
-  height: 100%;
+  /* height: 100%; */
   /* border: 1px solid black; */
   margin: 20px auto;
   background: white;
@@ -741,6 +746,7 @@
 
 .cent-d h1{
   color: #59668b;
+  font-size: 1.5rem;
 }
 
 .cent-d p a{
@@ -826,7 +832,10 @@
     margin: 20px auto;
     border-radius: 20px;
     padding: 20px;
+    margin-top: -40px;
+    margin-bottom: 0;
     /* box-shadow: 0px 0px 25px 0px lightgray; */
+    border: 1px solid lightgray;
 }
 
 
@@ -987,7 +996,7 @@ td.Booked {
   padding: 10px 15px;
     text-decoration: none;
     border: none;
-    background:#3d3d90;
+    background:#6897f5;
     color: white;
     border-radius: 40px;
     width: max-content;
@@ -1050,13 +1059,13 @@ td.Booked {
   padding: 5px;
 }
 
-.excellent { color: rgb(42, 143, 42); }
-.good { color: rgb(4, 73, 4); }
-.poor { color: rgb(161, 111, 19); }
-.bad { color: #4d4d5e; }
+.excellent { background-color: rgb(42, 143, 42); }
+.good { background-color: #28E045; }
+.poor { background-color: rgb(161, 111, 19); }
+.bad {     background-color: #E08B28; }
 
 .equip_container {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   text-decoration-color: #4d4d5e;
   width: max-content;
   /* border: 1px solid #ccc; */
@@ -1071,8 +1080,26 @@ td.Booked {
   text-underline-offset: 3px;
 }
 
-.equip_container h2 {
+
+.equip{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 10px;
+}
+
+.equip_container .eh {
   font-size: 1rem;
+  display: flex;
+}
+
+.equip_container h2 .ec{
+  width: 10px;
+    display: block;
+    height: 10px;
+    border-radius: 10px;
+    margin-left: 5px;
 }
 
 .bad a{
@@ -1135,16 +1162,31 @@ td.Booked {
 /* User Inventory */
 .iapc{
   background: white;
-  color: #338eb9;
-  border: 1px solid #338eb9;
+  color: var(--primary);
+  border: 1px solid var(--primary);
   /* margin: 0 5px; */
   margin-right:5px;
 }
 
-.pending{
-  background-color: #338eb9;
-  color: white;
+.bell{
+  /* border: 1px solid black; */
+  width: 25px;
+  height: 30px;
+  text-align: center;
+  background-image: url("../images/unactive\ bell.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
+.bell img{
+  width: 25px;
+}
+
+/* .pending{
+  background-color: #6897f5;
+  color: white;
+} */
 
 /* Superadmin form  */
 

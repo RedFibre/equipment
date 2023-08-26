@@ -3,12 +3,13 @@
 
 <style>
   .p_due{
-    background-color: #338eb9;
+    background-color: #6897f5;
+  border:1px solid #6897f5;
     color: white;
   }
   .proj_req{
   background-color: white;
-    color: #338eb9;
+    color: #6897f5;
 }
 
 .dpn{
@@ -19,6 +20,14 @@
   justify-content: end;
   height: max-content;
 }
+
+.action-form{
+      width: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+     padding-right: 0px;
+}
+
 </style>
 
 <!-- <h1> Past Due Date </h1> -->
@@ -32,7 +41,7 @@
     {% endif %}
     
         <button type="submit" name="action" value="collect_due" class="a-actionbutton accept">Collected</button>
->
+
       </form>
   </li>
   {% empty %}

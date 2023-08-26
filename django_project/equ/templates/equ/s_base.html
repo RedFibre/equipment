@@ -17,9 +17,11 @@
         <div class="sidebar">
           <ul>
             <div class="mslogo"><img src="{% static 'images/MSClogo2.png' %}" alt=""> <a> Lab ID: {{ user.username }}</a></div>
-            <a href="{% url 's_overview' %}" class="overview"><div class="link"><span></span><li>Overview</li></div></a>
-            <a href="{% url 's_labs' %}" class="projects"><div class="link"><span></span><li>Projects</li></div></a>
-            <a href="{% url 'admin:index' %}" class="data"><div class="link"><span></span><li>Data</li></div></a>
+            <a href="{% url 's_overview' %}" class="overview"><div class="link"><span></span><li>
+              <img src="{% static 'images/overview icon.png' %}" alt="">Overview</li></div></a>
+            <a href="{% url 's_labs' %}" class="projects"><div class="link"><span></span><li>
+              <img src="{% static 'images/administration.png' %}" alt="">Manage</li></div></a>
+            <!-- <a href="{% url 'admin:index' %}" class="data"><div class="link"><span></span><li>Data</li></div></a> -->
             <a href="{% url 'logout' %}" class="logout"><div class="link"><span></span><li>Log Out</li></div></a>
             <!-- <li><a href="{% url 's_overview' %}">Overview</a></li>
             <li><a href="{% url 's_labs' %}">Projects</a></li> -->

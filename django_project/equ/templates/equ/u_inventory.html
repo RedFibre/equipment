@@ -13,8 +13,13 @@
   }
 
   .rq_items{
-    width: 450px;
+    width: 230px;
   }
+
+  .rqa img {
+    width: 30px;
+    margin: 0 10px;
+}
   .dpn{
   display: none;
 }
@@ -25,28 +30,24 @@
 }
 </style>
 
-
+<div class="rq_search">
+  <img src="{% static 'images/search.png' %}" alt="" style="width: 20px;">
+  <input type="text" placeholder="Search Inventory">
+</div>
 <div class="my_projects">
     <div class="mp1">
-
-<!-- <small><a href="{% url 'u_inventory_category' %}" class="btn-uproject"> Request Items </a></small>
-<br>
-<br>
-<br>
-<h1> Recently Requested Items</h1>
-<br>
-<br> -->
 <div class="rq_items">
-  <div class="rq_search">
-    <img src="{% static 'images/search.png' %}" alt="" style="width: 20px;">
-    <input type="text" placeholder="Search Inventory"></div>
-  <a href="{% url 'u_inventory_category' %}" class="btn-uproject rqa" style="margin: 10px 0;"> Request Items </a>
+  <a href="{% url 'u_inventory_category' %}" class="btn-uproject rqa" style="margin: 10px 0;"> 
+    <img src="{% static 'images/requestitems icon.png' %}" alt="">
+    Request Items </a>
 </div>
-<h1 class="rri"> Recently Requested Items</h1>
+<h1 class="rri"> My Items</h1>
 <div class="navbar">
-  <a href="{% url 'u_inventory_active' %}" class="iapc active btn-uproject">Active</a>
+  <div style="display: flex;">
+    <a href="{% url 'u_inventory_active' %}" class="iapc active btn-uproject">Active</a>
   <a href="{% url 'u_inventory_pending' %}" class="iapc pending btn-uproject">Pending</a>
   <a href="{% url 'u_inventory_closed' %}" class="iapc closed btn-uproject">Closed</a>
+  </div>
   </div>
   <div class="content u_c">
     {% block requestcontent %}
