@@ -1,23 +1,43 @@
 from django import forms
-from .models import Project,Booking,Material,Profile,Equipment,Category,Material_Request
+from .models import Project,Booking,Material,Profile,Equipment,Category,Material_Request,Organisation,Lab
 from django.forms import formset_factory,DateTimeInput, DateInput
 from datetime import datetime
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 
-class OrganisationForm(forms.Form):
-    username = forms.CharField(max_length=30)
+class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    name = forms.CharField(max_length=100)
-    description = forms.CharField(widget=forms.Textarea)
-    contact_person = forms.CharField(max_length=100)
-    contact_email = forms.EmailField()
-    contact_phone = forms.CharField(max_length=20)
-    street_address = forms.CharField(max_length=255)
-    city = forms.CharField(max_length=100)
-    state_province = forms.CharField(max_length=100)
-    postal_code = forms.CharField(max_length=20)
-    country = forms.CharField(max_length=100)
+
+    class Meta(UserCreationForm.Meta):
+        fields = UserCreationForm.Meta.fields + ('email',)
+
+# class OrganisationForm(forms.Form):
+#     username = forms.CharField(max_length=30)
+#     email = forms.EmailField()
+#     password = forms.CharField(widget=forms.PasswordInput)
+#     name = forms.CharField(max_length=100)
+#     description = forms.CharField(widget=forms.Textarea)
+#     contact_person = forms.CharField(max_length=100)
+#     contact_email = forms.EmailField()
+#     contact_phone = forms.CharField(max_length=20)
+#     street_address = forms.CharField(max_length=255)
+#     city = forms.CharField(max_length=100)
+#     state_province = forms.CharField(max_length=100)
+#     postal_code = forms.CharField(max_length=20)
+#     country = forms.CharField(max_length=100)
+
+class OrganisationForm(forms.ModelForm):
+    class Meta:
+        model = Organisation
+        fields = '__all__'
+        exclude = ['super_admin','organisation_id']
+        
+class LabForm(forms.ModelForm):
+    class Meta:
+        model = Lab
+        fields = '__all__'
+        exclude = ['lab_admin']
     
 class CustomLoginForm(AuthenticationForm):
     pass

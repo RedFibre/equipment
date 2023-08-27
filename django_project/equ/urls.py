@@ -5,6 +5,9 @@ from . import views
 urlpatterns = [
     path('', views.user_redirect, name='user_redirect'),
     path('register/', views.register, name='register'),
+    path('registration_pending/', views.view_pending_requests, name='registration_pending'),
+    path('approve_request/<int:request_id>/', views.approve_request, name='approve_request'),
+    path('reject_request/<int:request_id>/', views.reject_request, name='reject_request'),
     path('register_super_admin/', views.register_super_admin, name='register_super_admin'),
     path('a_overview/',views.a_overview,name="a_overview"),
     path('a_members/',views.a_members,name="a_members"),

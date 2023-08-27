@@ -32,7 +32,14 @@
 
 
 <div class="my_projects smproj">
-    <div class="mp1">  
+    <div class="mp1"> 
+      
+      
+<form method="POST">
+  {% csrf_token %}
+  {{ labform.as_p }}
+  <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Add Lab</button>
+</form>
 
       <div class="alleqps allmats">
 {% for lab in labs%}

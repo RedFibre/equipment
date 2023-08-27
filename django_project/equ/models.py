@@ -23,11 +23,18 @@ class Organisation(models.Model):
 
     def __str__(self):
         return self.name
+class RegistrationRequest(models.Model):
+    username = models.CharField(max_length=150)
+    email = models.EmailField()
+    # Add other fields as needed
+    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')], default='pending')
 
+    def __str__(self):
+        return self.username
 
 class Lab(models.Model):
-    organisation = models.ForeignKey(Organisation,on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
+    description = models.TextField(max_length=250,null=True)
     lab_admin = models.ForeignKey(
         User,
         limit_choices_to={'groups__name': 'admin'},

@@ -26,9 +26,10 @@
         <img src="{% static 'images/MSClogo2.png' %}" alt="">
         <p>Let's create organisation</p>
     </div>
-    <form method="POST" class="form-signin  reg_super">
+    <form method="POST" class="form-signin">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ org_form.as_p }}
+        {{ user_form.as_p}}
         <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Sign Up</button>
     </form>
     <div class="border-top pt-3" style="margin: 20px 0">
