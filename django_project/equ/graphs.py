@@ -22,14 +22,14 @@ def footfall():
     footfall_per_day = [count_user(date, df) for date in date_range]
 
     plt.figure(figsize=(10, 6))
-    plt.plot(date_range, footfall_per_day, label='Number of Users Logged In', color='blue')
-    plt.fill_between(date_range, footfall_per_day, color='blue', alpha=0.1)
+    plt.plot(date_range, footfall_per_day, label='Number of Users Logged In', color='#6897f5')
+    plt.fill_between(date_range, footfall_per_day, color='#6897f5', alpha=0.1)
     plt.title('Footfall of the Website Per Day')
     plt.xlabel('Date')
     plt.ylabel('Number of Users')
     plt.legend()
     plt.tight_layout()
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=0)
     plt.grid(True, which='both', linestyle='--', linewidth=0.5)
 
     buffer = io.BytesIO()

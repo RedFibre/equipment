@@ -28,9 +28,14 @@
 <div class="my_projects smproj">
     <div class="mp1">  
 
+      <div class="alleqps allmats">
 {% for lab in labs%}
-<h2> <a href="{% url 's_lab_detail' lab.pk %}" >{{ lab.name }} : {{lab.lab_admin}}</a></h2>
+<div class="equip_container mat-con">
+<h2> <a href="{% url 's_lab_detail' lab.pk %}" style="text-decoration: none; flex-direction: row;"><span style="font-weight: 800;">{{ lab.name }} </span>- <i>{{lab.lab_admin}}</i></a></h2>
+</div>
 {% endfor %}
+</div>
+
 </div>
 
 

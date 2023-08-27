@@ -18,10 +18,21 @@
 
     .sgp{
       margin-top: -50px;
+      display: flex;
+    align-items: center;
+    box-shadow: none;
+    }
+
+    .st{
+      width: 100%;
+    text-align: left;
+    font-size: 2rem;
+    padding-left: 10px;
     }
   </style>
 
 <div class="graph sgp">
+  <div class="st">Dashboard</div>
   <img src="data:image/png;base64,{{ graph_url }}" alt="Daily Footfall Graph" class="graph-image">
 </div>
 
