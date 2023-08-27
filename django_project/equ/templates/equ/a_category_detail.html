@@ -1,16 +1,42 @@
 {% extends "equ/a_base.html" %}
 {% block content %}    
 
+<style>
+  .dpn{
+    display: none;
+  }
+  
+  .main-navbar{
+    justify-content: end;
+    height: max-content;
+  }
+
+  .my_projects{
+    border: 1px solid lightgray;
+    border-radius: 20px;
+  }
+
+  .materials span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
+
+  .materials li{
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+  }
+</style>
+
 <div class="my_projects" style="padding: 20px;">
   <h1>{{category.name}}</h1> 
   <br>
   {% for material in materials %}
   <div class="equip_container">
-      <h2 style="color: black;">{{ material.name }} <a href="{% url 'a_add_stock' material.pk category.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px;">{{material.stock}}</a></h2>
+      <h2 style="color: black; font-size: 1rem;">{{ material.name }} <a href="{% url 'a_add_stock' material.pk category.pk %}" style="padding: 4px 6px; border: none; border-radius: 5px; color: var(--primary); text-decoration: none;">x{{material.stock}}</a></h2>
 
   </div>
   {% endfor %}
-  <a href="{% url 'a_add_material' category.pk %}" style="border-radius: 5px;">Add Material</a>
+  <a href="{% url 'a_add_material' category.pk %}" style="border-radius: 5px;" class="btn-uproject">Add Material</a>
 
 </div>
 {% endblock content %}   

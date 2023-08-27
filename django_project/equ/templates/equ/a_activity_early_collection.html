@@ -1,7 +1,28 @@
 {% extends "equ/a_activity.html" %}
 {% block activitycontent %}    
 
-<h1> Early Collection </h1>
+<style>
+  .el_col{
+    background-color: #6897f5;
+  border:1px solid #6897f5;
+    color: white;
+  }
+  .proj_req{
+  background-color: white;
+    color: var(--primary);
+}
+
+.dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+</style>
+
+<!-- <h1> Early Collection </h1> -->
 <ul class="project_list">
   {% for req in material_requests %}
   <li><form method="post" class="action-form" action="{% url 'a_material_request_handling' req.pk %}">

@@ -1,5 +1,30 @@
 {% extends "equ/a_base.html" %}
 {% block content %}
+
+<style>
+  .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+
+.activityLog span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
+
+  .activityLog li{
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+  }
+
+  .project-details{
+    border: 1px solid lightgray;
+  }
+</style>
   <div class="project-details">
     <h1>{{ project.name }}</h1>
     <br> 
@@ -30,7 +55,7 @@
   {% endif %}
   <form method="POST" class="action-form">
     {% csrf_token %}
-    <button type="submit" name="action" value="accept" class="a-actionbutton accept">Accept</button>
+    <button type="submit" name="action" value="accept" class="a-actionbutton accept">Approve</button>
     <button type="submit" name="action" value="reject" class="a-actionbutton reject">Reject</button>
   </form>
 {% endblock content %}

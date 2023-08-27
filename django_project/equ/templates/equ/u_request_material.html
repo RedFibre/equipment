@@ -1,8 +1,34 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
 {% load static %}
+<style>
+    .inventory span{
+        border: 1px solid #6897f5;
+    background-color: #6897f5;
+    }
+  
+    .inventory li{
+      /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+      background: #ededed;
+    }
 
-<div class="my_projects">
+    .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+
+.my_projects {
+    /* height: max-content; */
+    margin-top: -50px;
+}
+
+  </style>
+
+<div class="my_projects cent-d">
     <div class="mp1">
         <h1 class="form-title">Request Material</h1>
         <form method="post" class="project-form">
@@ -12,7 +38,7 @@
             <div class="material-entry">
                 <div class="material-info">
                     <h3 class="material-name"><img src="{% static 'images/item.png' %}">{{ material.name }}</h3>
-                    <button type="button" class="add-button" onclick="showRequestType(this)">+</button>
+                    <button type="button" class="add-button" onclick="showRequestType(this)" style="margin-left: 20px; margin-top: 0;">+</button>
                     <div class="request-type" style="display: none;">
                         <label for="request_type"></label>
                         {{ form.request_type }}
@@ -78,6 +104,7 @@
         font-size: 14px;
         cursor: pointer;
         transition: background-color 0.3s ease-in-out;
+        margin-top: 10px;
     }
 
     .add-button:hover,
@@ -101,7 +128,13 @@
 
     .material-name {
         font-size: 20px;
-        margin: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    }
+
+    .material-name img{
+        margin-right: 10px;
     }
 
     .request-type,
@@ -109,6 +142,7 @@
         display: flex;
         align-items: center;
         margin-top: 10px;
+        margin-left: 15px;
     }
 
     .request-type label,
@@ -132,6 +166,40 @@
         font-size: 14px;
         margin-top: 10px;
     }
+
+    /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.quantity-input{
+    width: max-content;
+    border-radius: 4px;
+}
+
+.quantity-input input{
+    margin-top: 10px;
+    padding: 10px;
+    width: 50px;
+    border: none;
+    text-align: center;
+}
+
+.project-form input[type="date"]{
+    width: max-content;
+}
+
+.material-info{
+    display: flex;
+}
+
 </style>
 
 {% endblock content %}

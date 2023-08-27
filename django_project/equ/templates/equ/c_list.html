@@ -6,13 +6,16 @@
   <div class="all_lists">
     <h1> Lab:{{ my_lab.name }}</h1>
   
-  <h2> Click on the Equipment Name to check its calendar</h2>
+  <h2> Click on the month to check its calendar as per equipment.</h2>
       
       <ul>
           {% for equipment in equipments %}
-          <li>{{ equipment.name }} : <a href="{% url 'c_m1' equipment.pk %}">{{ months.0 }}</a> 
+          <li><div class="eqname"><h3>{{ equipment.name }} : </h3></div>
+            <div class="months">
+              <a href="{% url 'c_m1' equipment.pk %}">{{ months.0 }}</a> 
             <a href="{% url 'c_m2' equipment.pk %}">{{ months.1 }}</a> 
-            <a href="{% url 'c_m3' equipment.pk %}">{{ months.2 }}</a> </li>
+            <a href="{% url 'c_m3' equipment.pk %}">{{ months.2 }}</a>
+            </div> </li>
           {% endfor %}
       </ul>
   </div>

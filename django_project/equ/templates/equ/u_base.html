@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/u_projects.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/u_inventory.css' %}">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/a_overview.css' %}"> -->
   
 </head>
 <body>
@@ -43,6 +44,19 @@
         </div>
       
         <div class="content u_inventory">
+<<<<<<< HEAD
+=======
+          <!-- Add the nav bar -->
+   <div class="main-navbar">
+    <div class="cloudlogo dpn">
+      <div class="cloud"><img src="{% static 'images/cloudavt.png' %}" alt=""></div>
+      <span>Hello, {{ profile.first_name }}, Let's Create!</span>
+    </div>
+    <a class="profile-link" href="{% url 'u_profile_page' %}">
+      <button class="profile-button">{{ profile.first_name }}</button>
+    </a>
+  </div>
+>>>>>>> omi
           {% block content %}
           {% endblock %}
         </div>

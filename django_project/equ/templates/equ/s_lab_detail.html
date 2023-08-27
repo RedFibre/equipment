@@ -1,15 +1,52 @@
 {% extends "equ/s_base.html" %}
 {% block content %}    
+{%load static%}
 
+<style>
+  .projects span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
+
+  .projects li{
+     /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+     background: #ededed;
+  }
+
+  .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+
+.alleqps{
+  /* grid-template-columns: repeat(3, 1fr); */
+  margin-top: 0;
+}
+
+.cln_btn{
+  align-items: center;
+    /* border: 1px solid lightgray; */
+    padding: 0 20px;
+    border-radius: 20px;
+    flex-direction: row;
+    width: 850px;
+}
+
+</style>
 
 <div class="labs">
   
-<div class="cln_btn">
+<div class="cln_btn navbar rq_items">
   <h1>Lab: {{lab.name}}</h1>
-  <a href="{% url 'c_list_superadmin' lab.pk %}" class="btn btn-primary">View Calendar</a></div>
+  <a href="{% url 'c_list_superadmin' lab.pk %}" class="btn-uproject rqa"><img src="{% static 'images/viewcalendaricon.png' %}" alt="">View Calendar</a></div>
 <br>
 <div class="members">
-  <h2>User List</h2>
+ <div class="disuser">
+   <h2>User List</h2>
 <table class="user-table">
   <thead>
     <tr>
@@ -25,21 +62,31 @@
   </tbody>
 </table>
 
-
-<h2>Equipments</h2>
+ </div>
+<div class="disem">
+  
+<div class="disequ">
+  <h2>Equipments</h2>
   <ul class="equipment_list">
+    <div class="alleqps allmats">
     {% for equipment in equipments %}
-    <br><br>
-      <h2>{{ equipment.name }} [{{ equipment.condition}}]</h2>
+    <div class="equip_container mat-con">
+      <h3 style=" display: flex; align-items: center;"><img src="{% static 'images/Equipment (inside) icon.png' %}" alt="" style="margin-right: 10px; width: 50px;"> {{ equipment.name }} [{{ equipment.condition}}]</h3>
+    </div>
     {% endfor %}
-    <br>
-    <br>
-  <h2>Materials</h2>
+  </div>
+</div>
+
+
+  <div class="dismat">
+    <h2>Materials</h2>
     <ul class="equipment_list">
       {% for material in materials %}
         <li>{{material.stock}} {{ material.name }} </li>
       {% endfor %}
       </ul>
+  </div>
+</div>
 </div>
 </div>
 {% endblock content %}   

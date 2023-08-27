@@ -2,18 +2,40 @@
 {% block content %}    
 <style>
   .inventory span{
-    border: 1px solid white;
-    background-color: white;
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
   }
 
   .inventory li{
-    background-image: linear-gradient(to right, #60B8CA, #5890F9);
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
   }
+
+  .rq_items{
+    width: 230px;
+  }
+
+  .rqa img {
+    width: 30px;
+    margin: 0 10px;
+}
+  .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: 160px;
+}
 </style>
 
-
+<div class="rq_search">
+  <img src="{% static 'images/search.png' %}" alt="" style="width: 20px;">
+  <input type="text" placeholder="Search Inventory">
+</div>
 <div class="my_projects">
     <div class="mp1">
+<<<<<<< HEAD
 
 <!-- <small><a href="{% url 'u_inventory_category' %}" class="btn-uproject"> Request Items </a></small>
 <br>
@@ -24,10 +46,20 @@
 <br> -->
 <div class="rq_items"><a href="{% url 'u_inventory_category' %}" class="btn-uproject rqa"> Request Items </a></div>
 <h1 class="rri"> Recently Requested Items</h1>
+=======
+<div class="rq_items">
+  <a href="{% url 'u_inventory_category' %}" class="btn-uproject rqa" style="margin: 10px 0;"> 
+    <img src="{% static 'images/requestitems icon.png' %}" alt="">
+    Request Items </a>
+</div>
+<h1 class="rri"> My Items</h1>
+>>>>>>> omi
 <div class="navbar">
-  <a href="{% url 'u_inventory_active' %}" class="iapc active btn-uproject">Active</a>
+  <div style="display: flex;">
+    <a href="{% url 'u_inventory_active' %}" class="iapc active btn-uproject">Active</a>
   <a href="{% url 'u_inventory_pending' %}" class="iapc pending btn-uproject">Pending</a>
   <a href="{% url 'u_inventory_closed' %}" class="iapc closed btn-uproject">Closed</a>
+  </div>
   </div>
   <div class="content u_c">
     {% block requestcontent %}

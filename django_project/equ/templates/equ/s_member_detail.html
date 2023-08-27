@@ -1,6 +1,48 @@
 {% extends "equ/s_base.html" %}
 {% block content %}
+{%load static%}
   
+<style>
+    .projects span{
+        border: 1px solid #6897f5;
+    background-color: #6897f5;
+    }
+
+    .projects li{
+      /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+      background: #ededed;
+    }
+
+    .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+
+.my_projects {
+    border: 1px solid lightgray;
+    margin-top: -50px;
+    background: white;
+}
+
+.mat-con a{
+    text-decoration: none;
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.mat-con a{
+    flex-direction: row;
+}
+
+.alleqps{
+    grid-template-columns: repeat(3, 1fr);
+}
+
+</style>
 
 <div class="my_projects">
     <div class="mp1">  
@@ -15,15 +57,21 @@
         <p><span style="color: black;">Institute Name: </span>{{ profile.institute_name }}</p>
         <p><span style="color: black;">Training Record: </span>{{ profile.training_record }}</p>
         <p><span style="color: black;">Machines Trained In: </span>{{ profile.machines_trained_in }}</p>
-<br>
+<!-- <br> -->
 <h1>Projects</h1>
+<div class="alleqps allmats">
 {% for project in projects %}
-<br>
-<h2><a href="{% url 's_confirmed_project_detail' project.pk %}">{{ project.name }}</a></h2>
+<div class="equip_container mat-con">
+<!-- <br> -->
+<h2><a href="{% url 's_confirmed_project_detail' project.pk %}"><img src="{% static 'images/projects inside.png' %}" alt="" style="margin-right: 10px; width: 30px;"> {{ project.name }}</a></h2>
+</div>
 {% empty %}
     <li>No projects found.</li>
+
 {% endfor %}
-<br>
+</div>
+
+<!-- <br> -->
 <h1 class="lgs">Logs</h1>
 <table class="logs">
     <tr>

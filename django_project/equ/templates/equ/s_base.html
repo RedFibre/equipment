@@ -5,27 +5,23 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/u_inventory.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/a_overview.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/superadmin.css' %}">
 </head>
 <body>
   
   {% if user.is_authenticated %}
-     <!-- Add the nav bar -->
-     <div class="main-navbar">
-      <div class="cloudlogo">
-        <img src="{% static 'images/cloudavt.png' %}" alt="" style="width: 90px; height: auto;">
-        <span style="margin-left: 100px;">Hello, {{ user.username }}</span>
-      </div>
-      <a class="profile-link" href="{% url 'u_profile_page' %}">
-        <button class="profile-button">{{ user.username }}</button>
-      </a>
-    </div>
+     
   <div class="container rcntc">
         <div class="sidebar">
           <ul>
             <div class="mslogo"><img src="{% static 'images/MSClogo2.png' %}" alt=""> <a> Lab ID: {{ user.username }}</a></div>
-            <a href="{% url 's_overview' %}" class="overview"><div class="link"><span></span><li>Overview</li></div></a>
-            <a href="{% url 's_labs' %}" class="projects"><div class="link"><span></span><li>Projects</li></div></a>
-            <a href="{% url 'admin:index' %}" class="data"><div class="link"><span></span><li>Data</li></div></a>
+            <a href="{% url 's_overview' %}" class="overview"><div class="link"><span></span><li>
+              <img src="{% static 'images/overview icon.png' %}" alt="">Overview</li></div></a>
+            <a href="{% url 's_labs' %}" class="projects"><div class="link"><span></span><li>
+              <img src="{% static 'images/administration.png' %}" alt="">Manage</li></div></a>
+            <!-- <a href="{% url 'admin:index' %}" class="data"><div class="link"><span></span><li>Data</li></div></a> -->
             <a href="{% url 'logout' %}" class="logout"><div class="link"><span></span><li>Log Out</li></div></a>
             <!-- <li><a href="{% url 's_overview' %}">Overview</a></li>
             <li><a href="{% url 's_labs' %}">Projects</a></li> -->
@@ -38,7 +34,19 @@
           </ul>
         </div>
       
-        <div class="content rcnt">
+        <div class="content">
+          <!-- Add the nav bar -->
+     <div class="main-navbar">
+      <div class="cloudlogo dpn">
+        
+        <div class="cloud"><img src="{% static 'images/cloudavt.png' %}" alt=""></div>
+        <span>Hello, {{ user.username }}</span>
+      </div>
+      <a class="profile-link" href="#">
+        <button class="profile-button">{{ user.username }}</button>
+      </a>
+    </div>
+
           {% block content %}
           {% endblock %}
         </div>

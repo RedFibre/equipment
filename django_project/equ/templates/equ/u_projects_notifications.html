@@ -1,10 +1,42 @@
 {% extends "equ/u_projects.html" %}
 {% block projectcontent %}    
 
+<<<<<<< HEAD
 
 <h2 class="my_proj">Notifications</h2>
 {% for notification in user_notifications %}
   {{notification.message}} <small>{{notification.time_stamp}}</small><br>
+=======
+<style>
+
+.bookings span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
+
+  .bookings li{
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+  }
+
+  .noti{
+    background-color: #6897f5;
+    color: white;
+    border: 1px solid #6897f5;
+  }
+
+  .bell{
+    background-image: url("../../../static/images/active\ bell.png");
+  }
+
+</style>
+
+
+<!-- <h2 class="my_proj">Notifications</h2> -->
+<ul class="project_list">
+  {% for notification in user_notifications %}
+  <li>{{notification.message}} {{notification.time_stamp}}</li>
+>>>>>>> omi
 {% endfor %}
 
 

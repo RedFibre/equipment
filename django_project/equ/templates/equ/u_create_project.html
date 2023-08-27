@@ -1,57 +1,39 @@
 {% extends "equ/u_base.html" %}
 {% block content %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  
-  $(document).ready(function() {
-    var formIndex = 0;
+<style>
 
-    // Initialize the formset with the first booking form
-    var bookingForm = $('.booking-form');
-    bookingForm.find('h3').text('Booking ' + (formIndex + 1));
+  .bookings span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
 
-    $('#add-booking-btn').click(function() {
-      formIndex++;
+  .bookings li{
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+  }
 
-      // Clone the booking form
-      var clonedForm = bookingForm.clone();
+  .prjt{
+    background-color: #338eb9;
+    color: white;
+  }
 
-      // Update the form index in the cloned form
-      clonedForm.find('input, select, textarea').each(function() {
-        var oldName = $(this).attr('name');
-        var newName = oldName.replace(/-0-/, '-' + formIndex + '-');
-        $(this).attr('name', newName);
-        $(this).attr('id', 'id_' + newName);
-      });
+  .dpn{
+  display: none;
+}
 
-      // Update the label and heading with the new form index
-      clonedForm.find('label').each(function() {
-        var oldFor = $(this).attr('for');
-        if (oldFor !== undefined) {
-          var newFor = oldFor.replace(/-0-/, '-' + formIndex + '-');
-          $(this).attr('for', newFor);
-        }
-      });
-      clonedForm.find('h3').text('Booking ' + (formIndex + 1));
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
 
-      // Insert the cloned form after the last booking form
-      $('.booking-form').last().after(clonedForm);
-    });
-    
+.cent-d{
+  margin-top: -25px;
+}
 
-    // Submit event handler
-    $('form').submit(function() {
-      // Update the total number of forms before submission
-      var totalFormsInput = $('<input type="hidden" name="form-TOTAL_FORMS">');
-      totalFormsInput.val(formIndex + 1);
-      $(this).append(totalFormsInput);
-    });
-  });
+</style>
 
-  
-  
-</script>
-<form method="post" action="{% url 'u_create_project' %}" class="project-form">
+
+<form method="post" action="{% url 'u_create_project' %}" class="project-form cent-d">
   {% csrf_token %}
 
   <!-- Project Details -->
@@ -116,6 +98,58 @@
 
   <button type="submit" class="submit-btn">Submit</button>
 </form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  
+  $(document).ready(function() {
+    var formIndex = 0;
+
+    // Initialize the formset with the first booking form
+    var bookingForm = $('.booking-form');
+    bookingForm.find('h3').text('Booking ' + (formIndex + 1));
+
+    $('#add-booking-btn').click(function() {
+      formIndex++;
+
+      // Clone the booking form
+      var clonedForm = bookingForm.clone();
+
+      // Update the form index in the cloned form
+      clonedForm.find('input, select, textarea').each(function() {
+        var oldName = $(this).attr('name');
+        var newName = oldName.replace(/-0-/, '-' + formIndex + '-');
+        $(this).attr('name', newName);
+        $(this).attr('id', 'id_' + newName);
+      });
+
+      // Update the label and heading with the new form index
+      clonedForm.find('label').each(function() {
+        var oldFor = $(this).attr('for');
+        if (oldFor !== undefined) {
+          var newFor = oldFor.replace(/-0-/, '-' + formIndex + '-');
+          $(this).attr('for', newFor);
+        }
+      });
+      clonedForm.find('h3').text('Booking ' + (formIndex + 1));
+
+      // Insert the cloned form after the last booking form
+      $('.booking-form').last().after(clonedForm);
+    });
+    
+
+    // Submit event handler
+    $('form').submit(function() {
+      // Update the total number of forms before submission
+      var totalFormsInput = $('<input type="hidden" name="form-TOTAL_FORMS">');
+      totalFormsInput.val(formIndex + 1);
+      $(this).append(totalFormsInput);
+    });
+  });
+
+  
+  
+</script>
 
  
 {% endblock content %}

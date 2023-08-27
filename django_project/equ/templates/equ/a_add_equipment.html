@@ -1,12 +1,33 @@
 {% extends "equ/a_base.html" %}
-{% block content %}    
+{% block content %}  
+
+<style>
+  .equipment span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+    }
+
+    .equipment li{
+      /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+    }
+
+    .dpn{
+    display: none;
+  }
+  
+  .main-navbar{
+    justify-content: end;
+    height: max-content;
+  }
+</style>
 
 <div class="my_projects">
-<h2>Create Equipment</h2>
+<!-- <h2>Create Equipment</h2> -->
     <form method="post" class="project-form">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">Create</button>
+      <button type="submit" class="btn-uproject">Create</button>
     </form>
 
 {% endblock content %}   

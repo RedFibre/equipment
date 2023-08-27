@@ -3,7 +3,9 @@
 {% block content %}
 {% load static %}
 <div class="content-section"> 
-    <img src="{% static 'images/cloud avatar-1.png' %}" alt="">
+    <div class="login_logo">
+        <img src="{% static 'images/MSClogo2.png' %}" alt="">
+    </div>
     <form method="POST" class="form-signin">
         {% csrf_token %}
         <div class="form_head">
@@ -11,23 +13,19 @@
             <div class="wlcm">Welcome!</div>
         </div>
         <h1 class="lcya">Let's create Your Account</h1>
-        <br>
         <div class="form-group">
             {{ profile_form.first_name.label_tag }}
             {{ profile_form.first_name }}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.last_name.label_tag }}
             {{ profile_form.last_name }}
         </div>
-        <br>
 
         <div class="form-group">
             {{ profile_form.user_type.label_tag }}
             {{ profile_form.user_type }}
         </div>
-        <br>
 
         <div class="form-group">
             {{ profile_form.lab.label_tag }}
@@ -36,7 +34,6 @@
                 <small class="form-text text-danger">{{ profile_form.lab.errors|join:", " }}</small>
             {% endif %}
         </div>
-        <br>
         <div class="form-group">
             {{ user_form.password1.label_tag }}
             {{ user_form.password1 }}
@@ -44,7 +41,6 @@
                 <small class="form-text text-danger">{{ user_form.password1.errors|join:", " }}</small>
             {% endif %}
         </div>
-        <br>
         <div class="form-group">
             {{ user_form.password2.label_tag }}
             {{ user_form.password2 }}
@@ -52,13 +48,11 @@
                 <small class="form-text text-danger">{{ user_form.password2.errors|join:", " }}</small>
             {% endif %}
         </div>
-        <br>
 
         <div class="form-group">
             {{ profile_form.contact_number.label_tag }}
             {{ profile_form.contact_number }}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.email.label_tag }}
             {{ profile_form.email }}
@@ -66,41 +60,34 @@
                 <small class="form-text text-danger">{{ profile_form.email.errors|join:", " }}</small>
             {% endif %}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.branch.label_tag }}
             {{ profile_form.branch }}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.year_of_graduation.label_tag }}
             {{ profile_form.year_of_graduation }}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.institute_name.label_tag }}
             {{ profile_form.institute_name }}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.training_record.label_tag }}
             {{ profile_form.training_record }}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.machines_trained_in.label_tag }}
             {{ profile_form.machines_trained_in }}
         </div>
-        <br>
         <div class="form-group">
             {{ profile_form.how_heard_about.label_tag }}
             {{ profile_form.how_heard_about }}
         </div>
-        <br>
 
-        <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Sign Up</button>
+        <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px; margin-top: 20px;">Sign Up</button>
     </form>
-    <div class="border-top pt-3" style="margin-top: 20px">
+    <div class="border-top pt-3" style="margin: 20px 0">
         <small class="text-muted">
             Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
         </small>

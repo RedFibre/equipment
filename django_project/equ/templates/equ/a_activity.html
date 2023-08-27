@@ -3,22 +3,53 @@
 <style>
 
   .activityLog span{
-    border: 1px solid white;
-    background-color: white;
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
   }
 
   .activityLog li{
-    background-image: linear-gradient(to right, #60B8CA, #5890F9);
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
   }
+
+  .act_nav{
+    width: max-content;
+    margin-top: 0; 
+    /* background-color: white; */
+    /* box-shadow: 0px 0px 5px 0px gray; */
+}
+
+.navbar a {
+    margin-right:5px;
+}
+
+.proj_req{
+  background-color: #338eb9;
+    color: white;
+}
+
+.dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
 </style>
 <div class="my_projects">
-  <div class="mp1">
+  <div class="mp1 aal">
 
-<div class="navbar">
-  <a href="{% url 'a_activity_project_requests' %}" class="btn-uproject">Project Requests</a>
-  <a href="{% url 'a_activity_material_requests' %}" class="btn-uproject">Material Requests</a>
-  <a href="{% url 'a_activity_past_due' %}" class="btn-uproject">Past Due</a>
-  <a href="{% url 'a_activity_early_collection' %}" class="btn-uproject">Early Collection</a>
+    <div class="act_v">
+      <h3>Activity</h3>
+      <!-- <a href="#">view all</a> -->
+    </div>
+
+<div class="navbar act_nav">
+  <a href="{% url 'a_activity_project_requests' %}" class="btn-uproject iapc proj_req">Project Requests</a>
+  <a href="{% url 'a_activity_material_requests' %}" class="btn-uproject iapc mt_req">Material Requests</a>
+  <a href="{% url 'a_activity_past_due' %}" class="btn-uproject iapc p_due">Past Due</a>
+  <a href="{% url 'a_activity_early_collection' %}" class="btn-uproject iapc el_col">Early Collection</a>
 </div>
 
     {% block activitycontent %}

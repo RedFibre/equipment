@@ -1,6 +1,28 @@
 {% extends "equ/u_base.html" %}
 {% block content %}
-  <div class="content-section pr_content_section">
+{%load static%}
+
+<style>
+  .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+
+.bookings span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
+
+  .bookings li{
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+  }
+</style>
+  <div class="content-section cent-d">
     <h1>Project Details</h1>
     <br>
     <div class="project-info">

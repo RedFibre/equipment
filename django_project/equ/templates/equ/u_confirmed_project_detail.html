@@ -1,6 +1,40 @@
 {% extends "equ/u_base.html" %}
 {% block content %}
-  <div class="project-details">
+
+<style>
+
+  .bookings span{
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
+  }
+
+  .bookings li{
+    /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+  }
+
+  .prjt{
+    background-color: #338eb9;
+    color: white;
+  }
+
+  .action-form{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 50px;
+  }
+
+
+  .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: 160px;
+}
+</style>
+  <div class="project-details cent-d">
     <h1>Project Details</h1>
     <br>
     <div class="project-info">

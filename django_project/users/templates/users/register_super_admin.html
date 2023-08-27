@@ -3,14 +3,35 @@
 {% block content %}
 {% load static %}
 
+<style>
+    .lbg {
+    background-color: black;
+}
+
+.reg_super input, .reg_super textarea{
+    caret-color: white;
+    color:white;
+    background: transparent;
+    width: 65%;
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid white;
+    border-radius: 0px;
+    outline: none;
+}
+</style>
+
 <div class="content-section"> 
-    <img src="{% static 'images/cloud avatar-1.png' %}" alt="">
-    <form method="POST" class="form-signin">
+    <div class="login_logo">
+        <img src="{% static 'images/MSClogo2.png' %}" alt="">
+        <p>Let's create organisation</p>
+    </div>
+    <form method="POST" class="form-signin  reg_super">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Sign Up</button>
     </form>
-    <div class="border-top pt-3" style="margin-top: 20px">
+    <div class="border-top pt-3" style="margin: 20px 0">
         <small class="text-muted">
             Already Have An Organisation? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
         </small>

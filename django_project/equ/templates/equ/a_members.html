@@ -1,16 +1,36 @@
 {% extends "equ/a_base.html" %}
 {% block content %}
+{% load static %}
 <style>
   .members span{
-      border: 1px solid white;
-      background-color: white;
+    border: 1px solid #6897f5;
+    background-color: #6897f5;
     }
 
     .members li{
-      background-image: linear-gradient(to right, #60B8CA, #5890F9);
+      /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
     }
+
+    .dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
 </style>
-  <div class="members">
+
+
+
+<div class="members amb">
+  <div class="mem_search rq_items">
+    <div class="searchbar">
+      <img src="{% static 'images/search.png' %}" alt="">
+      <input type="text" placeholder="Start typing to search names..">
+    </div>
+  </div>
   <table class="user-table">
     <thead>
       <tr>

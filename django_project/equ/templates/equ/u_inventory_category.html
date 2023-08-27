@@ -1,17 +1,65 @@
 {% extends "equ/u_base.html" %}
 {% block content %}    
+{%load static%}
+
+<style>
+    .inventory span{
+      border: 1px solid #6897f5;
+    background-color: #6897f5;
+    }
+  
+    .inventory li{
+      /* background-image: linear-gradient(to right, #60B8CA, #5890F9); */
+    background: #ededed;
+    }
+
+    .alleqps {
+    /* border: 1px solid black; */
+    margin-top: 30px;
+    /* display: grid; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: minmax(80px, auto);
+    grid-gap: 15px;
+}
+
+    .allmats {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.dpn{
+  display: none;
+}
+
+.main-navbar{
+  justify-content: end;
+  height: max-content;
+}
+
+.my_projects {
+    /* height: max-content; */
+    margin-top: -50px;
+}
+  </style>
 
 
-<div class="my_projects">
+<div class="my_projects cent-d">
 
 
         <h1>Select a Category</h1>
-        <br>
+        <div class="alleqps allmats">
             {% for category in categories %}
-            <p><a href="{% url 'u_request_material' category.pk %}">{{ category.name }}</a></p>
-            <br>
-            <br>
+            <!-- <p><a href="{% url 'u_request_material' category.pk %}">{{ category.name }}</a></p> -->
+
+            <div class="equip_container mat-con">
+              <h2 style="color: black;">
+                <a href="{% url 'u_request_material' category.pk %}">
+                  <div class="cat_img"><img src="{% static 'images/item.png' %}" alt=""></div>
+                <div class="cat_name">{{ category.name }}</div></a></h2>
+              
+          </div>
             {% endfor %}
+            </div>
         
 
 

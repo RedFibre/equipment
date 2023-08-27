@@ -13,13 +13,16 @@
     }
   </style>
     <div class="content-section" > 
-        <img src="{% static 'images/cloud avatar-1.png' %}" alt="">
+        <div class="login_logo">
+            <img src="{% static 'images/Makerspacelogo white.png' %}" alt="">
+            <p>Your space to Create</p>
+        </div>
         <form method="POST" class="form-signin">
             {% csrf_token %}
             <br>
             <!-- <h1 class="h3 mb-3 font-weight-normal">Log In</h1> -->
-            <div class="wlcm">Welcome!</div>
-            <h1 class="h3 mb-3 font-weight-normal lgin">Log In</h1>
+            <!-- <div class="wlcm">Welcome!</div> -->
+            <h1 class="h3 mb-3 font-weight-normal lgin" style="color: white;">Log In</h1>
             <br>
             <div class="form-group">
                 {{ form.username.label_tag }}
@@ -28,7 +31,6 @@
                     <small >{{ form.username.errors|join:", " }}</small>
                 {% endif %}
             </div>
-            <br>
             <div class="form-group">
                 {{ form.password.label_tag }}
                 {{ form.password }}
@@ -36,20 +38,19 @@
                     <small>{{ form.password.errors|join:", " }}</small>
                 {% endif %}
             </div>
-            <br>
             <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Log In</button>
         
         </form>
         
-        <div class="border-top pt-3" style="margin-top: 20px">
-            <small class="text-muted">
+        <div class="border-top pt-4">
+            <div class="text-muted">
                 Don't have an account? <a class="ml-2" href="{% url 'register' %}">Register</a>
-            </small>
+            </div>
         </div>
-        <div class="border-top pt-3" style="margin-top: 20px">
-            <small class="text-muted">
-                Want to Create an Organisation? <a class="ml-2" href="{% url 'register_super_admin' %}">Create</a>
-            </small>
+        <div class="border-top pt-3" style="margin: 20px 0">
+            <div class="text-muted">
+                Want to Create an Organisation? <a class="ml-3" href="{% url 'register_super_admin' %}">Get started</a>
+            </div>
         </div>
     </div>
 {% endblock content %}
