@@ -12,8 +12,8 @@ import calendar
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-
-from django.contrib.auth.models import Group
+from .models import RegistrationRequest
+from django.contrib.auth.models import Group 
 from django.http import JsonResponse
 from users.forms import UserRegisterForm
 from django.contrib.auth import login, authenticate
@@ -68,7 +68,8 @@ def s_lab_detail(request,pk):
     users = User.objects.filter(profile__lab=lab)
     equipment = Equipment.objects.filter(lab=lab)
     materials = Material.objects.filter(category__lab=lab)
-    context = {'users': users, 'equipments':equipment,'lab':lab,'materials':materials}
+    pending_requests = RegistrationRequest.objects.filter(status='pending')
+    context = {'users': users, 'equipments':equipment,'lab':lab,'materials':materials,'pending_requests': pending_requests}
     return render(request, 'equ/s_lab_detail.html',context)
 @login_required
 @superadmin_required
@@ -116,10 +117,13 @@ def a_overview(request):
         if user.logout_time is None:
             active_users.append(user.user)
             active_user_count = active_user_count + 1
-
-    graph = lab_footfall(request.user)
-    context = {'active_user_count' :active_user_count,'lab':lab, 'graph':graph, 'material_requests_count':material_requests_count, 'project_requests_count':all_projects_count}
-    return render(request, 'equ/a_overview.html',context)
+    try:
+        graph = lab_footfall(request.user)
+        context = {'active_user_count' :active_user_count,'lab':lab, 'graph':graph, 'material_requests_count':material_requests_count, 'project_requests_count':all_projects_count}
+        return render(request, 'equ/a_overview.html',context)
+    except:
+        return render(request, 'equ/a_overview.html')
+        
 
 @login_required
 @admin_required
@@ -404,10 +408,17 @@ def u_projects(request):
 @login_required
 @labuser_required
 def u_projects_confirmed(request):
-    profile = get_object_or_404(Profile, user=request.user)
-    user_confirmed_projects = Confirmed_Project.objects.filter(user=request.user)
-    context = {'user_confirmed_projects':user_confirmed_projects, 'profile':profile}
-    return render(request, 'equ/u_projects_confirmed.html', context)
+    user = request.user
+    username = user.username
+    print(username)
+    register = RegistrationRequest.objects.get(username=username)
+    if register.status == "approved":
+        profile = get_object_or_404(Profile, user=request.user)
+        user_confirmed_projects = Confirmed_Project.objects.filter(user=request.user)
+        context = {'user_confirmed_projects':user_confirmed_projects, 'profile':profile}
+        return render(request, 'equ/u_projects_confirmed.html', context)
+    else:
+        return render(request, 'user/login.html')
 
 @login_required
 @labuser_required
@@ -730,6 +741,44 @@ def c_m3(request, pk):
     return render(request, 'equ/c_m3.html', context)
 
 
+# def register(request):
+#     if request.method == 'POST':
+#         user_form = UserRegisterForm(request.POST)
+#         profile_form = ProfileForm(request.POST)
+#         if user_form.is_valid() and profile_form.is_valid():
+#             user = user_form.save(commit=False)
+#             profile = profile_form.save(commit=False)
+#             lab_id = profile_form.cleaned_data.get('lab')
+#             password = user_form.cleaned_data.get('password1')
+#             latest_user = User.objects.filter(username__startswith=lab_id).order_by('-username').first()
+#             if latest_user:
+#                 user_id = int(latest_user.username[-4:])
+#             else:
+#                 user_id = 0
+#             user_id = user_id + 1
+#             username = f"{lab_id}{user_id:04d}"
+#             user.username = username
+#             user.save()
+#             labuser_group = Group.objects.get_or_create(name='labuser')
+#             user.groups.add(labuser_group)
+#             user = authenticate(username=username, password=password) 
+#             profile.user = user
+            
+#             lab = Lab.objects.get(name=lab_id)
+#             profile.lab = lab
+#             profile.save()
+#             if user is not None:
+#                 login(request, user)
+#             print("success")
+#             return redirect('user_redirect')
+#         else:
+#             print("INVALID")
+#     else:
+#         user_form = UserRegisterForm()
+#         profile_form = ProfileForm()
+
+#     return render(request, 'users/register.html', {'user_form': user_form, 'profile_form': profile_form})
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST)
@@ -738,19 +787,13 @@ def register(request):
             user = user_form.save(commit=False)
             profile = profile_form.save(commit=False)
             lab_id = profile_form.cleaned_data.get('lab')
+            userName = user_form.cleaned_data.get('username')
             password = user_form.cleaned_data.get('password1')
-            latest_user = User.objects.filter(username__startswith=lab_id).order_by('-username').first()
-            if latest_user:
-                user_id = int(latest_user.username[-4:])
-            else:
-                user_id = 0
-            user_id = user_id + 1
-            username = f"{lab_id}{user_id:04d}"
-            user.username = username
+            user.username = userName
             user.save()
-            labuser_group = Group.objects.get_or_create(name='labuser')
+            labuser_group, created = Group.objects.get_or_create(name='labuser')
             user.groups.add(labuser_group)
-            user = authenticate(username=username, password=password) 
+            user = authenticate(username=userName, password=password) 
             profile.user = user
             
             lab = Lab.objects.get(name=lab_id)
@@ -759,6 +802,12 @@ def register(request):
             if user is not None:
                 login(request, user)
             print("success")
+            registration_request = RegistrationRequest(
+                username=user.username,
+                email=user.email,
+    
+            )
+            registration_request.save()
             return redirect('user_redirect')
         else:
             print("INVALID")
@@ -768,9 +817,80 @@ def register(request):
 
     return render(request, 'users/register.html', {'user_form': user_form, 'profile_form': profile_form})
 
+# def register(request):
+#     if request.method == 'POST':
+#         user_form = UserRegisterForm(request.POST)
+#         profile_form = ProfileForm(request.POST)
+#         if user_form.is_valid() and profile_form.is_valid():
+#             userName = user_form.cleaned_data.get('username')
+#             password = user_form.cleaned_data.get('password1')
+#             user = user_form.save(commit=False)
+#             profile = profile_form.save()
+#             lab_id = profile_form.cleaned_data.get('lab')
+#             lab = Lab.objects.get(name=lab_id)
+#             profile.lab = lab
+#             profile.save()
+            
+     
 
+#             # Create a registration request
+#             registration_request = RegistrationRequest(
+#                 username=user.username,
+#                 email=user.email,
+    
+#             )
+#             registration_request.save()
+        
+        
 
+#             # Redirect to a pending page or show a success message
+#             return redirect('login')        
+#     else:
+#         user_form = UserRegisterForm()
+#         profile_form = ProfileForm()
+
+#     return render(request, 'users/register.html', {'user_form': user_form, 'profile_form': profile_form})
+
+@login_required
+@superadmin_required
+def view_pending_requests(request):
+    # Fetch pending registration requests
+    pending_requests = RegistrationRequest.objects.filter(status='pending')
+    return render(request, 'equ/s_lab_detail.html', {'pending_requests': pending_requests})
+
+@login_required
+@superadmin_required
+def approve_request(request, request_id):
+    registration_request = RegistrationRequest.objects.get(id=request_id) 
+    # Update the registration request status
+    registration_request.status = 'approved'
+    registration_request.save()
+    pending_requests = RegistrationRequest.objects.filter(status='pending')
+    
+    return render(request, 'equ/s_lab_detail.html', {'pending_requests': pending_requests})
+
+@login_required
+@superadmin_required
+def reject_request(request, request_id):
+    user = request.user
+    print("user>>>",user)
+    registration_request = RegistrationRequest.objects.get(id=request_id)
+    
+    # Update the registration request status
+    userName = user.username
+    User.objects.get(username=userName).delete()
+    Lab_user = Profile.objects.get(user=user)
+    Lab_user.delete()
+    registration_request.delete()
+    
+    
+    return render(request, 'equ/s_lab_detail.html')
+    
+
+@login_required
+@superadmin_required
 def register_super_admin(request):
+    print("function called")
     if request.method == 'POST':
         org_form = OrganisationForm(request.POST)
         user_form = CustomUserCreationForm(request.POST)  # Use the custom form here

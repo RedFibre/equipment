@@ -27,6 +27,19 @@
   <h1>Lab: {{lab.name}}</h1>
   <a href="{% url 'c_list_superadmin' lab.pk %}" class="btn btn-primary">View Calendar</a></div>
 <br>
+<div>
+  {% for request in pending_requests %}
+    <p>Username: {{ request.username }}</p>
+    <p>Email: {{ request.email }}</p>
+    <p>Status: {{ request.status }}</p>
+    
+    <a href="{% url 'approve_request' request.id %}">Approve</a>
+    <a href="{% url 'reject_request' request.id %}">Reject</a>
+    
+    <hr>
+  {% endfor %}
+</div>
+
 <div class="members">
   <h2>User List</h2>
 <table class="user-table">

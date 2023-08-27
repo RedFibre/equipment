@@ -32,7 +32,8 @@
   {% csrf_token %}
   {{ labform.as_p }}
   <button class="btn btnsb btn-lg btn-primary btn-block" type="submit" style="height: 50px; width: 130px;">Add Lab</button>
-  </form>
+</form>
+
 {% for lab in labs%}
 <h2> <a href="{% url 's_lab_detail' lab.pk %}" >{{ lab.name }} : {{lab.lab_admin}}</a></h2>
 {% endfor %}

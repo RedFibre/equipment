@@ -23,7 +23,14 @@ class Organisation(models.Model):
 
     def __str__(self):
         return self.name
+class RegistrationRequest(models.Model):
+    username = models.CharField(max_length=150)
+    email = models.EmailField()
+    # Add other fields as needed
+    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')], default='pending')
 
+    def __str__(self):
+        return self.username
 
 class Lab(models.Model):
     name = models.CharField(max_length=100)
