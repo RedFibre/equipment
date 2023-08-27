@@ -42,7 +42,7 @@
     height: 100%;
     margin: 20px auto;
     /* box-shadow: 0px 0px 5px 0px gray; */
-    border:1px solid lightgray;
+    /* border:1px solid lightgray; */
     padding: 20px;
     border-radius: 20px;
 }
@@ -62,3 +62,58 @@
     box-shadow: none;
 }
 
+.disem{
+    display: flex;
+    justify-content: space-between;
+}
+
+.disuser{
+    border: 1px solid lightgray;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.disequ{
+    border: 1px solid lightgray;
+    padding: 20px;
+    border-radius: 20px;
+    width: 69%;
+}
+
+.dismat{
+    border: 1px solid lightgray;
+    padding: 20px;
+    border-radius: 20px;
+    width: 30%;
+}
+
+.labmain{
+        /* border: 1px solid black; */
+        width: 95%;
+        /* height: 100%; */
+        box-shadow: 0px 0px 20px 0px lightgray;
+        border-radius: 20px 20px 0 0;
+}
+
+.labname{
+    border: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    height: 100px;
+    border-radius: 20px 20px 0 0;
+    /* box-shadow: 0px 0px 20px 0px lightgray; */
+}
+
+.labadmin{
+        /* border: 1px solid black; */
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        /* padding-right: 20px; */
+        background: #6897f5;
+        padding: 10px;
+        color: white;
+    }

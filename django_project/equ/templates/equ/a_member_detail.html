@@ -1,5 +1,6 @@
 {% extends "equ/a_base.html" %}
 {% block content %}
+{%load static%}
   
 <style>
     .members span{
@@ -30,7 +31,19 @@
     border: 1px solid lightgray;
     margin-top: -100px;
   }
+  .mat-con a{
+    text-decoration: none;
+    color: var(--primary);
+    font-size: 1rem;
+}
 
+.mat-con a{
+    flex-direction: row;
+}
+
+.alleqps{
+    grid-template-columns: repeat(3, 1fr);
+}
   
   </style>
 <div class="my_projects">
@@ -48,13 +61,26 @@
         <p>Machines Trained In: {{ profile.machines_trained_in }}</p>
 <br>
 <h1>Projects</h1>
-{% for project in projects %}
+<!-- {% for project in projects %}
 <br>
 <h2><a href="{% url 'a_confirmed_project_detail' project.pk %}">{{ project.name }}</a></h2>
 {% empty %}
     <li>No projects found.</li>
 {% endfor %}
-<br>
+<br> -->
+
+<div class="alleqps allmats">
+  {% for project in projects %}
+  <div class="equip_container mat-con">
+  <!-- <br> -->
+  <h2><a href="{% url 'a_confirmed_project_detail' project.pk %}"><img src="{% static 'images/projects inside.png' %}" alt="" style="margin-right: 10px; width: 30px;"> {{ project.name }}</a></h2>
+  </div>
+  {% empty %}
+      <li>No projects found.</li>
+  
+  {% endfor %}
+  </div>
+
 <h1>Logs</h1>
 <table class="logs">
     <tr>

@@ -1,5 +1,6 @@
 {% extends "equ/s_base.html" %}
 {% block content %}    
+{%load static%}
 <style>
     .projects span{
       border: 1px solid #6897f5;
@@ -19,10 +20,15 @@
   justify-content: end;
   height: max-content;
 }
+
+.alleqps,.mp1,.my_projects{
+  margin-top: 0;
+}
+
   </style>
 
 <div class="labs">
-    <h1>Labs</h1>
+    <h1>Select a Lab</h1>
 
 
 <div class="my_projects smproj">
@@ -31,7 +37,20 @@
       <div class="alleqps allmats">
 {% for lab in labs%}
 <div class="equip_container mat-con">
-<h2> <a href="{% url 's_lab_detail' lab.pk %}" style="text-decoration: none; flex-direction: row;"><span style="font-weight: 800;">{{ lab.name }} </span>- <i>{{lab.lab_admin}}</i></a></h2>
+<!-- <h2> <a href="{% url 's_lab_detail' lab.pk %}" style="text-decoration: none; flex-direction: row;"><span style="font-weight: 800;">{{ lab.name }} </span>- <i>{{lab.lab_admin}}</i></a></h2> -->
+
+<a href="{% url 's_lab_detail' lab.pk %}" style="width: 100%; text-decoration: none;">
+<div class="labmain">
+  <div class="labname">
+    <img src="{% static 'images/lab icon.png' %}" alt="" style="margin-right: 10px; width: 70px;">
+    <span style="font-weight: 800; text-decoration: underline; color: var(--primary); width: 50%;">{{ lab.name }} </span>
+  </div>
+  <div class="labadmin">
+    <img src="{% static 'images/admin.png' %}" alt="" style="margin-right: 10px; width: 15px;">
+    <span>{{lab.lab_admin}}</span>
+  </div>
+</div>
+</a>
 </div>
 {% endfor %}
 </div>
