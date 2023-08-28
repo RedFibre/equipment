@@ -1,12 +1,6 @@
 {% extends "equ/u_projects.html" %}
 {% block projectcontent %}    
 
-<<<<<<< HEAD
-
-<h2 class="my_proj">Notifications</h2>
-{% for notification in user_notifications %}
-  {{notification.message}} <small>{{notification.time_stamp}}</small><br>
-=======
 <style>
 
 .bookings span{
@@ -36,7 +30,6 @@
 <ul class="project_list">
   {% for notification in user_notifications %}
   <li>{{notification.message}} {{notification.time_stamp}}</li>
->>>>>>> omi
 {% endfor %}
 
 

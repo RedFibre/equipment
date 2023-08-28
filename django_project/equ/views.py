@@ -418,7 +418,7 @@ def u_projects_confirmed(request):
         context = {'user_confirmed_projects':user_confirmed_projects, 'profile':profile}
         return render(request, 'equ/u_projects_confirmed.html', context)
     else:
-        return render(request, 'user/login.html')
+        return redirect('login')
 
 @login_required
 @labuser_required
@@ -882,8 +882,6 @@ def reject_request(request, request_id):
     return render(request, 'equ/s_lab_detail.html')
     
 
-@login_required
-@superadmin_required
 def register_super_admin(request):
     print("function called")
     if request.method == 'POST':
