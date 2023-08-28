@@ -65,12 +65,16 @@
     <tr>
       <th>Username</th>
     </tr>
+   
   </thead>
   <tbody>
     {% for user in users %}
       <tr>
         <td><a href="{% url 's_member_detail' user.pk %}">{{ user.username }}</a></td>
+        <td><a href="{% url 's_admins' user.pk %}">Assign as Admin</a></td>
       </tr>
+        
+      
     {% endfor %}
   </tbody>
 </table>

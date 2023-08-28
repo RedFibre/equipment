@@ -93,7 +93,12 @@ def s_confirmed_project_detail(request, pk):
 
 @login_required
 @superadmin_required
-def s_admins(request):
+def s_admins(request,pk):
+    print("pkkkk>>>>>>>>>>>>..",pk)
+    user = User.objects.get(id=pk)
+    print(user)
+    admin_group, created = Group.objects.get_or_create(name='admin')
+    user.groups.add(admin_group)
     return render(request, 'equ/s_admins.html')
 
 
@@ -104,26 +109,53 @@ def s_equipment(request):
 
 #ADMIN VIEWS
 
+# @login_required
+# @admin_required
+# def a_overview(request):
+#     lab = Lab.objects.get_or_create(lab_admin=request.user)
+#     users = list(UserActivityLog.objects.filter(user__profile__lab = lab))
+#     material_requests_count = Material_Request.objects.filter(user__profile__lab=lab, status=0).count()
+#     all_projects_count = Project.objects.filter(lab=lab).count()
+#     active_users =[]
+#     active_user_count = 0
+#     for user in users:
+#         if user.logout_time is None:
+#             active_users.append(user.user)
+#             active_user_count = active_user_count + 1
+#     try:
+#         graph = lab_footfall(request.user)
+#         context = {'active_user_count' :active_user_count,'lab':lab, 'graph':graph, 'material_requests_count':material_requests_count, 'project_requests_count':all_projects_count}
+#         return render(request, 'equ/a_overview.html',context)
+#     except:
+#         return render(request, 'equ/a_overview.html')
+   
 @login_required
 @admin_required
 def a_overview(request):
-    lab = Lab.objects.get(lab_admin=request.user)
-    users = list(UserActivityLog.objects.filter(user__profile__lab = lab))
+    lab, created = Lab.objects.get_or_create(lab_admin=request.user)
+    users = list(UserActivityLog.objects.filter(user__profile__lab=lab))
     material_requests_count = Material_Request.objects.filter(user__profile__lab=lab, status=0).count()
     all_projects_count = Project.objects.filter(lab=lab).count()
-    active_users =[]
+    active_users = []
     active_user_count = 0
     for user in users:
         if user.logout_time is None:
             active_users.append(user.user)
-            active_user_count = active_user_count + 1
+            active_user_count += 1
     try:
         graph = lab_footfall(request.user)
-        context = {'active_user_count' :active_user_count,'lab':lab, 'graph':graph, 'material_requests_count':material_requests_count, 'project_requests_count':all_projects_count}
-        return render(request, 'equ/a_overview.html',context)
-    except:
+        context = {
+            'active_user_count': active_user_count,
+            'lab': lab,
+            'graph': graph,
+            'material_requests_count': material_requests_count,
+            'project_requests_count': all_projects_count
+        }
+        return render(request, 'equ/a_overview.html', context)
+    except Exception as e:
+        print(e)
         return render(request, 'equ/a_overview.html')
-        
+     
 
 @login_required
 @admin_required
